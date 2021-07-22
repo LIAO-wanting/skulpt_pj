@@ -1769,7 +1769,7 @@ jsplotlib.rgb2hex = function(rgb) {
 };
 
 jsplotlib.linspace = function(min, max, N) {
-  var newscale = d3.scale.linear().domain([1, N]).range([min, max]);
+  var newscale = d3.scaleLinear().domain([1, N]).range([min, max]);
   var data = [];
   for (var i = 1; i <= N; i++) {
     var output = newscale(i);
