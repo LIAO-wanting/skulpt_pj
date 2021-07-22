@@ -1412,7 +1412,7 @@ jsplotlib.construct_axis = function() {
         this._min = new Date(this._min);
         this._max = new Date(this._max);
       } else {
-        this._scale = d3.scaleLinear();
+        this._scale = d3.scale.linear();;
       }
       this._domain = [this._min, this._max];
       return this;
@@ -1769,7 +1769,7 @@ jsplotlib.rgb2hex = function(rgb) {
 };
 
 jsplotlib.linspace = function(min, max, N) {
-  var newscale = d3.scaleLinear().domain([1, N]).range([min, max]);
+  var newscale = d3.scale.linear().domain([1, N]).range([min, max]);
   var data = [];
   for (var i = 1; i <= N; i++) {
     var output = newscale(i);
