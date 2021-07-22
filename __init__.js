@@ -1412,7 +1412,7 @@ jsplotlib.construct_axis = function() {
         this._min = new Date(this._min);
         this._max = new Date(this._max);
       } else {
-        this._scale = d3.scale.linear();
+        this._scale = d3.scaleLinear();
       }
       this._domain = [this._min, this._max];
       return this;
