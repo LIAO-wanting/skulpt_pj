@@ -626,7 +626,7 @@ let $builtinmodule = function (name) {
 
     function finalizeChart(chart) {
         let doctype = "<?xml version=\"1.0\" standalone=\"no\"?>" + "<" + "!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">";
-        console.log(chart);
+        console.log(chart.svg.node())
         let xml = new XMLSerializer().serializeToString(chart.svg.node());
         let blob = new Blob([doctype + xml], {type: "image/svg+xml"});
         let url = window.URL.createObjectURL(blob);
@@ -668,8 +668,6 @@ let $builtinmodule = function (name) {
 
     let show_f = function () {
         let chart = getChart();
-        console.log(chart);
-
 
         // Sanity checks
         if (chart.plots.length === 0) {
