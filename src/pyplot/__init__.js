@@ -38,13 +38,13 @@ let $builtinmodule = function (name) {
     }
     // 重写获取画布宽度方法
     function getWidth(){
-        var now_console=getConsole();
+        var now_console=$("#"+getConsole());
         return now_console.width();
     }
 
     // 重写获取画布长度方法
     function getHeight(){
-        var now_console=getConsole();
+        var now_console=$("#"+getConsole());
         return now_console.height();
     }
     // Unique ID generator for charts
