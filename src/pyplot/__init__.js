@@ -668,6 +668,8 @@ let $builtinmodule = function (name) {
 
     let show_f = function () {
         let chart = getChart();
+        console.log(chart);
+
 
         // Sanity checks
         if (chart.plots.length === 0) {
