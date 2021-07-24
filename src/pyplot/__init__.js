@@ -460,11 +460,13 @@ let $builtinmodule = function (name) {
 
     function attachCanvasToChart(chart, yAxisBuffer) {
         let outputTarget=$("#"+getConsole()); 
-        chart.svg = d3.select(outputTarget.html[0]).append("div").append("svg");
+        chart.svg = d3.select(outputTarget).append("div").append("svg");
         chart.svg.attr("class", "chart");
         chart.svg.attr("width", getWidth());
         chart.svg.attr("height", getHeight());
         chart.svg.attr("chartCount", chart.idNumber);
+        console.log( getWidth())
+        console.log( getHeight())
 
         let translation = "translate(" + (chart.margin.left + yAxisBuffer) + "," + chart.margin.top + ")";
         chart.canvas = chart.svg.append("g")
