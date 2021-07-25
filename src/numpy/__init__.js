@@ -4,7 +4,7 @@
  Some methods are based on the original numpy implementation.
  See http://waywaaard.github.io/skulpt/ for more information.
  **/
-var mathjs=import("mathjs");
+var mathjs=import("math");
 var numpy = function () {
     if (typeof mathjs == "function") {
         // load mathjs instance
