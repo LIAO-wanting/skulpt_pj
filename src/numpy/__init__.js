@@ -944,7 +944,7 @@ var $builtinmodule = function (name) {
     };
 
     function Internal_DType_To_Num(dtype) {
-        var name = Sk.ffi.remapToJs(dtype.tp$getattr(Sk.ffi.remapToPy("__name__")));
+        var name = dtype.prototype && dtype.prototype.tp$name;
         var num = Internal_TypeTable[name];
 
         if (num == null) {
