@@ -5,6 +5,7 @@
  See http://waywaaard.github.io/skulpt/ for more information.
  **/
  var numpy = function () {
+    console.log(""+mathjs+(typeof mathjs))
     if (typeof mathjs == "function") {
         // load mathjs instance
         this.math = mathjs;
