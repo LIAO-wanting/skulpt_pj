@@ -129,6 +129,7 @@ let $builtinmodule = function (name) {
             fillstyle: getKeywordParameter(kwargs, STRING_FILLSTYLE, "full"),
             linewidth: getKeywordParameter(kwargs, STRING_LINEWIDTH, 1),
         };
+        console.log(styleString)
         if (styleString) {
             let ftmTuple = Sk.jsplotlib._process_plot_format(styleString);
             format["linestyle"] = getKeywordParameter(kwargs, STRING_LINESTYLE, ftmTuple.linestyle);
