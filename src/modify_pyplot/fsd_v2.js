@@ -712,7 +712,7 @@ let $builtinmodule = function (name) {
                         .style("stroke", plot.style.color)
                         .style("stroke-width", plot.style["linewidth"])
                         .style("fill-opacity", plot.style["alpha"])
-                        .style("stroke-dasharray","20,10,5,10")
+                        .style("stroke-dasharray","20,5,2,5")
                         .attr("class", "line")
                         //.data(plot.data)
                         .attr("d", chart.mapLine(plot.data));
@@ -722,7 +722,7 @@ let $builtinmodule = function (name) {
                         .style("stroke", plot.style.color)
                         .style("stroke-width", plot.style["linewidth"])
                         .style("fill-opacity", plot.style["alpha"])
-                        .style("stroke-dasharray","5,5")
+                        .style("stroke-dasharray","2,2")
                         .attr("class", "line")
                         //.data(plot.data)
                         .attr("d", chart.mapLine(plot.data));
