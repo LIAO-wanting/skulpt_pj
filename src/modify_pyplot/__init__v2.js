@@ -762,25 +762,6 @@ let $builtinmodule = function (name) {
                         .attr("cx", chart.mapX)
                         .attr("cy", chart.mapY)
                         .attr("r", 4);
-                    }else if(dot_marker=='v'){//下三角
-                        chart.canvas.append("g")
-                        .attr("class", "series")
-                        .selectAll(".point")
-                        .data(plot.data)
-                        // Entering
-                        .enter()
-                        .append('polygon')
-                        .style("fill", (d, i) => {
-                            if (plot.colors == null) {
-                                return plot.style.color;
-                            } else if (Array.isArray(plot.colors)) {
-                                return plot.colors[i] || plot.style.color;
-                            } else {
-                                return plot.colors;
-                            }
-                        })
-                        .attr("class", "dot_of_line")
-                        .attr('points',chart.mapX+","+chart.mapY+" "+(chart.mapX+6)+","+(chart.mapY)+" "+(chart.mapX+3)+","+((chart.mapY+4)))
                     }else{
                         chart.canvas.append("g")
                         .attr("class", "series")
@@ -1317,7 +1298,7 @@ Sk.jsplotlib.parse_marker = function (style) {
         case "o":
             return "o";
         case "v":
-            return "v";
+            return "x";
         case "^":
             return "x";
         case "<":
@@ -1333,7 +1314,7 @@ Sk.jsplotlib.parse_marker = function (style) {
         case "4":
             return "x";
         case "s":
-            return "s";
+            return "x";
         case "p":
             return "x";
         case "*":
