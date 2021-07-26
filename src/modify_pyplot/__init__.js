@@ -801,7 +801,7 @@ let $builtinmodule = function (name) {
                         .attr("class", "dot_of_line")
                         .attr("cx", chart.mapX)
                         .attr("cy", chart.mapY)
-                        .attr("r", 1);
+                        .attr("r", 2);
                     }
                     
                     break;
@@ -1313,11 +1313,11 @@ Sk.jsplotlib.parse_marker = function (style) {
         case ".":
             return ".";
         case ",":
-            return "x";
+            return ",";
         case "o":
             return "o";
         case "v":
-            return "x";
+            return "v";
         case "^":
             return "x";
         case "<":
