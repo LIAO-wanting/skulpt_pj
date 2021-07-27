@@ -2733,7 +2733,7 @@ var $builtinmodule = function (name) {
     buffer = Sk.builtin.list(arange_buffer);
     var shape = new Sk.builtin.tuple([arange_buffer.length]);
     return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, dtype,
-      buffer);
+      buffer).tolist();
   };
 
   arange_f.co_varnames = ['start', 'stop', 'step', 'dtype'];
@@ -2789,7 +2789,7 @@ var $builtinmodule = function (name) {
 
     var py_ndarray = PyArray_FromAny(object, dtype, ndmin);
 
-    return py_ndarray;
+    return py_ndarray.tolist();
   };
 
   array_f.co_varnames = ['object', 'dtype', 'copy', 'order',
