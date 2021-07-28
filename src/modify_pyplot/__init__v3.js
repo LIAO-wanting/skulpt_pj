@@ -809,7 +809,7 @@ let $builtinmodule = function (name) {
                         .enter()
                         .append("circle")
                         .style("fill", (d, i) => {
-                            if (plot.colors != null) {
+                            if (plot.colors == null) {
                                 return plot.style.color;
                             } else if (Array.isArray(plot.colors)) {
                                 return plot.colors[i] || plot.style.color;
@@ -817,10 +817,10 @@ let $builtinmodule = function (name) {
                                 return plot.colors;
                             }
                         })
-                        .attr("class", "dot_of_line")
+                        .attr("class", "scatter_dot")
                         .attr("cx", chart.mapX)
                         .attr("cy", chart.mapY)
-                        .attr("r", 4);
+                        .attr("r", 5);
                     }else{
                         chart.canvas.append("g")
                         .attr("class", "series")
@@ -830,7 +830,7 @@ let $builtinmodule = function (name) {
                         .enter()
                         .append("circle")
                         .style("fill", (d, i) => {
-                            if (plot.colors != null) {
+                            if (plot.colors == null) {
                                 return plot.style.color;
                             } else if (Array.isArray(plot.colors)) {
                                 return plot.colors[i] || plot.style.color;
@@ -838,10 +838,10 @@ let $builtinmodule = function (name) {
                                 return plot.colors;
                             }
                         })
-                        .attr("class", "dot_of_line")
+                        .attr("class", "scatter_dot")
                         .attr("cx", chart.mapX)
                         .attr("cy", chart.mapY)
-                        .attr("r", 1);
+                        .attr("r", 2.5);
                     }
                     break;
                 case "hist":
