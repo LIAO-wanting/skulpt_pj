@@ -2723,6 +2723,7 @@ var $builtinmodule = function (name) {
 
     // return ndarray
     var arange_buffer = np.arange(start_num, stop_num, step_num);
+    return arange_buffer
     // apply dtype casting function, if it has been provided
     if (dtype && Sk.builtin.checkClass(dtype)) {
       for (i = 0; i < arange_buffer.length; i++) {
