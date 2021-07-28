@@ -816,10 +816,10 @@ let $builtinmodule = function (name) {
                             }
                         })
                         .attr("class", "rect")
-                        .attr("x", chart.mapX)
-                        .attr("y", chart.mapY)
-                        .attr("width","6")
-                        .attr("height","3" )
+                        .attr("x", chart.mapX-3)
+                        .attr("y", chart.mapY+3)
+                        .attr("width",6)
+                        .attr("height",6)
                         break;
                     }else if(dot_marker=='o'){//大圆点
                         chart.canvas.append("g")
