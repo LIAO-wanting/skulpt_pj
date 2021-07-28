@@ -799,6 +799,27 @@ let $builtinmodule = function (name) {
                 case "scatter":
                     var dot_marker=plot.style["marker"];
                     if(dot_marker==','){//像素点
+                        chart.canvas.append("g")
+                        .attr("class", "series")
+                        .selectAll(".point")
+                        .data(plot.data)
+                        // Entering
+                        .enter()
+                        .append('rect')
+                        .style("fill", (d, i) => {
+                            if (plot.colors == null) {
+                                return plot.style.color;
+                            } else if (Array.isArray(plot.colors)) {
+                                return plot.colors[i] || plot.style.color;
+                            } else {
+                                return plot.colors;
+                            }
+                        })
+                        .attr("class", "rect")
+                        .attr("x", chart.mapX)
+                        .attr("y", chart.mapY)
+                        .attr("width","6")
+                        .attr("height","3" )
                         break;
                     }else if(dot_marker=='o'){//大圆点
                         chart.canvas.append("g")
