@@ -797,7 +797,11 @@ let $builtinmodule = function (name) {
                         .attr("y2", chart.yScale(plot.data.y2) );
                     break;
                 case "scatter":
-                    chart.canvas.append("g")
+                    var dot_marker=plot.style["marker"];
+                    if(dot_marker==','){//像素点
+                        break;
+                    }else if(dot_marker=='o'){//大圆点
+                        chart.canvas.append("g")
                         .attr("class", "series")
                         .selectAll(".point")
                         .data(plot.data)
@@ -805,7 +809,7 @@ let $builtinmodule = function (name) {
                         .enter()
                         .append("circle")
                         .style("fill", (d, i) => {
-                            if (plot.colors == null) {
+                            if (plot.colors != null) {
                                 return plot.style.color;
                             } else if (Array.isArray(plot.colors)) {
                                 return plot.colors[i] || plot.style.color;
@@ -813,19 +817,32 @@ let $builtinmodule = function (name) {
                                 return plot.colors;
                             }
                         })
-                        .style("fill-opacity", plot.style["alpha"])
-                        .attr("class", "circle")
+                        .attr("class", "dot_of_line")
                         .attr("cx", chart.mapX)
                         .attr("cy", chart.mapY)
-                        .attr("r", (d, i) => {
-                            if (plot.sizes == null) {
-                                return DEFAULT_MARKER_SIZE;
-                            } else if (Array.isArray(plot.sizes)) {
-                                return plot.sizes[i] || DEFAULT_MARKER_SIZE;
+                        .attr("r", 4);
+                    }else{
+                        chart.canvas.append("g")
+                        .attr("class", "series")
+                        .selectAll(".point")
+                        .data(plot.data)
+                        // Entering
+                        .enter()
+                        .append("circle")
+                        .style("fill", (d, i) => {
+                            if (plot.colors != null) {
+                                return plot.style.color;
+                            } else if (Array.isArray(plot.colors)) {
+                                return plot.colors[i] || plot.style.color;
                             } else {
-                                return plot.sizes;
+                                return plot.colors;
                             }
-                        });
+                        })
+                        .attr("class", "dot_of_line")
+                        .attr("cx", chart.mapX)
+                        .attr("cy", chart.mapY)
+                        .attr("r", 1);
+                    }
                     break;
                 case "hist":
                     let histogram = makeHistogram(plot);
