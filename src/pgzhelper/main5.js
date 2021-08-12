@@ -17,7 +17,7 @@ var $builtinmodule = function (name) {
 	    self.fps = 5
 	    self.direction = 0
 	});
-	$loc.direction_to()=new Sk.builtin.func(function(self,) {
+	$loc.direction_to=new Sk.builtin.func(function(self,) {
 
 	});
 	}, "Actor");
