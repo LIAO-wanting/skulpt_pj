@@ -1,3 +1,20 @@
+// 监听属性getter/setter
+export const defineProperty = function(obj, property) {
+    return Sk.misceval.callsimOrSuspend(Sk.builtins.property, new Sk.builtin.func(function(self) {
+      if (typeof obj === 'function') {
+        return obj(self)
+      } else {
+        return Sk.ffi.remapToPy(self[obj][property])
+      }
+    }), new Sk.builtin.func(function(self, val) {
+      if (typeof property === 'function') {
+        property(self, val)
+      } else {
+        self[obj][property] = val.v;
+      }
+    }))
+  }
+
 var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("pgzhelper")};
     //导入外部引入的库
