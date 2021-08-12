@@ -1,10 +1,10 @@
 var $builtinmodule = function (name) {
 	var pgzhelper= {__name__: new Sk.builtin.str("pgzhelper")};
     //导入外部引入的库
-    var math = Sk.importModule("math", false, false); 
+    var math = Sk.importModule("math", false, true); 
     // var sys = Sk.importModule("sys", false, false);
-    var time = Sk.importModule("time", false, false);
-    var pgzero = Sk.importModule("pgzrun", false, false);
+    var time = Sk.importModule("time", false, true);
+    var pgzero = Sk.importModule("pgzrun", false, true);
 
     // var mod=sys.modules['__main__'];
     // var _fullscreen=false;
