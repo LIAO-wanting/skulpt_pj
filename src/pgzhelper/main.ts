@@ -3,7 +3,7 @@ import packageJson from '../package.json';
 
 const Sk = window.Sk;
 const libList = {
-  "./pgzrun/__init__.js": "pygame-zero.ts",
+  "./pgzrun/__init__.js": "https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/src/pgzhelper/pygame-zero.ts",
   // "./pgzrun/__init__.js": `https://cdn.jsdelivr.net/npm/skulpt-pygame-zero@${packageJson.version}/dist/pygame-zero.js`
 }
 export const PyGameZero = {
