@@ -6,7 +6,7 @@ var $builtinmodule = function (name) {
         // Parse arguments
         Sk.builtin.pyCheckArgs("Series", arguments, 1, 2, true, false);
         var dict_index= Sk.ffi.remapToJs(index) || [];
-        if(length(dict_index)==0){//没有传入index值
+        if(dict_index==[]){//没有传入index值
             var s = new dfd.Series(dict)
             s.print()
             return Sk.ffi.remapToPy(s)
