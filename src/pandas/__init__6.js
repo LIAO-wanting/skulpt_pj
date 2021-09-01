@@ -6,19 +6,14 @@ var $builtinmodule = function (name) {
         // Parse arguments
         var dict= Sk.ffi.remapToJs(dict)
         var dict_index= Sk.ffi.remapToJs(index) || [];
+        var s="error"
         if(dict_index.length==0){//没有传入index值
-            console.log("1")
-            console.log(dict_index)
-            var s = new dfd.Series(dict)
-            s.print()
-            return Sk.ffi.remapToPy(s.print())
+            s = new dfd.Series(dict)
         }else{
-            console.log("2")
-            console.log(dict_index)
-            var s = new dfd.Series(dict, {index:dict_index })
-            s.print()
-            return Sk.ffi.remapToPy(s.print())
+            s = new dfd.Series(dict, {index:dict_index })
         }
+        s.print()
+        return Sk.ffi.remapToPy(s)
     })
 
 	return mod;
