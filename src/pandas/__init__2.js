@@ -5,8 +5,8 @@ var $builtinmodule = function (name) {
     let Series_f = function (dict,index) {
         // Parse arguments
         Sk.builtin.pyCheckArgs("Series", arguments, 1, 2, true, false);
-        var dict_index= Sk.ffi.remapToJs(index) || [];
         var dict= Sk.ffi.remapToJs(dict)
+        var dict_index= Sk.ffi.remapToJs(index) || [];
         if(dict_index==[]){//没有传入index值
             console.log("1")
             console.log(dict_index)
