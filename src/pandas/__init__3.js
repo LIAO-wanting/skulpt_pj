@@ -4,7 +4,6 @@ var $builtinmodule = function (name) {
     // func: pandas.Series()
     mod.Series=new Sk.builtin.func(function(dict,index) {
         // Parse arguments
-        Sk.builtin.pyCheckArgs("Series", arguments, 1, 2, true, false);
         var dict= Sk.ffi.remapToJs(dict)
         var dict_index= Sk.ffi.remapToJs(index) || [];
         if(dict_index==[]){//没有传入index值
