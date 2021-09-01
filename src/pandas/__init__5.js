@@ -11,13 +11,13 @@ var $builtinmodule = function (name) {
             console.log(dict_index)
             var s = new dfd.Series(dict)
             s.print()
-            return Sk.ffi.remapToPy(s)
+            return Sk.ffi.remapToPy(s.print())
         }else{
             console.log("2")
             console.log(dict_index)
             var s = new dfd.Series(dict, {index:dict_index })
             s.print()
-            return Sk.ffi.remapToPy(s)
+            return Sk.ffi.remapToPy(s.print())
         }
     })
 
