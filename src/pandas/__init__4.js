@@ -6,7 +6,7 @@ var $builtinmodule = function (name) {
         // Parse arguments
         var dict= Sk.ffi.remapToJs(dict)
         var dict_index= Sk.ffi.remapToJs(index) || [];
-        if(dict_index==[]){//没有传入index值
+        if(dict_index.length==0){//没有传入index值
             console.log("1")
             console.log(dict_index)
             var s = new dfd.Series(dict)
