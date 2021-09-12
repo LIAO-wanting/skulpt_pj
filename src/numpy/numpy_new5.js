@@ -24,7 +24,9 @@ var $builtinmodule = function (name) {
         }
         // 返回生成的array
         var arange_buffer = math.range(start_num, stop_num, step_num);
-        return Sk.ffi.remapToPy(arange_buffer.v);
+        console.log(arange_buffer)
+        console.log(Sk.ffi.remapToPy(arange_buffer)['_data'])
+        return Sk.ffi.remapToPy(arange_buffer);
 	}
 	mod.arange = new Sk.builtin.func(arange_f);
     
