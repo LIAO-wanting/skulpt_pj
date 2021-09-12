@@ -23,7 +23,7 @@ var $builtinmodule = function (name) {
             step_num = Sk.ffi.remapToJs(step);
         }
         // 返回生成的array
-        var arange_buffer = math.range(start_num, stop_num, step_num);
+        var arange_buffer = new Sk.builtin.list(math.range(start_num, stop_num, step_num));
         return Sk.ffi.remapToPy(arange_buffer);
 	}
 	mod.arange = new Sk.builtin.func(arange_f);
