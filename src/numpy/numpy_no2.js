@@ -1602,12 +1602,14 @@ var $builtinmodule = function (name) {
         var ret = 0;
         
         if (nd === 0) {
+            console.log("nd 1")
             op = data[0];
             sp = Sk.builtin.repr(op);
             N = sp.v.length;
             nPtr.n += N;
             strPtr.str += sp.v;
         } else {
+            console.log("nd 2")
             strPtr.str += "[";
             nPtr.n += 1;
             for (i = 0; i < dimensions[0]; i++) {
