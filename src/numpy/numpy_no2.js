@@ -1604,7 +1604,8 @@ var $builtinmodule = function (name) {
         if (nd === 0) {
             console.log("nd 1")
             op = data[0];
-            sp = Sk.builtin.repr(op);
+            sp =new Sk.builtin.repr(op);
+            console.log(sp)
             N = sp.v.length;
             nPtr.n += N;
             strPtr.str += sp.v;
