@@ -35,7 +35,7 @@ var $builtinmodule = function (name) {
             } else {
                 dtype = Sk.builtin.float_;
                 for (i = 0; i < arange_buffer.length; i++) {
-                    arange_buffer[i] = arange_buffer[i].toFixed(4);
+                    arange_buffer[i] = arange_buffer[i]+0.0;
                 }
             }
         }else{
@@ -47,7 +47,7 @@ var $builtinmodule = function (name) {
             }else if(dtype == 'float'){
                 dtype = Sk.builtin.float_;
                 for (i = 0; i < arange_buffer.length; i++) {
-                    arange_buffer[i] = arange_buffer[i].toFixed(4);
+                    arange_buffer[i] = arange_buffer[i]+0.0;
                 }
             }
         }
