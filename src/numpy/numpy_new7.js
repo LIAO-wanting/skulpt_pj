@@ -8,7 +8,7 @@ var $builtinmodule = function (name) {
         var start_num;
         var stop_num;
         var step_num;
-        var type=dtype || null;
+        var type= dtype || null;
 
         if (stop === undefined && step === undefined) {
             start_num = 0;
@@ -26,13 +26,15 @@ var $builtinmodule = function (name) {
         // 返回生成的array
         var arange_buffer = math.range(start_num, stop_num, step_num)['_data'];
         // set to float
-        if (!dtype || dtype == null) {
+        if (dtype == null) {
             if (Sk.builtin.checkInt(start)) {
+                console.log("1")
                 dtype = Sk.builtin.int_;
                 for (i = 0; i < arange_buffer.length; i++) {
                     arange_buffer[i] = Math.floor(arange_buffer[i]);
                 }
             } else {
+                console.log("2")
                 dtype = Sk.builtin.float_;
                 for (i = 0; i < arange_buffer.length; i++) {
                     arange_buffer[i] = parseFloat(arange_buffer[i]);
@@ -40,11 +42,13 @@ var $builtinmodule = function (name) {
             }
         }else{
             if(dtype == 'int'){
+                console.log("3")
                 dtype = Sk.builtin.int_;
                 for (i = 0; i < arange_buffer.length; i++) {
                     arange_buffer[i] = Math.floor(arange_buffer[i]);
                 }
             }else if(dtype == 'float'){
+                console.log("4")
                 dtype = Sk.builtin.float_;
                 for (i = 0; i < arange_buffer.length; i++) {
                     arange_buffer[i] = parseFloat(arange_buffer[i]);
