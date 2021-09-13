@@ -444,7 +444,6 @@ var $builtinmodule = function (name) {
     // easy and functional impl. for our own use cases
     // may not support all cases of the real API
     function PyArray_DESCR(arr) {
-        console.log('enter PyArray_DESCR '+Sk.ffi.remapToPy(arr.v.dtype))
         return Sk.ffi.remapToPy(arr.v.dtype);
     }
 
@@ -1344,6 +1343,16 @@ var $builtinmodule = function (name) {
         }));
 
         var _buffer = new Sk.builtin.list(elements);
+
+        switch (dtype){
+            case Sk.builtin.int_:
+                dtype="int";
+                break;
+            case Sk.builtin.float_:
+                dtype="float";
+                break;
+        }
+        
         // create new ndarray instance
         return Sk.misceval.callsim(mod[CLASS_NDARRAY], _shape, dtype,
           _buffer);
