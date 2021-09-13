@@ -1647,13 +1647,13 @@ var $builtinmodule = function (name) {
         string = new Sk.builtin.str(strPtr.str);
         if (repr) {
             if (PyTypeNum_ISEXTENDED(self)) {
-                format = new Sk.builtin.str("array(%s)"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
-                fmt_args = new Sk.builtin.tuple([string]);
-                ret = Sk.abstr.numberBinOp(format, 'Mod');
+                format = new Sk.builtin.str("array(%s, '%s')"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
+                fmt_args = new Sk.builtin.tuple([string, PyArray_DESCR(self)]);
+                ret = Sk.abstr.numberBinOp(format, fmt_args, 'Mod');
             } else {
-                format = new Sk.builtin.str("array(%s)"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
-                fmt_args = new Sk.builtin.tuple([string]);
-                ret = Sk.abstr.numberBinOp(format, 'Mod');
+                format = new Sk.builtin.str("array(%s, '%s')"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
+                fmt_args = new Sk.builtin.tuple([string, PyArray_DESCR(self)]);
+                ret = Sk.abstr.numberBinOp(format, fmt_args, 'Mod');
             }
         } else {
             return string;
@@ -1840,6 +1840,7 @@ var $builtinmodule = function (name) {
 
       ndarrayJs.strides = computeStrides(ndarrayJs.shape);
       ndarrayJs.dtype = dtype || Sk.builtin.none.none$;
+      console.log(dtype)
       ndarrayJs.flags = 0x0; // set flags to zero
       // allow any nested data structure
       if (buffer && buffer instanceof Sk.builtin.list) {
