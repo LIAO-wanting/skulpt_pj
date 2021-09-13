@@ -26,6 +26,7 @@ var $builtinmodule = function (name) {
         // 返回生成的array
         var arange_buffer = math.range(start_num, stop_num, step_num)['_data'];
         // set to float
+        console.log(dtype)
         if (dtype == null) {
             if (Sk.builtin.checkInt(start)) {
                 console.log("1")
