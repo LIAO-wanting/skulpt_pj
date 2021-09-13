@@ -444,8 +444,8 @@ var $builtinmodule = function (name) {
     // easy and functional impl. for our own use cases
     // may not support all cases of the real API
     function PyArray_DESCR(arr) {
-        console.log('enter PyArray_DESCR '+arr.v.dtype)
-        return arr.v.dtype;
+        console.log('enter PyArray_DESCR '+Sk.ffi.remapToJs(arr.v.dtype))
+        return Sk.ffi.remapToJs(arr.v.dtype);
     }
 
     function PyArray_MultiIterNew() {
@@ -1840,7 +1840,7 @@ var $builtinmodule = function (name) {
 
       ndarrayJs.strides = computeStrides(ndarrayJs.shape);
       ndarrayJs.dtype = dtype || Sk.builtin.none.none$;
-      console.log(dtype)
+      console.log(Sk.ffi.remapToJs(dtype))
       ndarrayJs.flags = 0x0; // set flags to zero
       // allow any nested data structure
       if (buffer && buffer instanceof Sk.builtin.list) {
