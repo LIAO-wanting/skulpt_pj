@@ -8,7 +8,7 @@ var $builtinmodule = function (name) {
         var start_num;
         var stop_num;
         var step_num;
-        var type= dtype || null;
+        var type= Sk.ffi.remapToJs(dtype) || null;
 
         if (stop === undefined && step === undefined) {
             start_num = 0;
