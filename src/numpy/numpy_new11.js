@@ -8,7 +8,7 @@ var $builtinmodule = function (name) {
         var start_num;
         var stop_num;
         var step_num;
-        var type= Sk.ffi.remapToJs(dtype) || null;
+        var type= dtype || Sk.builtin.none.none$;
 
         if (stop === undefined && step === undefined) {
             start_num = 0;
@@ -23,31 +23,34 @@ var $builtinmodule = function (name) {
             stop_num = Sk.ffi.remapToJs(stop);
             step_num = Sk.ffi.remapToJs(step);
         }
+        
         // 返回生成的array
         var arange_buffer = math.range(start_num, stop_num, step_num)['_data'];
         // set to float
-        if (dtype == null) {
+        if (dtype == Sk.builtin.none.none$) {
             if (Sk.builtin.checkInt(start)) {
+                console.log("1")
                 dtype = Sk.builtin.int_;
                 for (i = 0; i < arange_buffer.length; i++) {
                     arange_buffer[i] = Math.floor(arange_buffer[i]);
                 }
             } else {
+                console.log("2")
                 dtype = Sk.builtin.float_;
                 for (i = 0; i < arange_buffer.length; i++) {
-                    arange_buffer[i] = Math.round(arange_buffer[i]*100)/100;
+                    arange_buffer[i] = new Sk.builtin.float_(arange_buffer[i]);
                 }
             }
         }else{
-            if(dtype == 'int'){
-                dtype = Sk.builtin.int_;
+            if(dtype == Sk.builtin.int_){
+                console.log("3")
                 for (i = 0; i < arange_buffer.length; i++) {
-                    arange_buffer[i] = Math.floor(arange_buffer[i]);
+                    arange_buffer[i] = new Sk.builtin.int_(arange_buffer[i]);
                 }
-            }else if(dtype == 'float'){
-                dtype = Sk.builtin.float_;
+            }else if(dtype == Sk.builtin.float_){
+                console.log("4")
                 for (i = 0; i < arange_buffer.length; i++) {
-                    arange_buffer[i] = Math.round(arange_buffer[i]*100)/100;
+                    arange_buffer[i] = new Sk.builtin.float_(arange_buffer[i]);
                 }
             }
         }
