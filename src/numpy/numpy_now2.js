@@ -2750,7 +2750,7 @@ var $builtinmodule = function (name) {
         }
     }
 
-    buffer = Sk.builtin.list(arange_buffer);
+    buffer =new Sk.builtin.list(arange_buffer);
     var shape = new Sk.builtin.tuple([arange_buffer.length]);
     console.log(buffer)
     console.log(shape)
