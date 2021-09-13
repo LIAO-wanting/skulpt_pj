@@ -2695,17 +2695,17 @@ var $builtinmodule = function (name) {
     var step_num;
 
     if (stop === undefined && step === undefined) {
-      start_num = Sk.builtin.asnum$(0);
-      stop_num = Sk.builtin.asnum$(start);
-      step_num = Sk.builtin.asnum$(1);
+        start_num = 0;
+        stop_num = Sk.ffi.remapToJs(start);
+        step_num = Sk.ffi.remapToJs(1);
     } else if (step === undefined) {
-      start_num = Sk.builtin.asnum$(start);
-      stop_num = Sk.builtin.asnum$(stop);
-      step_num = Sk.builtin.asnum$(1);
+        start_num = Sk.ffi.remapToJs(start);
+        stop_num = Sk.ffi.remapToJs(stop);
+        step_num = 1;
     } else {
-      start_num = Sk.builtin.asnum$(start);
-      stop_num = Sk.builtin.asnum$(stop);
-      step_num = Sk.builtin.asnum$(step);
+        start_num = Sk.ffi.remapToJs(start);
+        stop_num = Sk.ffi.remapToJs(stop);
+        step_num = Sk.ffi.remapToJs(step);
     }
 
     // set to float
@@ -2725,6 +2725,7 @@ var $builtinmodule = function (name) {
     //   }
     // }
     // set to float
+    console.log(arange_buffer)
     if (dtype == Sk.builtin.none.none$) {
         if (Sk.builtin.checkInt(start)) {
             dtype = Sk.builtin.int_;
