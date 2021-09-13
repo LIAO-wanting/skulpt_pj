@@ -1860,30 +1860,30 @@ var $builtinmodule = function (name) {
             }
 
             switch (_name) {
-            case 'ndim':
-                return new Sk.builtin.int_(PyArray_NDIM(self));
-            case 'dtype':
-                return self.v.dtype;
-            case 'shape':
-                return new Sk.builtin.tuple(PyArray_DIMS(self).map(
-                  function (x) {
-                    return new Sk.builtin.int_(x);
-                  }));
-            case 'strides':
-                return new Sk.builtin.tuple(PyArray_STRIDES(self).map(
-                  function (x) {
-                    return new Sk.builtin.int_(x);
-                  }));
-            case 'size':
-                return new Sk.builtin.int_(PyArray_SIZE(self));
-            case 'data':
-                return new Sk.builtin.list(PyArray_DATA(self));
-            case 'T':
-                if (PyArray_NDIM(self) < 2) {
-                    return self
-                } else {
-                    return Sk.misceval.callsim(self.transpose, self);
-                }
+                case 'ndim':
+                    return new Sk.builtin.int_(PyArray_NDIM(self));
+                case 'dtype':
+                    return self.v.dtype;
+                case 'shape':
+                    return new Sk.builtin.tuple(PyArray_DIMS(self).map(
+                    function (x) {
+                        return new Sk.builtin.int_(x);
+                    }));
+                case 'strides':
+                    return new Sk.builtin.tuple(PyArray_STRIDES(self).map(
+                    function (x) {
+                        return new Sk.builtin.int_(x);
+                    }));
+                case 'size':
+                    return new Sk.builtin.int_(PyArray_SIZE(self));
+                case 'data':
+                    return new Sk.builtin.list(PyArray_DATA(self));
+                case 'T':
+                    if (PyArray_NDIM(self) < 2) {
+                        return self
+                    } else {
+                        return Sk.misceval.callsim(self.transpose, self);
+                    }
             }
         }
 
@@ -1986,6 +1986,7 @@ var $builtinmodule = function (name) {
     });
 
     $loc.__getslice__ = new Sk.builtin.func( function (self, start, stop) {
+        console.log("enter getslice")
       Sk.builtin.pyCheckArgs( "[]", arguments, 2, 3 );
       var ndarrayJs = Sk.ffi.remapToJs( self );
       var _index; // current index
@@ -2030,6 +2031,7 @@ var $builtinmodule = function (name) {
     } );
 
     $loc.__setslice__ = new Sk.builtin.func( function (self, start, stop, value) {
+        console.log("enter setslice")
       Sk.builtin.pyCheckArgs( "[]", arguments, 3, 2 );
       var ndarrayJs = Sk.ffi.remapToJs( self );
       var _index; // current index
@@ -2065,6 +2067,7 @@ var $builtinmodule = function (name) {
     } );
 
     $loc.__getitem__ = new Sk.builtin.func(function (self, index) {
+        console.log("enter getitem")
       Sk.builtin.pyCheckArgs("[]", arguments, 2, 2);
       var ndarrayJs = Sk.ffi.remapToJs(self);
       var _index; // current index
@@ -2137,6 +2140,7 @@ var $builtinmodule = function (name) {
     });
 
     $loc.__setitem__ = new Sk.builtin.func(function (self, index, value) {
+        console.log("enter setitem")
       var ndarrayJs = Sk.ffi.remapToJs(self);
       Sk.builtin.pyCheckArgs("[]", arguments, 3, 3);
       if (Sk.builtin.checkInt(index)) {
