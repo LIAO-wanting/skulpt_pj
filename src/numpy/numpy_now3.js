@@ -1832,6 +1832,7 @@ var $builtinmodule = function (name) {
   var ndarray_f = function ($gbl, $loc) {
     $loc.__init__ = new Sk.builtin.func(function (self, shape, dtype, buffer,
       offset, strides, order) {
+        console.log("enter ")
       var ndarrayJs = {}; // js object holding the actual array
       ndarrayJs.shape = Sk.ffi.remapToJs(shape);
 
@@ -2725,7 +2726,6 @@ var $builtinmodule = function (name) {
     //   }
     // }
     // set to float
-    console.log(arange_buffer)
     if (dtype == Sk.builtin.none.none$) {
         if (Sk.builtin.checkInt(start)) {
             dtype = Sk.builtin.int_;
@@ -2752,8 +2752,6 @@ var $builtinmodule = function (name) {
 
     buffer =new Sk.builtin.list(arange_buffer);
     var shape = new Sk.builtin.tuple([arange_buffer.length]);
-    console.log(buffer)
-    console.log(shape)
     return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, dtype,
       buffer);
   };
