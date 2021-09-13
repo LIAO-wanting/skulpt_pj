@@ -444,6 +444,7 @@ var $builtinmodule = function (name) {
     // easy and functional impl. for our own use cases
     // may not support all cases of the real API
     function PyArray_DESCR(arr) {
+        console.log('enter PyArray_DESCR'+arr.v.dtype)
         return arr.v.dtype;
     }
 
@@ -1602,7 +1603,6 @@ var $builtinmodule = function (name) {
         var ret = 0;
         
         if (nd === 0) {
-            console.log("nd 1")
             op = data[0];
             sp =new Sk.builtin.str(op);
             console.log(sp)
@@ -1610,7 +1610,6 @@ var $builtinmodule = function (name) {
             nPtr.n += N;
             strPtr.str += sp.v;
         } else {
-            console.log("nd 2")
             strPtr.str += "[";
             nPtr.n += 1;
             for (i = 0; i < dimensions[0]; i++) {
@@ -1646,16 +1645,12 @@ var $builtinmodule = function (name) {
         var strPtr = {str: ""};
         dump_data(strPtr, nPtr, max_n, PyArray_DATA(self), PyArray_NDIM(self), PyArray_DIMS(self), PyArray_STRIDES(self), self);
         string = new Sk.builtin.str(strPtr.str);
-        console.log(string)
         if (repr) {
-            console.log("in repr")
             if (PyTypeNum_ISEXTENDED(self)) {
-                console.log("1")
                 format = new Sk.builtin.str("array(%s, '%s')"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
                 fmt_args = new Sk.builtin.tuple([string, PyArray_DESCR(self)]);
                 ret = Sk.abstr.numberBinOp(format, fmt_args, 'Mod');
             } else {
-                console.log("2")
                 format = new Sk.builtin.str("array(%s, '%s')"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
                 fmt_args = new Sk.builtin.tuple([string, PyArray_DESCR(self)]);
                 ret = Sk.abstr.numberBinOp(format, fmt_args, 'Mod');
@@ -1663,7 +1658,7 @@ var $builtinmodule = function (name) {
         } else {
             return string;
         }
-        console.log("come to ret")
+
         return ret;
     }
 
