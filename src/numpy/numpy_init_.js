@@ -1352,7 +1352,7 @@ var $builtinmodule = function (name) {
                 dtype="float";
                 break;
         }
-        
+
         // create new ndarray instance
         return Sk.misceval.callsim(mod[CLASS_NDARRAY], _shape, dtype,
           _buffer);
@@ -1602,7 +1602,6 @@ var $builtinmodule = function (name) {
     }
 
     function dump_data(strPtr, nPtr, max_n, data, nd, dimensions, strides, self) {
-        console.log("enter dump")
         var descr = PyArray_DESCR(self);
         var op = null;
         var sp = null;
@@ -1848,7 +1847,6 @@ var $builtinmodule = function (name) {
 
       ndarrayJs.strides = computeStrides(ndarrayJs.shape);
       ndarrayJs.dtype = dtype ;
-      console.log(Sk.ffi.remapToJs(ndarrayJs.dtype))
       ndarrayJs.flags = 0x0; // set flags to zero
       // allow any nested data structure
       if (buffer && buffer instanceof Sk.builtin.list) {
