@@ -1836,22 +1836,18 @@ var $builtinmodule = function (name) {
       ndarrayJs.shape = Sk.ffi.remapToJs(shape);
 
       ndarrayJs.strides = computeStrides(ndarrayJs.shape);
-      console.log(ndarrayJs.strides)
       ndarrayJs.dtype = dtype || Sk.builtin.none.none$;
       ndarrayJs.flags = 0x0; // set flags to zero
-      console.log(ndarrayJs.flags)
       // allow any nested data structure
       if (buffer && buffer instanceof Sk.builtin.list) {
         ndarrayJs.buffer = buffer.v; // ToDo: change this to any sequence and iterate over objects?
-        console.log(ndarrayJs.buffer)
       }
       
       self.v = ndarrayJs; // value holding the actual js object and array
       self.tp$name = CLASS_NDARRAY; // set class name
-      console.log(self.tp$name)
     });
 
-    $loc._internalGenericGetAttr = Sk.builtin.object.prototype.GenericSetAttr;
+    $loc._internalGenericGetAttr = Sk.generic.setAttr;
 
     $loc.__getattr__ = new Sk.builtin.func(function (self, name) {
         if (name != null && (Sk.builtin.checkString(name) || typeof name === "string")) {
