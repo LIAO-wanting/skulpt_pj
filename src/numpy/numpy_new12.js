@@ -29,13 +29,11 @@ var $builtinmodule = function (name) {
         // set to float
         if (dtype == Sk.builtin.none.none$) {
             if (Sk.builtin.checkInt(start)) {
-                console.log("1")
                 dtype = Sk.builtin.int_;
                 for (i = 0; i < arange_buffer.length; i++) {
                     arange_buffer[i] = Math.floor(arange_buffer[i]);
                 }
             } else {
-                console.log("2")
                 dtype = Sk.builtin.float_;
                 for (i = 0; i < arange_buffer.length; i++) {
                     arange_buffer[i] = new Sk.builtin.float_(arange_buffer[i]);
@@ -43,12 +41,10 @@ var $builtinmodule = function (name) {
             }
         }else{
             if(dtype == Sk.builtin.int_){
-                console.log("3")
                 for (i = 0; i < arange_buffer.length; i++) {
-                    arange_buffer[i] = new Sk.builtin.int_(arange_buffer[i]);
+                    arange_buffer[i] = Math.floor(arange_buffer[i]);
                 }
             }else if(dtype == Sk.builtin.float_){
-                console.log("4")
                 for (i = 0; i < arange_buffer.length; i++) {
                     arange_buffer[i] = new Sk.builtin.float_(arange_buffer[i]);
                 }
