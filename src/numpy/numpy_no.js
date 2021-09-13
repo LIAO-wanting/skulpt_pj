@@ -1592,6 +1592,7 @@ var $builtinmodule = function (name) {
     }
 
     function dump_data(strPtr, nPtr, max_n, data, nd, dimensions, strides, self) {
+        console.log("enter dump")
         var descr = PyArray_DESCR(self);
         var op = null;
         var sp = null;
@@ -1655,7 +1656,7 @@ var $builtinmodule = function (name) {
         } else {
             return string;
         }
-
+        console.log("come to ret")
         return ret;
     }
 
