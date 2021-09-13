@@ -444,7 +444,7 @@ var $builtinmodule = function (name) {
     // easy and functional impl. for our own use cases
     // may not support all cases of the real API
     function PyArray_DESCR(arr) {
-        console.log('enter PyArray_DESCR'+arr.v.dtype)
+        console.log('enter PyArray_DESCR '+arr.v.dtype)
         return arr.v.dtype;
     }
 
@@ -1647,13 +1647,13 @@ var $builtinmodule = function (name) {
         string = new Sk.builtin.str(strPtr.str);
         if (repr) {
             if (PyTypeNum_ISEXTENDED(self)) {
-                format = new Sk.builtin.str("array(%s, '%s')"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
-                fmt_args = new Sk.builtin.tuple([string, PyArray_DESCR(self)]);
-                ret = Sk.abstr.numberBinOp(format, fmt_args, 'Mod');
+                format = new Sk.builtin.str("array(%s)"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
+                fmt_args = new Sk.builtin.tuple([string]);
+                ret = Sk.abstr.numberBinOp(format, 'Mod');
             } else {
-                format = new Sk.builtin.str("array(%s, '%s')"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
-                fmt_args = new Sk.builtin.tuple([string, PyArray_DESCR(self)]);
-                ret = Sk.abstr.numberBinOp(format, fmt_args, 'Mod');
+                format = new Sk.builtin.str("array(%s)"); // required some changes "array(%s, '%c%d')" (we do not have access to elsize)
+                fmt_args = new Sk.builtin.tuple([string]);
+                ret = Sk.abstr.numberBinOp(format, 'Mod');
             }
         } else {
             return string;
