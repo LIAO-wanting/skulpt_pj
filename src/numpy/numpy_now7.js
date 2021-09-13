@@ -2172,11 +2172,13 @@ var $builtinmodule = function (name) {
     });
 
     $loc.__len__ = new Sk.builtin.func(function (self) {
+        console.log("enter len")
       var ndarrayJs = Sk.ffi.remapToJs(self);
       return new Sk.builtin.int_(ndarrayJs.shape[0]);
     });
 
     $loc.__iter__ = new Sk.builtin.func(function (self) {
+        console.log("enter iter")
       var ndarrayJs = Sk.ffi.remapToJs(self);
       var ret = {
         tp$iter: function () {
@@ -2199,6 +2201,7 @@ var $builtinmodule = function (name) {
     }
 
     $loc.__str__ = new Sk.builtin.func(function (self) {
+        console.log("enter str")
         if (PyArray_StrFunction == null) {
             return Sk.misceval.callsim(self.__repr__, self);
         } else {
@@ -2207,6 +2210,7 @@ var $builtinmodule = function (name) {
     });
 
     $loc.__repr__ = new Sk.builtin.func(function (self) {
+        console.log("enter repr")
       return array_repr_builtin(self, 1);
     });
 
