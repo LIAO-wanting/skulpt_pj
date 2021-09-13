@@ -1850,6 +1850,7 @@ var $builtinmodule = function (name) {
     $loc._internalGenericGetAttr = Sk.generic.setAttr;
 
     $loc.__getattr__ = new Sk.builtin.func(function (self, name) {
+        console.log("enter get")
         if (name != null && (Sk.builtin.checkString(name) || typeof name === "string")) {
             var _name = name;
 
@@ -1904,6 +1905,7 @@ var $builtinmodule = function (name) {
 
     // ndmin cannot be set, etc...
     $loc.__setattr__ = new Sk.builtin.func(function (self, name, value) {
+        console.log("enter set")
         if (name != null && (Sk.builtin.checkString(name) || typeof name === "string")) {
             var _name = name;
 
