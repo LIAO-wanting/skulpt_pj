@@ -2724,11 +2724,9 @@ var $builtinmodule = function (name) {
     // set to float
     if (!dtype || dtype == Sk.builtin.none.none$) {
       if (Sk.builtin.checkInt(start)){
-        console.log("int");
-        dtype = Sk.builtin.int_;
+        dtype = "int";
       }else{
-        console.log("float");
-        dtype = Sk.builtin.float_;
+        dtype = "float";
       }
     }
 
@@ -2743,28 +2741,27 @@ var $builtinmodule = function (name) {
     // set to float
     if (dtype == Sk.builtin.none.none$) {
         if (Sk.builtin.checkInt(start)) {
-            dtype = Sk.builtin.int_;
+            dtype = "int";
             for (i = 0; i < arange_buffer.length; i++) {
                 arange_buffer[i] = Math.floor(arange_buffer[i]);
             }
         } else {
-            dtype = Sk.builtin.float_;
+            dtype = "float";
             for (i = 0; i < arange_buffer.length; i++) {
                 arange_buffer[i] = new Sk.builtin.float_(arange_buffer[i]);
             }
         }
     }else{
-        if(dtype == Sk.builtin.int_){
+        if(dtype == "int"){
             for (i = 0; i < arange_buffer.length; i++) {
                 arange_buffer[i] = Math.floor(arange_buffer[i]);
             }
-        }else if(dtype == Sk.builtin.float_){
+        }else if(dtype == "float"){
             for (i = 0; i < arange_buffer.length; i++) {
                 arange_buffer[i] = new Sk.builtin.float_(arange_buffer[i]);
             }
         }
     }
-    console.log(Sk.ffi.remapToJs(dtype))
     buffer =new Sk.builtin.list(arange_buffer);
     var shape = new Sk.builtin.tuple([arange_buffer.length]);
     return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, dtype,
