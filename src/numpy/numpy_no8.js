@@ -2705,6 +2705,7 @@ var $builtinmodule = function (name) {
     var start_num;
     var stop_num;
     var step_num;
+    var dtype=dtype || Sk.builtin.none.none$;
 
     if (stop === undefined && step === undefined) {
         start_num = 0;
@@ -2722,10 +2723,13 @@ var $builtinmodule = function (name) {
 
     // set to float
     if (!dtype || dtype == Sk.builtin.none.none$) {
-      if (Sk.builtin.checkInt(start))
+      if (Sk.builtin.checkInt(start)){
+        console.log("int");
         dtype = Sk.builtin.int_;
-      else
+      }else{
+        console.log("float");
         dtype = Sk.builtin.float_;
+      }
     }
 
     // return ndarray
