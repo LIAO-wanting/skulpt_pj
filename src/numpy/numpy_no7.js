@@ -1605,7 +1605,6 @@ var $builtinmodule = function (name) {
         if (nd === 0) {
             op = data[0];
             sp =new Sk.builtin.str(op);
-            console.log(sp)
             N = sp.v.length;
             nPtr.n += N;
             strPtr.str += sp.v;
@@ -1840,7 +1839,7 @@ var $builtinmodule = function (name) {
 
       ndarrayJs.strides = computeStrides(ndarrayJs.shape);
       ndarrayJs.dtype = dtype ;
-      console.log(Sk.ffi.remapToJs(dtype))
+      console.log(Sk.ffi.remapToJs(ndarrayJs.dtype))
       ndarrayJs.flags = 0x0; // set flags to zero
       // allow any nested data structure
       if (buffer && buffer instanceof Sk.builtin.list) {
@@ -2761,7 +2760,7 @@ var $builtinmodule = function (name) {
             }
         }
     }
-
+    console.log(Sk.ffi.remapToJs(dtype))
     buffer =new Sk.builtin.list(arange_buffer);
     var shape = new Sk.builtin.tuple([arange_buffer.length]);
     return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, dtype,
