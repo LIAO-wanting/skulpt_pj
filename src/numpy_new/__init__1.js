@@ -2596,6 +2596,35 @@ var $builtinmodule = function (name) {
   tanh_f.$defaults = [0, new Sk.builtin.list([])];
   mod.tanh = new Sk.builtin.func(tanh_f);
 
+  //新函数：numpy.round（）
+  var round_f=function (x,decimals,out){
+    Sk.builtin.pyCheckArgs("round", arguments, 1, 3);
+    if (!np.math) throw new Sk.builtin.OperationError("round requires math polyfill");
+    return callTrigonometricFunc(x, np.math ? np.math.round : Math.round);
+  }
+  round_f.co_varnames = ['x', 'decimals','out'];
+  round_f.$defaults = [0, 0 ,new Sk.builtin.list([])];
+  mod.round = new Sk.builtin.func(round_f);
+
+  //新函数：numpy.ceil（）
+  var ceil_f=function (x,out){
+    Sk.builtin.pyCheckArgs("ceil", arguments, 1, 2);
+    if (!np.math) throw new Sk.builtin.OperationError("ceil requires math polyfill");
+    return callTrigonometricFunc(x, np.math ? np.math.ceil : Math.ceil);
+  }
+  ceil_f.co_varnames = ['x', 'out'];
+  ceil_f.$defaults = [0, new Sk.builtin.list([])];
+  mod.ceil = new Sk.builtin.func(ceil_f);
+
+  //新函数：numpy.floor（）
+  var floor_f=function (x,out){
+    Sk.builtin.pyCheckArgs("floor", arguments, 1, 2);
+    if (!np.math) throw new Sk.builtin.OperationError("floor requires math polyfill");
+    return callTrigonometricFunc(x, np.math ? np.math.floor : Math.floor);
+  }
+  floor_f.co_varnames = ['x', 'out'];
+  floor_f.$defaults = [0, new Sk.builtin.list([])];
+  mod.floor = new Sk.builtin.func(floor_f);
 
   // Exponential
   var exp_f = function (x, out) {
