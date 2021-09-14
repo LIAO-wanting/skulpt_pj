@@ -2600,7 +2600,8 @@ var $builtinmodule = function (name) {
   var round_f=function (x,decimals,out){
     Sk.builtin.pyCheckArgs("round", arguments, 1, 3);
     if (!np.math) throw new Sk.builtin.OperationError("round requires math polyfill");
-    return Sk.misceval.callsim(mod.array, callTrigonometricFunc(x, np.math ? np.math.round : Math.round),'int') ;
+    console.log(callTrigonometricFunc(x, np.math ? np.math.round : Math.round))
+    return Sk.misceval.callsim(mod.array, callTrigonometricFunc(x, np.math ? np.math.round : Math.round),Sk.builtin.int_) ;
   }
   round_f.co_varnames = ['x', 'decimals','out'];
   round_f.$defaults = [0, 0 ,new Sk.builtin.list([])];
@@ -2610,7 +2611,7 @@ var $builtinmodule = function (name) {
   var ceil_f=function (x,out){
     Sk.builtin.pyCheckArgs("ceil", arguments, 1, 2);
     if (!np.math) throw new Sk.builtin.OperationError("ceil requires math polyfill");
-    return Sk.misceval.callsim(mod.array, callTrigonometricFunc(x, np.math ? np.math.ceil : Math.ceil),'int') ;
+    return Sk.misceval.callsim(mod.array, callTrigonometricFunc(x, np.math ? np.math.ceil : Math.ceil),Sk.builtin.int_) ;
   }
   ceil_f.co_varnames = ['x', 'out'];
   ceil_f.$defaults = [0, new Sk.builtin.list([])];
@@ -2620,7 +2621,7 @@ var $builtinmodule = function (name) {
   var floor_f=function (x,out){
     Sk.builtin.pyCheckArgs("floor", arguments, 1, 2);
     if (!np.math) throw new Sk.builtin.OperationError("floor requires math polyfill");
-    return Sk.misceval.callsim(mod.array, callTrigonometricFunc(x, np.math ? np.math.floor : Math.floor),'int') ;
+    return Sk.misceval.callsim(mod.array, callTrigonometricFunc(x, np.math ? np.math.floor : Math.floor),Sk.builtin.int_) ;
   }
   floor_f.co_varnames = ['x', 'out'];
   floor_f.$defaults = [0, new Sk.builtin.list([])];
