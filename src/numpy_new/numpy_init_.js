@@ -2641,7 +2641,7 @@ var $builtinmodule = function (name) {
   var ceil_f=function (x,out){
     Sk.builtin.pyCheckArgs("ceil", arguments, 1, 2);
     if (!np.math) throw new Sk.builtin.OperationError("ceil requires math polyfill");
-    return callTrigonometricFunc(x, np.math ? np.math.ceil : Math.ceil);
+    return callIntegerFunc(x, np.math ? np.math.ceil : Math.ceil);
   }
   ceil_f.co_varnames = ['x', 'out'];
   ceil_f.$defaults = [0, new Sk.builtin.list([])];
@@ -2651,7 +2651,7 @@ var $builtinmodule = function (name) {
   var floor_f=function (x,out){
     Sk.builtin.pyCheckArgs("floor", arguments, 1, 2);
     if (!np.math) throw new Sk.builtin.OperationError("floor requires math polyfill");
-    return callTrigonometricFunc(x, np.math ? np.math.floor : Math.floor);
+    return callIntegerFunc(x, np.math ? np.math.floor : Math.floor);
   }
   floor_f.co_varnames = ['x', 'out'];
   floor_f.$defaults = [0, new Sk.builtin.list([])];
