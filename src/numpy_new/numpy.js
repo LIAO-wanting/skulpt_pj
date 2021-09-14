@@ -2600,7 +2600,7 @@ var $builtinmodule = function (name) {
   var round_f=function (x,decimals,out){
     Sk.builtin.pyCheckArgs("round", arguments, 1, 3);
     if (!np.math) throw new Sk.builtin.OperationError("round requires math polyfill");
-    return Sk.misceval.callsim(mod["np.array"], callTrigonometricFunc(x, np.math ? np.math.round : Math.round),'int');
+    return callTrigonometricFunc(x, np.math ? np.math.round : Math.round);
   }
   round_f.co_varnames = ['x', 'decimals','out'];
   round_f.$defaults = [0, 0 ,new Sk.builtin.list([])];
