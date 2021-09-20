@@ -97,22 +97,11 @@ var $builtinmodule = function (name) {
 
         console.log("enter1")
         // 绘制外框
-        Blockly.utils.dom.createSvgElement('rect', {
-            'height': maze.MAZE_HEIGHT,
-            'width': maze.MAZE_WIDTH,
-            'fill': '#F1EEE7',
-            'stroke-width': 1,
-            'stroke': '#CCB'
-        }, svg);
+        svg.append('rect').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
+        .style('fill','#F1EEE7').style('stroke','#CCB').style('stroke-width','1');
         //绘制迷宫背景
-        var tile = Blockly.utils.dom.createSvgElement('image', {
-            'height': maze.MAZE_HEIGHT,
-            'width': maze.MAZE_WIDTH,
-            'x': 0,
-            'y': 0
-          }, svg);
-        tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-            maze.background);
+        svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
+        .style('xlink:href',maze.background)
 
         console.log("enter2")
         //初始化地图
@@ -146,25 +135,12 @@ var $builtinmodule = function (name) {
                 var left = tile_SHAPES[tileShape][0];
                 var top = tile_SHAPES[tileShape][1];
                 // Tile's clipPath element.
-                var tileClip = Blockly.utils.dom.createSvgElement('clipPath', {
-                    'id': 'tileClipPath' + tileId
-                    }, svg);
-                Blockly.utils.dom.createSvgElement('rect', {
-                    'height': maze_SQUARE_SIZE,
-                    'width': maze_SQUARE_SIZE,
-                    'x': x * maze_SQUARE_SIZE,
-                    'y': y * maze_SQUARE_SIZE
-                    }, tileClip);
+                svg.append('clipPath').attr('id','tileClipPath' + tileId)
+                $("#tileClipPath" + tileId).append('rect').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',  maze_SQUARE_SIZE).attr('height',  maze_SQUARE_SIZE)
+               
                 // Tile sprite.
-                var tile = Blockly.utils.dom.createSvgElement('image', {
-                    'height': maze_SQUARE_SIZE * 4,
-                    'width': maze_SQUARE_SIZE * 5,
-                    'clip-path': 'url(#tileClipPath' + tileId + ')',
-                    'x': (x - left) * maze_SQUARE_SIZE,
-                    'y': (y - top) * maze_SQUARE_SIZE
-                    }, svg);
-                tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-                    maze.tiles);
+                svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE * 5).attr('height',maze_SQUARE_SIZE * 4)
+                .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
                 tileId++;
             }
         }
