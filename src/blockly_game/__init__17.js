@@ -91,7 +91,6 @@ var $builtinmodule = function (name) {
     //pidList = [] 暂时先不设置，后续根据需要设置
 
     var drawMap=function(){
-        
         var svg = d3.select('#blocklySVG').append('svg');
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
         svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
@@ -102,7 +101,7 @@ var $builtinmodule = function (name) {
         .style('fill','#F1EEE7').style('stroke','#CCB').style('stroke-width','1');
         //绘制迷宫背景
         svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
-        .style('xlink:href',maze.background)
+        .attr('xlink:href',maze.background)
 
         console.log("enter2")
         //初始化地图
@@ -147,33 +146,15 @@ var $builtinmodule = function (name) {
         }
         console.log("enter3")
         // 绘制终点图标
-        var finishMarker = Blockly.utils.dom.createSvgElement('image', {
-            'id': 'finish',
-            'height': 34,
-            'width': 20
-        }, svg);
-        finishMarker.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-            maze.marker);
+        svg.append('image').attr('id','finish').attr('width', 20).attr('height', 34).attr('xlink:href',maze.marker)
         
         // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
-        var pegmanClip = Blockly.utils.dom.createSvgElement('clipPath', {
-            'id': 'pegmanClipPath'
-        }, svg);
-        Blockly.utils.dom.createSvgElement('rect', {
-            'id': 'clipRect',
-            'height': actor.height,
-            'width': actor.height
-        }, pegmanClip);
+        svg.append('clipPath').attr('id','pegmanClipPath')
+        $("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.height).attr('height', actor.height)
 
         //绘制精灵.
-        var pegmanIcon = Blockly.utils.dom.createSvgElement('image', {
-            'id': 'pegman',
-            'height': actor.height,
-            'width': actor.width * 21, // 49 * 21 = 1029
-            'clip-path': 'url(#pegmanClipPath)'
-        }, svg);
-        pegmanIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-            actor.img);
+        svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
+        .attr('xlink:href',actor.img)
     }
 
     var init=function(){
