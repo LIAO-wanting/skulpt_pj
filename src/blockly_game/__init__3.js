@@ -201,16 +201,19 @@ var $builtinmodule = function (name) {
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self, img) {
-            self.img= Sk.ffi.remapToJs(img);
-            console.log(self.img)
-            actor.img = Sk.ffi.remapToJs(img);
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                self.img= Sk.ffi.remapToJs(img);
+                console.log(self.img)
+                actor.img = Sk.ffi.remapToJs(img);
 
-            self.direction = actor.DirectionType.EAST;
-            self.tile_SHAPES = "";
-            self.height = 52;
-            self.width = 49;
+                self.direction = actor.DirectionType.EAST;
+                self.tile_SHAPES = "";
+                self.height = 52;
+                self.width = 49;
 
-            init();
+                init()
+                resolve(void 0)
+            }));
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
