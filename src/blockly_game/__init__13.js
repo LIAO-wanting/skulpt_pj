@@ -94,7 +94,7 @@ var $builtinmodule = function (name) {
         var svg = $('#svgMaze');
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
         console.log(svg)
-        svg.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale);
+        svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
 
         // 绘制外框
         Blockly.utils.dom.createSvgElement('rect', {
