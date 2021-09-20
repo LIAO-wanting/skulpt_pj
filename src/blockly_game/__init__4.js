@@ -219,6 +219,6 @@ var $builtinmodule = function (name) {
         $loc.moveForward=new Sk.builtin.func(function(self) {
            
         })
-    })
+    }, "Actor")
 	return mod;
 }
