@@ -134,7 +134,7 @@ var $builtinmodule = function (name) {
                 var top = tile_SHAPES[tileShape][1];
                 // Tile's clipPath element.
                 svg.append('clipPath').attr('id','tileClipPath' + tileId)
-                $("#tileClipPath" + tileId).append('rect').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',  maze_SQUARE_SIZE).attr('height',  maze_SQUARE_SIZE)
+                d3.select("#tileClipPath" + tileId).append('rect').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',  maze_SQUARE_SIZE).attr('height',  maze_SQUARE_SIZE)
                
                 // Tile sprite.
                 svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE * 5).attr('height',maze_SQUARE_SIZE * 4)
@@ -148,7 +148,7 @@ var $builtinmodule = function (name) {
         
         // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
         svg.append('clipPath').attr('id','pegmanClipPath')
-        $("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.height).attr('height', actor.height)
+        d3.select("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.height).attr('height', actor.height)
 
         //绘制精灵.
         svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
