@@ -1,5 +1,5 @@
 var $builtinmodule = function (name) {
-	let mod= {__name__: new Sk.builtin.str("blockly")};
+	let mod= {__name__: new Sk.builtin.str("blocklygame")};
     // 角色变量
     var actor={
         img : "https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/astro.png",
