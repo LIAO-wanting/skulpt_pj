@@ -91,7 +91,8 @@ var $builtinmodule = function (name) {
     //pidList = [] 暂时先不设置，后续根据需要设置
 
     var drawMap=function(){
-        var svg = $('#svgMaze');
+        
+        var svg = d3.select('#blocklySVG').append('svg');
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
         svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
 
