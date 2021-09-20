@@ -201,8 +201,9 @@ var $builtinmodule = function (name) {
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self, img) {
-            self.img= img;
-            actor.img=img;
+            self.img= Sk.ffi.remapToJs(img);
+            console.log(self.img)
+            actor.img = Sk.ffi.remapToJs(img);
 
             self.direction = actor.DirectionType.EAST;
             self.tile_SHAPES = "";
