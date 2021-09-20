@@ -188,7 +188,7 @@ var $builtinmodule = function (name) {
                     actor.x= x;
                     actor.y= y;
                     displayPegman(actor.x , actor.y , actor.direction*4 )
-                } else if (map[y][x] == maze_SquareType.FINISH) {
+                } else if (map[y][x] == maze.SquareType.FINISH) {
                     // Move the finish icon into position.
                     var finishIcon = $('#finish');
                     finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
@@ -198,7 +198,7 @@ var $builtinmodule = function (name) {
                 }
             }
         }
-        
+
     }
 
     var init=function(){
