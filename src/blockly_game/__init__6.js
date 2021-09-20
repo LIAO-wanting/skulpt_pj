@@ -3,7 +3,6 @@ var $builtinmodule = function (name) {
     // 角色变量
     var actor={
         img : "https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/astro.png",
-        direction : actor.DirectionType.EAST,
         tile_SHAPES : "",
         height : 52,
         width : 49,
@@ -13,7 +12,7 @@ var $builtinmodule = function (name) {
             SOUTH: 2,
             WEST: 3
         },
-
+        direction : actor.DirectionType.EAST,
     };
     //迷宫变量
     var maze={
@@ -51,9 +50,9 @@ var $builtinmodule = function (name) {
         ROWS:maze.map.length,
         COLS:maze.map[0].length,
         SQUARE_SIZE : 50,
-        MAZE_WIDTH = maze.SQUARE_SIZE * maze.COLS,
-        MAZE_HEIGHT = maze.SQUARE_SIZE * maze.ROWS,
-        PATH_WIDTH = maze.SQUARE_SIZE / 3,
+        MAZE_WIDTH : maze.SQUARE_SIZE * maze.COLS,
+        MAZE_HEIGHT : maze.SQUARE_SIZE * maze.ROWS,
+        PATH_WIDTH : maze.SQUARE_SIZE / 3,
         result :  ResultType.UNSET,
         tile_SHAPES : {
             '10010': [4, 0],  // Dead ends
@@ -200,8 +199,7 @@ var $builtinmodule = function (name) {
     }
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
-        $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size) {
-            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+        $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size ) {
                 img= Sk.ffi.remapToJs(img);
                 console.log(img)
                 actor.img = Sk.ffi.remapToJs(img);
@@ -211,13 +209,12 @@ var $builtinmodule = function (name) {
                 size=size || [52,49]//[height,width]
 
                 init()
-                resolve(void 0)
-            }));
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
            
         })
     }, "Actor")
+
 	return mod;
 }
