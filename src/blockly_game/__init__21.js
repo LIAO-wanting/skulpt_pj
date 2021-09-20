@@ -65,6 +65,8 @@ var $builtinmodule = function (name) {
         height : 52,
         width : 49,
         direction : DirectionType.EAST,
+        x : 0,
+        y : 0
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -89,6 +91,30 @@ var $builtinmodule = function (name) {
     
     
     //pidList = [] 暂时先不设置，后续根据需要设置
+
+    /**
+     * Display Pegman at the specified location, facing the specified direction.
+     * @param {number} x Horizontal grid (or fraction thereof).
+     * @param {number} y Vertical grid (or fraction thereof).
+     * @param {number} d Direction (0 - 15) or dance (16 - 17).
+     * @param {number=} opt_angle Optional angle (in degrees) to rotate Pegman.
+     */
+    var displayPegman = function(x, y, d, opt_angle) {
+        var pegmanIcon = $('#pegman');
+        pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width + 1);
+        pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 - 8);
+        if (opt_angle) {
+          pegmanIcon.attr('transform', 'rotate(' + opt_angle + ', ' +
+              (x * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ', ' +
+              (y * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ')');
+        } else {
+          pegmanIcon.attr('transform', 'rotate(0, 0, 0)');
+        }
+      
+        var clipRect = $('#clipRect');
+        clipRect.attr('x', x * maze_SQUARE_SIZE + 1);
+        clipRect.attr('y', pegmanIcon.attr('y'));
+      };
 
     var drawMap=function(){
         var svg = d3.select('#blocklySVG').append('svg');
@@ -153,6 +179,26 @@ var $builtinmodule = function (name) {
         //绘制精灵.
         svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
         .attr('xlink:href',actor.img)
+
+        //定位：精灵与终点初始的位置
+        // Locate the start and finish squares.
+        for (var y = 0; y < maze_ROWS; y++) {
+            for (var x = 0; x < maze_COLS; x++) {
+                if (map[y][x] == maze.SquareType.START) {
+                    actor.x= x;
+                    actor.y= y;
+                    displayPegman(actor.x , actor.y , actor.direction*4 )
+                } else if (map[y][x] == maze_SquareType.FINISH) {
+                    // Move the finish icon into position.
+                    var finishIcon = $('#finish');
+                    finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
+                        finishIcon.attr('width') / 2);
+                    finishIcon.setAttribute('y', maze_SQUARE_SIZE * (y + 0.6) -
+                        finishIcon.attr('height'));
+                }
+            }
+        }
+        
     }
 
     var init=function(){
