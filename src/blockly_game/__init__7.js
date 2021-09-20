@@ -1,18 +1,49 @@
 var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("blocklygame")};
+    
+    //其他变量设置
+    var DirectionType={//角色方向的类型
+        NORTH: 0,
+        EAST: 1,
+        SOUTH: 2,
+        WEST: 3
+    }
+    var ResultType = {
+        UNSET: 0,
+        SUCCESS: 1,
+        FAILURE: -1,
+        TIMEOUT: 2,
+        ERROR: -2
+    }
+    var tile_SHAPES = {
+        '10010': [4, 0],  // Dead ends
+        '10001': [3, 3],
+        '11000': [0, 1],
+        '10100': [0, 2],
+        '11010': [4, 1],  // Vertical
+        '10101': [3, 2],  // Horizontal
+        '10110': [0, 0],  // Elbows
+        '10011': [2, 0],
+        '11001': [4, 2],
+        '11100': [2, 3],
+        '11110': [1, 1],  // Junctions
+        '10111': [1, 0],
+        '11011': [2, 1],
+        '11101': [1, 2],
+        '11111': [2, 2],  // Cross
+        'null0': [4, 3],  // Empty
+        'null1': [3, 0],
+        'null2': [3, 1],
+        'null3': [0, 3],
+        'null4': [1, 3]
+    }
     // 角色变量
     var actor={
         img : "https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/astro.png",
         tile_SHAPES : "",
         height : 52,
         width : 49,
-        DirectionType : {//角色方向的类型
-            NORTH: 0,
-            EAST: 1,
-            SOUTH: 2,
-            WEST: 3
-        },
-        direction : actor.DirectionType.EAST,
+        direction : DirectionType.EAST,
     };
     //迷宫变量
     var maze={
@@ -26,66 +57,36 @@ var $builtinmodule = function (name) {
             FINISH: 3
         },
         level: 0 ,
-        map:[//迷宫布局
-            //Level1
-            [[0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 3, 0, 0, 0],
-            [0, 0, 2, 1, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]],
-            //level2
-            [[0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 2, 1, 1, 1, 1, 3, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]],
-        ][maze.level],
         //迷宫部分参数指定
-        ROWS:maze.map.length,
-        COLS:maze.map[0].length,
+        ROWS:map.length,
+        COLS:map[0].length,
         SQUARE_SIZE : 50,
         MAZE_WIDTH : maze.SQUARE_SIZE * maze.COLS,
         MAZE_HEIGHT : maze.SQUARE_SIZE * maze.ROWS,
         PATH_WIDTH : maze.SQUARE_SIZE / 3,
         result :  ResultType.UNSET,
-        tile_SHAPES : {
-            '10010': [4, 0],  // Dead ends
-            '10001': [3, 3],
-            '11000': [0, 1],
-            '10100': [0, 2],
-            '11010': [4, 1],  // Vertical
-            '10101': [3, 2],  // Horizontal
-            '10110': [0, 0],  // Elbows
-            '10011': [2, 0],
-            '11001': [4, 2],
-            '11100': [2, 3],
-            '11110': [1, 1],  // Junctions
-            '10111': [1, 0],
-            '11011': [2, 1],
-            '11101': [1, 2],
-            '11111': [2, 2],  // Cross
-            'null0': [4, 3],  // Empty
-            'null1': [3, 0],
-            'null2': [3, 1],
-            'null3': [0, 3],
-            'null4': [1, 3]
-          },
-        
     };
-    //其他变量设置
-    var ResultType = {
-        UNSET: 0,
-        SUCCESS: 1,
-        FAILURE: -1,
-        TIMEOUT: 2,
-        ERROR: -2
-    }
+    
+    var map=[//迷宫布局
+        //Level1
+        [[0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 3, 0, 0, 0],
+        [0, 0, 2, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]],
+        //level2
+        [[0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 1, 1, 1, 1, 3, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]],
+    ][maze.level]
     //pidList = [] 暂时先不设置，后续根据需要设置
 
     var drawMap=function(){
@@ -130,7 +131,7 @@ var $builtinmodule = function (name) {
                     normalize(x - 1, y);   // East.
 
                 // 绘制路径.
-                if (!maze.tile_SHAPES[tileShape]) {
+                if (!tile_SHAPES[tileShape]) {
                     // Empty square.  Use null0 for large areas, with null1-4 for borders.
                     // Add some randomness to avoid large empty spaces.
                     if (tileShape == '00000' && Math.random() > 0.3) {
