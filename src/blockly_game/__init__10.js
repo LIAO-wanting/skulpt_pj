@@ -203,10 +203,9 @@ var $builtinmodule = function (name) {
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size ) {
                 img= Sk.ffi.remapToJs(img);
-                console.log(img)
                 actor.img = Sk.ffi.remapToJs(img);
 
-                direction =  direction || actor.DirectionType.EAST;
+                direction =  direction || DirectionType.EAST;
                 tile_SHAPES = tile_SHAPES || "";
                 size=size || [52,49]//[height,width]
 
