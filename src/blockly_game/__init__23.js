@@ -193,7 +193,7 @@ var $builtinmodule = function (name) {
                     var finishIcon = $('#finish');
                     finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
                         finishIcon.attr('width') / 2);
-                    finishIcon.setAttribute('y', maze_SQUARE_SIZE * (y + 0.6) -
+                    finishIcon.attr('y', maze_SQUARE_SIZE * (y + 0.6) -
                         finishIcon.attr('height'));
                 }
             }
