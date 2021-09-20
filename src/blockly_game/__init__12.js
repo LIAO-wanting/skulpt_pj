@@ -91,8 +91,9 @@ var $builtinmodule = function (name) {
     //pidList = [] 暂时先不设置，后续根据需要设置
 
     var drawMap=function(){
-        var svg = document.getElementById('svgMaze');
+        var svg = $('#svgMaze');
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
+        console.log(svg)
         svg.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale);
 
         // 绘制外框
