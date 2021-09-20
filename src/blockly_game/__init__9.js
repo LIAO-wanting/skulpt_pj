@@ -67,6 +67,9 @@ var $builtinmodule = function (name) {
         direction : DirectionType.EAST,
     };
     //迷宫变量
+    var maze_SQUARE_SIZE = 50;
+    var maze_ROWS=map.length;
+    var maze_COLS=map[0].length;
     var maze={
         tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_astro.png',//地图路径图片
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
@@ -78,12 +81,9 @@ var $builtinmodule = function (name) {
             FINISH: 3
         },
         //迷宫部分参数指定
-        ROWS:map.length,
-        COLS:map[0].length,
-        SQUARE_SIZE : 50,
-        MAZE_WIDTH : maze.SQUARE_SIZE * maze.COLS,
-        MAZE_HEIGHT : maze.SQUARE_SIZE * maze.ROWS,
-        PATH_WIDTH : maze.SQUARE_SIZE / 3,
+        MAZE_WIDTH : maze_SQUARE_SIZE * maze_COLS,
+        MAZE_HEIGHT : maze_SQUARE_SIZE * maze_ROWS,
+        PATH_WIDTH : maze_SQUARE_SIZE / 3,
         result :  ResultType.UNSET,
     };
     
@@ -92,7 +92,7 @@ var $builtinmodule = function (name) {
 
     var drawMap=function(){
         var svg = document.getElementById('svgMaze');
-        var scale = Math.max(maze.ROWS, maze.COLS) * maze.SQUARE_SIZE;
+        var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
         svg.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale);
 
         // 绘制外框
@@ -115,15 +115,15 @@ var $builtinmodule = function (name) {
 
         //初始化地图
         var normalize = function(x, y) {
-            if (x < 0 || x >= maze.COLS || y < 0 || y >= maze.ROWS) {
+            if (x < 0 || x >= maze.COLS || y < 0 || y >= maze_ROWS) {
               return '0';
             }
-            return (maze.map[y][x] == maze.SquareType.WALL) ? '0' : '1';
+            return (map[y][x] == maze.SquareType.WALL) ? '0' : '1';
         };
         // 依次判断格子的类型，并绘制相应格子内的图形
         var tileId = 0;
-        for (var y = 0; y < maze.ROWS; y++) {
-            for (var x = 0; x < maze.COLS; x++) {
+        for (var y = 0; y < maze_ROWS; y++) {
+            for (var x = 0; x < maze_COLS; x++) {
                 // 标记每个格子的“弯曲状态”.
                 var tileShape = normalize(x, y) +
                     normalize(x, y - 1) +  // North.
@@ -141,28 +141,28 @@ var $builtinmodule = function (name) {
                         tileShape = 'null' + Math.floor(1 + Math.random() * 4);
                     }
                 }
-                var left = maze.tile_SHAPES[tileShape][0];
-                var top = maze.tile_SHAPES[tileShape][1];
+                var left = tile_SHAPES[tileShape][0];
+                var top = tile_SHAPES[tileShape][1];
                 // Tile's clipPath element.
                 var tileClip = Blockly.utils.dom.createSvgElement('clipPath', {
                     'id': 'tileClipPath' + tileId
                     }, svg);
                 Blockly.utils.dom.createSvgElement('rect', {
-                    'height': maze.SQUARE_SIZE,
-                    'width': maze.SQUARE_SIZE,
-                    'x': x * maze.SQUARE_SIZE,
-                    'y': y * maze.SQUARE_SIZE
+                    'height': maze_SQUARE_SIZE,
+                    'width': maze_SQUARE_SIZE,
+                    'x': x * maze_SQUARE_SIZE,
+                    'y': y * maze_SQUARE_SIZE
                     }, tileClip);
                 // Tile sprite.
                 var tile = Blockly.utils.dom.createSvgElement('image', {
-                    'height': maze.SQUARE_SIZE * 4,
-                    'width': maze.SQUARE_SIZE * 5,
+                    'height': maze_SQUARE_SIZE * 4,
+                    'width': maze_SQUARE_SIZE * 5,
                     'clip-path': 'url(#tileClipPath' + tileId + ')',
-                    'x': (x - left) * maze.SQUARE_SIZE,
-                    'y': (y - top) * maze.SQUARE_SIZE
+                    'x': (x - left) * maze_SQUARE_SIZE,
+                    'y': (y - top) * maze_SQUARE_SIZE
                     }, svg);
                 tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-                    maze.tile);
+                    maze.tiles);
                 tileId++;
             }
         }
@@ -188,8 +188,8 @@ var $builtinmodule = function (name) {
         //绘制精灵.
         var pegmanIcon = Blockly.utils.dom.createSvgElement('image', {
             'id': 'pegman',
-            'height': maze.height,
-            'width': maze.width * 21, // 49 * 21 = 1029
+            'height': actor.height,
+            'width': actor.width * 21, // 49 * 21 = 1029
             'clip-path': 'url(#pegmanClipPath)'
         }, svg);
         pegmanIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
