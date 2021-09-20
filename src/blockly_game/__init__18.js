@@ -95,7 +95,6 @@ var $builtinmodule = function (name) {
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
         svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
 
-        console.log("enter1")
         // 绘制外框
         svg.append('rect').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
         .style('fill','#F1EEE7').style('stroke','#CCB').style('stroke-width','1');
@@ -103,10 +102,9 @@ var $builtinmodule = function (name) {
         svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
         .attr('xlink:href',maze.background)
 
-        console.log("enter2")
         //初始化地图
         var normalize = function(x, y) {
-            if (x < 0 || x >= maze.COLS || y < 0 || y >= maze_ROWS) {
+            if (x < 0 || x >= maze_COLS || y < 0 || y >= maze_ROWS) {
               return '0';
             }
             return (map[y][x] == maze.SquareType.WALL) ? '0' : '1';
@@ -144,7 +142,7 @@ var $builtinmodule = function (name) {
                 tileId++;
             }
         }
-        console.log("enter3")
+
         // 绘制终点图标
         svg.append('image').attr('id','finish').attr('width', 20).attr('height', 34).attr('xlink:href',maze.marker)
         
