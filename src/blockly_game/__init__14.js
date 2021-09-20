@@ -93,9 +93,9 @@ var $builtinmodule = function (name) {
     var drawMap=function(){
         var svg = $('#svgMaze');
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
-        console.log(svg)
         svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
 
+        console.log("enter1")
         // 绘制外框
         Blockly.utils.dom.createSvgElement('rect', {
             'height': maze.MAZE_HEIGHT,
@@ -114,6 +114,7 @@ var $builtinmodule = function (name) {
         tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
             maze.background);
 
+        console.log("enter2")
         //初始化地图
         var normalize = function(x, y) {
             if (x < 0 || x >= maze.COLS || y < 0 || y >= maze_ROWS) {
@@ -167,6 +168,7 @@ var $builtinmodule = function (name) {
                 tileId++;
             }
         }
+        console.log("enter3")
         // 绘制终点图标
         var finishMarker = Blockly.utils.dom.createSvgElement('image', {
             'id': 'finish',
