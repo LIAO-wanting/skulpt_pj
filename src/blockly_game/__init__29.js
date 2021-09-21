@@ -67,7 +67,7 @@ var $builtinmodule = function (name) {
         direction : DirectionType.EAST,
         x : 0,
         y : 0,
-        stepSpeed : 50
+        stepSpeed : 250
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -208,18 +208,16 @@ var $builtinmodule = function (name) {
         drawMap();
     }
 
-    //执行器函数
-    // var execute=function(){
-    //     maze.result = actor.x != maze.finish.x || actor.y != maze.finish.y ?
-    //     ResultType.FAILURE : ResultType.SUCCESS;
-
-    //     // Fast animation if execution is successful.  Slow otherwise.
-    //     if (maze.result == ResultType.SUCCESS) {
-    //         actor.stepSpeed = 100;
-    //     } else {
-    //         actor.stepSpeed = 150;
-    //     }
-    // }
+    //检查是否已到终点
+    var checkFinish=function(){
+        maze.result = actor.x != maze.finish.x || actor.y != maze.finish.y ?
+        ResultType.FAILURE : ResultType.SUCCESS;
+        if(maze.result==ResultType.SUCCESS){
+            return "win";
+        }else{
+            return "failure";
+        }
+    }
     /**
      * Is there a path next to pegman?
      * @param {number} direction Direction to look
@@ -356,7 +354,6 @@ var $builtinmodule = function (name) {
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
             var command= move(0) //0为向前移动
-            console.log(actor.x+" "+actor.y+" "+"__"+command)
             switch (command) {
                 case 'north':
                     schedule([actor.x, actor.y, actor.direction * 4],
@@ -379,6 +376,15 @@ var $builtinmodule = function (name) {
                     actor.x--;
                     break;
             }
+        })
+        $loc.execute=new Sk.builtin.func(function(self) {
+            var state=checkFinish()
+            if(state=="win"){
+                alert("挑战成功！")
+            }else{
+                alert("挑战失败！")
+            }
+
         })
     }, "Actor")
 
