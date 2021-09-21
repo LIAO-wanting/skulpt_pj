@@ -67,7 +67,7 @@ var $builtinmodule = function (name) {
         direction : DirectionType.EAST,
         x : 0,
         y : 0,
-        stepSpeed : 250
+        stepSpeed : 150
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -315,6 +315,7 @@ var $builtinmodule = function (name) {
             command='left'
         }
         actor.direction = constrainDirection4(actor.direction);
+        return command
     };
 
     /**
@@ -352,6 +353,10 @@ var $builtinmodule = function (name) {
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
             var command= move(0) //0为向前移动
+            if(command==false){
+                maze.result=ResultType.FAILURE
+                alert("挑战失败")
+            }
             switch (command) {
                 case 'north':
                     schedule([actor.x, actor.y, actor.direction * 4],
@@ -372,6 +377,51 @@ var $builtinmodule = function (name) {
                     schedule([actor.x, actor.y, actor.direction * 4],
                                 [actor.x - 1, actor.y, actor.direction * 4]);
                     actor.x--;
+                    break;
+            }
+            checkFinish()
+        });
+        $loc.moveBackward=new Sk.builtin.func(function(self) {
+            var command= move(2) //2为向后运动
+            if(command==false){
+                maze.result=ResultType.FAILURE
+                alert("挑战失败")
+            }
+            switch (command) {
+                case 'north':
+                    schedule([actor.x, actor.y, actor.direction * 4],
+                                    [actor.x, actor.y - 1, actor.direction * 4]);
+                    actor.y--;
+                    break;
+                case 'east':
+                    schedule([actor.x, actor.y, actor.direction * 4],
+                                    [actor.x + 1, actor.y, actor.direction * 4]);
+                    actor.x++;
+                    break;
+                case 'south':
+                    schedule([actor.x, actor.y, actor.direction * 4],
+                                    [actor.x, actor.y + 1, actor.direction * 4]);
+                    actor.y++;
+                    break;
+                case 'west':
+                    schedule([actor.x, actor.y, actor.direction * 4],
+                                [actor.x - 1, actor.y, actor.direction * 4]);
+                    actor.x--;
+                    break;
+            }
+            checkFinish()
+        });
+        $loc.turn=new Sk.builtin.func(function(self,direction){
+            direction=Sk.ffi.remapToJs(direction)
+            var command=turn(direction)
+            switch (command) {
+                case 'left':
+                    schedule([actor.x, actor.y, actor.direction * 4], [actor.x, actor.y, actor.direction * 4 - 4]);
+                    actor.direction = constrainDirection4(actor.direction - 1);
+                    break;
+                case 'right':
+                    schedule([actor.x, actor.y, actor.direction * 4], [actor.x, actor.y, actor.direction * 4 + 4]);
+                    actor.direction = constrainDirection4(actor.direction + 1);
                     break;
             }
             checkFinish()
