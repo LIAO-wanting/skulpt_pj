@@ -67,7 +67,7 @@ var $builtinmodule = function (name) {
         direction : DirectionType.EAST,
         x : 0,
         y : 0,
-        stepSpeed : 0
+        stepSpeed : 100
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -331,9 +331,7 @@ var $builtinmodule = function (name) {
      * @param {!Array.<number>} endPos X, Y and direction ending points.
      */
     var schedule = function(startPos, endPos) {
-        var deltas = [(endPos[0] - startPos[0]) / 4,
-                    (endPos[1] - startPos[1]) / 4,
-                    (endPos[2] - startPos[2]) / 4];
+        var deltas = [(endPos[0] - startPos[0]) / 4, (endPos[1] - startPos[1]) / 4, (endPos[2] - startPos[2]) / 4];
         displayPegman(startPos[0] + deltas[0], startPos[1] + deltas[1], constrainDirection16(startPos[2] + deltas[2]));
         setTimeout(function() {
             displayPegman(startPos[0] + deltas[0] * 2, startPos[1] + deltas[1] * 2, constrainDirection16(startPos[2] + deltas[2] * 2));
@@ -362,6 +360,7 @@ var $builtinmodule = function (name) {
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
             var command= move(0) //0为向前移动
+            console.log(actor.x+" "+actor.y+" "+"__"+command)
             switch (command) {
                 case 'north':
                     schedule([actor.x, actor.y, actor.direction * 4],
