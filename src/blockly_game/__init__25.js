@@ -279,7 +279,7 @@ var $builtinmodule = function (name) {
      * @throws {false} If Pegman collides with a wall.
      */
     var move = function(direction) {
-        if (!Maze.isPath(direction, null)) {
+        if (!isPath(direction, null)) {
             return false
         }
         // If moving backward, flip the effective direction.
