@@ -211,11 +211,9 @@ var $builtinmodule = function (name) {
     //检查是否已到终点
     var checkFinish=function(){
         maze.result = actor.x != maze.finish.x || actor.y != maze.finish.y ?
-        ResultType.FAILURE : ResultType.SUCCESS;
+        ResultType.UNSET : ResultType.SUCCESS;
         if(maze.result==ResultType.SUCCESS){
-            return "win";
-        }else{
-            return "failure";
+            alert("挑战成功！")
         }
     }
     /**
@@ -376,15 +374,7 @@ var $builtinmodule = function (name) {
                     actor.x--;
                     break;
             }
-        })
-        $loc.execute=new Sk.builtin.func(function(self) {
-            var state=checkFinish()
-            if(state=="win"){
-                alert("挑战成功！")
-            }else{
-                alert("挑战失败！")
-            }
-
+            checkFinish()
         })
     }, "Actor")
 
