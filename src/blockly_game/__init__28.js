@@ -67,7 +67,7 @@ var $builtinmodule = function (name) {
         direction : DirectionType.EAST,
         x : 0,
         y : 0,
-        stepSpeed : 100
+        stepSpeed : 50
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -287,19 +287,15 @@ var $builtinmodule = function (name) {
         var command;
         switch (constrainDirection4(effectiveDirection)) {
             case DirectionType.NORTH:
-                actor.y--;
                 command = 'north';
                 break;
             case DirectionType.EAST:
-                actor.x++;
                 command = 'east';
                 break;
             case DirectionType.SOUTH:
-                actor.y++;
                 command = 'south';
                 break;
             case DirectionType.WEST:
-                actor.x--;
                 command = 'west';
                 break;
             }
