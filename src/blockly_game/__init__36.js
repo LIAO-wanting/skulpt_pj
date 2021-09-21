@@ -67,7 +67,7 @@ var $builtinmodule = function (name) {
         direction : DirectionType.EAST,
         x : 0,
         y : 0,
-        stepSpeed : 150
+        stepSpeed : 500
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
