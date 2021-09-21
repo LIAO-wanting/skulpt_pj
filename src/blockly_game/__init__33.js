@@ -305,7 +305,7 @@ var $builtinmodule = function (name) {
      */
     var turn = function(direction) {
         var command;
-        if (direction) {
+        if (direction=='right') {
             // Right turn (clockwise).
             command='right'
         } else {
