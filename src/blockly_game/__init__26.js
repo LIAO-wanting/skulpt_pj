@@ -251,9 +251,9 @@ var $builtinmodule = function (name) {
                 break;
         }
         if (id) {
-            return [command , square !== SquareType.WALL && square !== undefined ]
+            return [command , square !== maze.SquareType.WALL && square !== undefined ]
         }
-        return square !== SquareType.WALL && square !== undefined;
+        return square !== maze.SquareType.WALL && square !== undefined;
     };
 
     var constrainDirection4 = function(d) {
