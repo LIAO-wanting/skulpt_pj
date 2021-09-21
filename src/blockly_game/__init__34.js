@@ -323,17 +323,18 @@ var $builtinmodule = function (name) {
     var schedule = function(startPos, endPos) {
         var deltas = [(endPos[0] - startPos[0]) / 4, (endPos[1] - startPos[1]) / 4, (endPos[2] - startPos[2]) / 4];
         displayPegman(startPos[0] + deltas[0], startPos[1] + deltas[1], constrainDirection16(startPos[2] + deltas[2]));
-        setTimeout(function() {
-            displayPegman(startPos[0] + deltas[0] * 2, startPos[1] + deltas[1] * 2, constrainDirection16(startPos[2] + deltas[2] * 2));
-        }, actor.stepSpeed);
-
-        setTimeout(function() {
-            displayPegman(startPos[0] + deltas[0] * 3, startPos[1] + deltas[1] * 3, constrainDirection16(startPos[2] + deltas[2] * 3));
-        }, actor.stepSpeed * 2)
-
-        setTimeout(function() {
-            displayPegman(endPos[0], endPos[1], constrainDirection16(endPos[2]));
-        }, actor.stepSpeed * 3)
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            Sk.setTimeout(function() {
+                displayPegman(startPos[0] + deltas[0] * 2, startPos[1] + deltas[1] * 2, constrainDirection16(startPos[2] + deltas[2] * 2));
+            }, actor.stepSpeed);
+            Sk.setTimeout(function() {
+                displayPegman(startPos[0] + deltas[0] * 3, startPos[1] + deltas[1] * 3, constrainDirection16(startPos[2] + deltas[2] * 3));
+            }, actor.stepSpeed * 2)
+            Sk.setTimeout(function() {
+                displayPegman(endPos[0], endPos[1], constrainDirection16(endPos[2]));
+            }, actor.stepSpeed * 3)
+            resolve(Sk.builtin.none.none$);
+        }));
     };
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
