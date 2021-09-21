@@ -66,7 +66,8 @@ var $builtinmodule = function (name) {
         width : 49,
         direction : DirectionType.EAST,
         x : 0,
-        y : 0
+        y : 0,
+        stepSpeed : 0
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -87,6 +88,7 @@ var $builtinmodule = function (name) {
         MAZE_HEIGHT : maze_SQUARE_SIZE * maze_ROWS,
         PATH_WIDTH : maze_SQUARE_SIZE / 3,
         result :  ResultType.UNSET,
+        finish : {x:0,y:0}
     };
     
     
@@ -195,6 +197,7 @@ var $builtinmodule = function (name) {
                         finishIcon.attr('width') / 2);
                     finishIcon.attr('y', maze_SQUARE_SIZE * (y + 0.6) -
                         finishIcon.attr('height'));
+                    maze.finish={x:x,y:y}
                 }
             }
         }
@@ -204,6 +207,146 @@ var $builtinmodule = function (name) {
     var init=function(){
         drawMap();
     }
+
+    //执行器函数
+    // var execute=function(){
+    //     maze.result = actor.x != maze.finish.x || actor.y != maze.finish.y ?
+    //     ResultType.FAILURE : ResultType.SUCCESS;
+
+    //     // Fast animation if execution is successful.  Slow otherwise.
+    //     if (maze.result == ResultType.SUCCESS) {
+    //         actor.stepSpeed = 100;
+    //     } else {
+    //         actor.stepSpeed = 150;
+    //     }
+    // }
+    /**
+     * Is there a path next to pegman?
+     * @param {number} direction Direction to look
+     *     (0 = forward, 1 = right, 2 = backward, 3 = left).
+     * @param {?string} id ID of block that triggered this action.
+     *     Null if called as a helper function in Maze.move().
+     * @return {boolean} True if there is a path.
+     */
+    var isPath=function(direction,id){
+        var effectiveDirection = actor.direction + direction;
+        var square;
+        var command;
+        switch (constrainDirection4(effectiveDirection)) {
+            case DirectionType.NORTH:
+                square = map[actor.y - 1] && map[actor.y - 1][actor.x];
+                command = 'look_north';
+                break;
+            case DirectionType.EAST:
+                square = map[actor.y][actor.x + 1];
+                command = 'look_east';
+                break;
+            case DirectionType.SOUTH:
+                square = map[actor.y + 1] && map[actor.y + 1][actor.x];
+                command = 'look_south';
+                break;
+            case DirectionType.WEST:
+                square = map[actor.y][actor.x - 1];
+                command = 'look_west';
+                break;
+        }
+        if (id) {
+            return [command , square !== SquareType.WALL && square !== undefined ]
+        }
+        return square !== SquareType.WALL && square !== undefined;
+    };
+
+    var constrainDirection4 = function(d) {
+        d = Math.round(d) % 4;
+        if (d < 0) {
+            d += 4;
+        }
+        return d;
+    };
+    var constrainDirection16 = function(d) {
+        d = Math.round(d) % 16;
+        if (d < 0) {
+          d += 16;
+        }
+        return d;
+      };
+    
+    /**
+     * Attempt to move pegman forward or backward.
+     * @param {number} direction Direction to move (0 = forward, 2 = backward).
+     * @param {string} id ID of block that triggered this action.
+     * @throws {true} If the end of the maze is reached.
+     * @throws {false} If Pegman collides with a wall.
+     */
+    var move = function(direction) {
+        if (!Maze.isPath(direction, null)) {
+            return false
+        }
+        // If moving backward, flip the effective direction.
+        var effectiveDirection = actor.direction + direction;
+        var command;
+        switch (constrainDirection4(effectiveDirection)) {
+            case DirectionType.NORTH:
+                actor.y--;
+                command = 'north';
+                break;
+            case DirectionType.EAST:
+                actor.x++;
+                command = 'east';
+                break;
+            case DirectionType.SOUTH:
+                actor.y++;
+                command = 'south';
+                break;
+            case DirectionType.WEST:
+                actor.x--;
+                command = 'west';
+                break;
+            }
+        return command
+    };
+
+    /**
+     * Turn pegman left or right.
+     * @param {number} direction Direction to turn (0 = left, 1 = right).
+     * @param {string} id ID of block that triggered this action.
+     */
+    var turn = function(direction) {
+        var command;
+        if (direction) {
+            // Right turn (clockwise).
+            actor.direction++;
+            command='right'
+        } else {
+            // Left turn (counterclockwise).
+            actor.direction--;
+            command='left'
+        }
+        actor.direction = constrainDirection4(actor.direction);
+    };
+
+    /**
+     * Schedule the animations for a move or turn.
+     * @param {!Array.<number>} startPos X, Y and direction starting points.
+     * @param {!Array.<number>} endPos X, Y and direction ending points.
+     */
+    var schedule = function(startPos, endPos) {
+        var deltas = [(endPos[0] - startPos[0]) / 4,
+                    (endPos[1] - startPos[1]) / 4,
+                    (endPos[2] - startPos[2]) / 4];
+        displayPegman(startPos[0] + deltas[0], startPos[1] + deltas[1], constrainDirection16(startPos[2] + deltas[2]));
+        setTimeout(function() {
+            displayPegman(startPos[0] + deltas[0] * 2, startPos[1] + deltas[1] * 2, constrainDirection16(startPos[2] + deltas[2] * 2));
+        }, actor.stepSpeed);
+
+        setTimeout(function() {
+            displayPegman(startPos[0] + deltas[0] * 3, startPos[1] + deltas[1] * 3, constrainDirection16(startPos[2] + deltas[2] * 3));
+        }, actor.stepSpeed * 2)
+
+        setTimeout(function() {
+            displayPegman(endPos[0], endPos[1], constrainDirection16(endPos[2]));
+        }, actor.stepSpeed * 3)
+    };
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size ) {
@@ -218,7 +361,29 @@ var $builtinmodule = function (name) {
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
-           
+            var command= move(0) //0为向前移动
+            switch (command) {
+                case 'north':
+                    schedule([actor.x, actor.y, actor.direction * 4],
+                                    [actor.x, actor.y - 1, actor.direction * 4]);
+                    actor.y--;
+                    break;
+                case 'east':
+                    schedule([actor.x, actor.y, actor.direction * 4],
+                                    [actor.x + 1, actor.y, actor.direction * 4]);
+                    actor.x++;
+                    break;
+                case 'south':
+                    schedule([actor.x, actor.y, actor.direction * 4],
+                                    [actor.x, actor.y + 1, actor.direction * 4]);
+                    actor.y++;
+                    break;
+                case 'west':
+                    schedule([actor.x, actor.y, actor.direction * 4],
+                                [actor.x - 1, actor.y, actor.direction * 4]);
+                    actor.x--;
+                    break;
+            }
         })
     }, "Actor")
 
