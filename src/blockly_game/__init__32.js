@@ -307,14 +307,11 @@ var $builtinmodule = function (name) {
         var command;
         if (direction) {
             // Right turn (clockwise).
-            actor.direction++;
             command='right'
         } else {
             // Left turn (counterclockwise).
-            actor.direction--;
             command='left'
         }
-        actor.direction = constrainDirection4(actor.direction);
         return command
     };
 
