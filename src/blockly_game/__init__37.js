@@ -67,7 +67,7 @@ var $builtinmodule = function (name) {
         direction : DirectionType.EAST,
         x : 0,
         y : 0,
-        stepSpeed : 500
+        stepSpeed : 150
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -322,19 +322,16 @@ var $builtinmodule = function (name) {
      */
     var schedule = function(startPos, endPos) {
         var deltas = [(endPos[0] - startPos[0]) / 4, (endPos[1] - startPos[1]) / 4, (endPos[2] - startPos[2]) / 4];
-        displayPegman(startPos[0] + deltas[0]* 2, startPos[1] + deltas[1]* 2, constrainDirection16(startPos[2] + deltas[2]* 2));
-        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-            // Sk.setTimeout(function() {
-            //     displayPegman(startPos[0] + deltas[0] * 2, startPos[1] + deltas[1] * 2, constrainDirection16(startPos[2] + deltas[2] * 2));
-            // }, actor.stepSpeed);
-            // Sk.setTimeout(function() {
-            //     displayPegman(startPos[0] + deltas[0] * 3, startPos[1] + deltas[1] * 3, constrainDirection16(startPos[2] + deltas[2] * 3));
-            // }, actor.stepSpeed * 2)
-            Sk.setTimeout(function() {
-                displayPegman(endPos[0], endPos[1], constrainDirection16(endPos[2]));
-                resolve(Sk.builtin.none.none$);
-            }, actor.stepSpeed)
-        }));
+        displayPegman(startPos[0] + deltas[0], startPos[1] + deltas[1], constrainDirection16(startPos[2] + deltas[2]));
+        setTimeout(function() {
+            displayPegman(startPos[0] + deltas[0] * 2, startPos[1] + deltas[1] * 2, constrainDirection16(startPos[2] + deltas[2] * 2));
+        }, actor.stepSpeed);
+        setTimeout(function() {
+            displayPegman(startPos[0] + deltas[0] * 3, startPos[1] + deltas[1] * 3, constrainDirection16(startPos[2] + deltas[2] * 3));
+        }, actor.stepSpeed * 2)
+        setTimeout(function() {
+            displayPegman(endPos[0], endPos[1], constrainDirection16(endPos[2]));
+        }, actor.stepSpeed)
     };
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
@@ -380,34 +377,37 @@ var $builtinmodule = function (name) {
             checkFinish()
         });
         $loc.moveBackward=new Sk.builtin.func(function(self) {
-            var command= move(2) //2为向后运动
-            if(command==false){
-                maze.result=ResultType.FAILURE
-                alert("挑战失败")
-            }
-            switch (command) {
-                case 'north':
-                    schedule([actor.x, actor.y, actor.direction * 4],
-                                    [actor.x, actor.y - 1, actor.direction * 4]);
-                    actor.y--;
-                    break;
-                case 'east':
-                    schedule([actor.x, actor.y, actor.direction * 4],
-                                    [actor.x + 1, actor.y, actor.direction * 4]);
-                    actor.x++;
-                    break;
-                case 'south':
-                    schedule([actor.x, actor.y, actor.direction * 4],
-                                    [actor.x, actor.y + 1, actor.direction * 4]);
-                    actor.y++;
-                    break;
-                case 'west':
-                    schedule([actor.x, actor.y, actor.direction * 4],
-                                [actor.x - 1, actor.y, actor.direction * 4]);
-                    actor.x--;
-                    break;
-            }
-            checkFinish()
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                var command= move(2) //2为向后运动
+                if(command==false){
+                    maze.result=ResultType.FAILURE
+                    alert("挑战失败")
+                }
+                switch (command) {
+                    case 'north':
+                        schedule([actor.x, actor.y, actor.direction * 4],
+                                        [actor.x, actor.y - 1, actor.direction * 4]);
+                        actor.y--;
+                        break;
+                    case 'east':
+                        schedule([actor.x, actor.y, actor.direction * 4],
+                                        [actor.x + 1, actor.y, actor.direction * 4]);
+                        actor.x++;
+                        break;
+                    case 'south':
+                        schedule([actor.x, actor.y, actor.direction * 4],
+                                        [actor.x, actor.y + 1, actor.direction * 4]);
+                        actor.y++;
+                        break;
+                    case 'west':
+                        schedule([actor.x, actor.y, actor.direction * 4],
+                                    [actor.x - 1, actor.y, actor.direction * 4]);
+                        actor.x--;
+                        break;
+                }
+                checkFinish()
+                resolve(Sk.builtin.none.none$);
+            }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction){
             direction=Sk.ffi.remapToJs(direction)
