@@ -366,6 +366,7 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
+                        throw Error("挑战失败，请修改代码后重新尝试！")
                     }
                     switch (command) {
                         case 'north':
@@ -406,6 +407,7 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
+                        throw Error("挑战失败，请修改代码后重新尝试！")
                     }
                     switch (command) {
                         case 'north':
