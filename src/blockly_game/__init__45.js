@@ -356,6 +356,24 @@ var $builtinmodule = function (name) {
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
                     }
+                    switch (command) {
+                        case 'north':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x, actor.y - 1, actor.direction * 4]);
+                            break;
+                        case 'east':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x + 1, actor.y, actor.direction * 4]);
+                            break;
+                        case 'south':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x, actor.y + 1, actor.direction * 4]);
+                            break;
+                        case 'west':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                        [actor.x - 1, actor.y, actor.direction * 4]);
+                            break;
+                    }
                     var state=checkFinish()
                     if(state==true){
                         alert("挑战成功！")
@@ -363,23 +381,15 @@ var $builtinmodule = function (name) {
                     }
                     switch (command) {
                         case 'north':
-                            schedule([actor.x, actor.y, actor.direction * 4],
-                                            [actor.x, actor.y - 1, actor.direction * 4]);
                             actor.y--;
                             break;
                         case 'east':
-                            schedule([actor.x, actor.y, actor.direction * 4],
-                                            [actor.x + 1, actor.y, actor.direction * 4]);
                             actor.x++;
                             break;
                         case 'south':
-                            schedule([actor.x, actor.y, actor.direction * 4],
-                                            [actor.x, actor.y + 1, actor.direction * 4]);
                             actor.y++;
                             break;
                         case 'west':
-                            schedule([actor.x, actor.y, actor.direction * 4],
-                                        [actor.x - 1, actor.y, actor.direction * 4]);
                             actor.x--;
                             break;
                     }
@@ -395,30 +405,39 @@ var $builtinmodule = function (name) {
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
                     }
-                    var state=checkFinish()
-                    if(state==true){
-                        alert("挑战成功！")
-                        resolve(Sk.builtin.none.none$);
-                    }
                     switch (command) {
                         case 'north':
                             schedule([actor.x, actor.y, actor.direction * 4],
                                             [actor.x, actor.y - 1, actor.direction * 4]);
-                            actor.y--;
                             break;
                         case 'east':
                             schedule([actor.x, actor.y, actor.direction * 4],
                                             [actor.x + 1, actor.y, actor.direction * 4]);
-                            actor.x++;
                             break;
                         case 'south':
                             schedule([actor.x, actor.y, actor.direction * 4],
                                             [actor.x, actor.y + 1, actor.direction * 4]);
-                            actor.y++;
                             break;
                         case 'west':
                             schedule([actor.x, actor.y, actor.direction * 4],
                                         [actor.x - 1, actor.y, actor.direction * 4]);
+                            break;
+                    }
+                    var state=checkFinish()
+                    if(state==true){
+                        alert("挑战成功！")
+                    }
+                    switch (command) {
+                        case 'north':
+                            actor.y--;
+                            break;
+                        case 'east':
+                            actor.x++;
+                            break;
+                        case 'south':
+                            actor.y++;
+                            break;
+                        case 'west':
                             actor.x--;
                             break;
                     }
