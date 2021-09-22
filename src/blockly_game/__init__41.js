@@ -378,7 +378,7 @@ var $builtinmodule = function (name) {
                     }
                     checkFinish()
                     resolve(Sk.builtin.none.none$);
-                }, 500);
+                }, 800);
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self) {
@@ -413,7 +413,7 @@ var $builtinmodule = function (name) {
                     }
                     checkFinish()
                     resolve(Sk.builtin.none.none$);
-                }, 500);
+                }, 800);
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction){
@@ -433,7 +433,7 @@ var $builtinmodule = function (name) {
                     }
                     checkFinish()
                     resolve(Sk.builtin.none.none$);
-                }, 500);
+                }, 800);
             }));
         })
     }, "Actor")
