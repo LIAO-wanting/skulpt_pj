@@ -2,7 +2,7 @@ var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("blocklygame")};
     
     //其他变量设置
-    var maze_level=0
+    var maze_level=1
     var map=[//迷宫布局
         //Level1
         [[0, 0, 0, 0, 0, 0, 0, 0],
