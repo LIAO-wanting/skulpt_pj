@@ -2,7 +2,7 @@ var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("blocklygame")};
     
     //其他变量设置
-    var maze_level=1
+    var maze_level=0
     var map=[//迷宫布局
         //Level1
         [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -213,7 +213,9 @@ var $builtinmodule = function (name) {
         maze.result = actor.x != maze.finish.x || actor.y != maze.finish.y ?
         ResultType.UNSET : ResultType.SUCCESS;
         if(maze.result==ResultType.SUCCESS){
-            alert("挑战成功！")
+            return true
+        }else{
+            return false
         }
     }
     /**
@@ -376,7 +378,10 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
-                    checkFinish()
+                    var state=checkFinish()
+                    if(state==true){
+                        alert("挑战成功！")
+                    }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
@@ -411,7 +416,10 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
-                    checkFinish()
+                    var state=checkFinish()
+                    if(state==true){
+                        alert("挑战成功！")
+                    }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
@@ -431,11 +439,18 @@ var $builtinmodule = function (name) {
                             actor.direction = constrainDirection4(actor.direction + 1);
                             break;
                     }
-                    checkFinish()
+                    var state=checkFinish()
+                    if(state==true){
+                        alert("挑战成功！")
+                    }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
-        })
+        });
+        $loc.isDone=new Sk.builtin.func(function(self){
+            return Sk.ffi.remapToPy(checkFinish())
+        });
+
     }, "Actor")
 
 	return mod;
