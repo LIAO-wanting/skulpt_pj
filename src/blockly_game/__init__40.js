@@ -348,84 +348,93 @@ var $builtinmodule = function (name) {
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                var command= move(0) //0为向前移动
-                if(command==false){
-                    maze.result=ResultType.FAILURE
-                    alert("挑战失败")
-                }
-                switch (command) {
-                    case 'north':
-                        schedule([actor.x, actor.y, actor.direction * 4],
-                                        [actor.x, actor.y - 1, actor.direction * 4]);
-                        actor.y--;
-                        break;
-                    case 'east':
-                        schedule([actor.x, actor.y, actor.direction * 4],
-                                        [actor.x + 1, actor.y, actor.direction * 4]);
-                        actor.x++;
-                        break;
-                    case 'south':
-                        schedule([actor.x, actor.y, actor.direction * 4],
-                                        [actor.x, actor.y + 1, actor.direction * 4]);
-                        actor.y++;
-                        break;
-                    case 'west':
-                        schedule([actor.x, actor.y, actor.direction * 4],
-                                    [actor.x - 1, actor.y, actor.direction * 4]);
-                        actor.x--;
-                        break;
-                }
-                checkFinish()
-                resolve(Sk.builtin.none.none$);
+                Sk.setTimeout(function() {
+                    var command= move(0) //0为向前移动
+                    if(command==false){
+                        maze.result=ResultType.FAILURE
+                        alert("挑战失败")
+                    }
+                    switch (command) {
+                        case 'north':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x, actor.y - 1, actor.direction * 4]);
+                            actor.y--;
+                            break;
+                        case 'east':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x + 1, actor.y, actor.direction * 4]);
+                            actor.x++;
+                            break;
+                        case 'south':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x, actor.y + 1, actor.direction * 4]);
+                            actor.y++;
+                            break;
+                        case 'west':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                        [actor.x - 1, actor.y, actor.direction * 4]);
+                            actor.x--;
+                            break;
+                    }
+                    checkFinish()
+                    resolve(Sk.builtin.none.none$);
+                }, 500);
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self) {
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                var command= move(2) //2为向后运动
-                if(command==false){
-                    maze.result=ResultType.FAILURE
-                    alert("挑战失败")
-                }
-                switch (command) {
-                    case 'north':
-                        schedule([actor.x, actor.y, actor.direction * 4],
-                                        [actor.x, actor.y - 1, actor.direction * 4]);
-                        actor.y--;
-                        break;
-                    case 'east':
-                        schedule([actor.x, actor.y, actor.direction * 4],
-                                        [actor.x + 1, actor.y, actor.direction * 4]);
-                        actor.x++;
-                        break;
-                    case 'south':
-                        schedule([actor.x, actor.y, actor.direction * 4],
-                                        [actor.x, actor.y + 1, actor.direction * 4]);
-                        actor.y++;
-                        break;
-                    case 'west':
-                        schedule([actor.x, actor.y, actor.direction * 4],
-                                    [actor.x - 1, actor.y, actor.direction * 4]);
-                        actor.x--;
-                        break;
-                }
-                checkFinish()
-                resolve(Sk.builtin.none.none$);
+                Sk.setTimeout(function() {
+                    var command= move(2) //2为向后运动
+                    if(command==false){
+                        maze.result=ResultType.FAILURE
+                        alert("挑战失败")
+                    }
+                    switch (command) {
+                        case 'north':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x, actor.y - 1, actor.direction * 4]);
+                            actor.y--;
+                            break;
+                        case 'east':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x + 1, actor.y, actor.direction * 4]);
+                            actor.x++;
+                            break;
+                        case 'south':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x, actor.y + 1, actor.direction * 4]);
+                            actor.y++;
+                            break;
+                        case 'west':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                        [actor.x - 1, actor.y, actor.direction * 4]);
+                            actor.x--;
+                            break;
+                    }
+                    checkFinish()
+                    resolve(Sk.builtin.none.none$);
+                }, 500);
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction){
-            direction=Sk.ffi.remapToJs(direction)
-            var command=turn(direction)
-            switch (command) {
-                case 'left':
-                    schedule([actor.x, actor.y, actor.direction * 4], [actor.x, actor.y, actor.direction * 4 - 4]);
-                    actor.direction = constrainDirection4(actor.direction - 1);
-                    break;
-                case 'right':
-                    schedule([actor.x, actor.y, actor.direction * 4], [actor.x, actor.y, actor.direction * 4 + 4]);
-                    actor.direction = constrainDirection4(actor.direction + 1);
-                    break;
-            }
-            checkFinish()
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                Sk.setTimeout(function() {
+                    direction=Sk.ffi.remapToJs(direction)
+                    var command=turn(direction)
+                    switch (command) {
+                        case 'left':
+                            schedule([actor.x, actor.y, actor.direction * 4], [actor.x, actor.y, actor.direction * 4 - 4]);
+                            actor.direction = constrainDirection4(actor.direction - 1);
+                            break;
+                        case 'right':
+                            schedule([actor.x, actor.y, actor.direction * 4], [actor.x, actor.y, actor.direction * 4 + 4]);
+                            actor.direction = constrainDirection4(actor.direction + 1);
+                            break;
+                    }
+                    checkFinish()
+                    resolve(Sk.builtin.none.none$);
+                }, 500);
+            }));
         })
     }, "Actor")
 
