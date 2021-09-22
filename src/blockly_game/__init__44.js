@@ -356,6 +356,11 @@ var $builtinmodule = function (name) {
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
                     }
+                    var state=checkFinish()
+                    if(state==true){
+                        alert("挑战成功！")
+                        resolve(Sk.builtin.none.none$);
+                    }
                     switch (command) {
                         case 'north':
                             schedule([actor.x, actor.y, actor.direction * 4],
@@ -377,10 +382,6 @@ var $builtinmodule = function (name) {
                                         [actor.x - 1, actor.y, actor.direction * 4]);
                             actor.x--;
                             break;
-                    }
-                    var state=checkFinish()
-                    if(state==true){
-                        alert("挑战成功！")
                     }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
@@ -394,6 +395,11 @@ var $builtinmodule = function (name) {
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
                     }
+                    var state=checkFinish()
+                    if(state==true){
+                        alert("挑战成功！")
+                        resolve(Sk.builtin.none.none$);
+                    }
                     switch (command) {
                         case 'north':
                             schedule([actor.x, actor.y, actor.direction * 4],
@@ -415,10 +421,6 @@ var $builtinmodule = function (name) {
                                         [actor.x - 1, actor.y, actor.direction * 4]);
                             actor.x--;
                             break;
-                    }
-                    var state=checkFinish()
-                    if(state==true){
-                        alert("挑战成功！")
                     }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
@@ -438,10 +440,6 @@ var $builtinmodule = function (name) {
                             schedule([actor.x, actor.y, actor.direction * 4], [actor.x, actor.y, actor.direction * 4 + 4]);
                             actor.direction = constrainDirection4(actor.direction + 1);
                             break;
-                    }
-                    var state=checkFinish()
-                    if(state==true){
-                        alert("挑战成功！")
                     }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
