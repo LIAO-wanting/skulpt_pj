@@ -2,7 +2,7 @@ var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("blocklygame")};
     
     //其他变量设置
-    var maze_level=1
+    var maze_level=2
     var map=[//迷宫布局
         //Level1
         [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -21,6 +21,16 @@ var $builtinmodule = function (name) {
         [0, 2, 1, 1, 1, 1, 3, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]],
+        //level3
+        // Level 6.
+        [[0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 0, 0],
+        [0, 1, 0, 0, 0, 1, 0, 0],
+        [0, 1, 1, 3, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 2, 1, 1, 1, 1, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0]],
     ][maze_level]
     var DirectionType={//角色方向的类型
@@ -349,6 +359,7 @@ var $builtinmodule = function (name) {
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
+            Sk.builtin.pyCheckArgs("moveForward", arguments, 1, 1);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(0) //0为向前移动
@@ -388,6 +399,7 @@ var $builtinmodule = function (name) {
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self) {
+            Sk.builtin.pyCheckArgs("moveBackward", arguments, 1, 1);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(2) //2为向后运动
@@ -426,6 +438,8 @@ var $builtinmodule = function (name) {
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction){
+            Sk.builtin.pyCheckArgs("turn", arguments, 2, 2);
+            Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     direction=Sk.ffi.remapToJs(direction)
@@ -445,7 +459,24 @@ var $builtinmodule = function (name) {
             }));
         });
         $loc.isDone=new Sk.builtin.func(function(self){
+            Sk.builtin.pyCheckArgs("isDone", arguments, 1, 1);
             return Sk.ffi.remapToPy(checkFinish())
+        });
+        $loc.isPath=new Sk.builtin.func(function(self,direction){
+            Sk.builtin.pyCheckArgs("isPath", arguments, 2, 2);
+            Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
+            direction=Sk.ffi.remapToJs(direction)
+            var state=false
+            switch (direction) {
+                case 'left':
+                    direction= 3
+                    state=isPath(direction, null)
+                    return state
+                case 'right':
+                    direction= 1
+                    state=isPath(direction, null)
+                    return state
+            }
         });
 
     }, "Actor")
