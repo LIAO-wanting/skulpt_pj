@@ -392,7 +392,9 @@ var $builtinmodule = function (name) {
                     }
                     var state=checkFinish()
                     if(state==true){
-                        alert("挑战成功！")
+                        setTimeout(function() {
+                            alert("挑战成功！");
+                        },1000)
                         resolve(Sk.builtin.none.none$);
                     }
                     resolve(Sk.builtin.none.none$);
@@ -433,7 +435,9 @@ var $builtinmodule = function (name) {
                     }
                     var state=checkFinish()
                     if(state==true){
-                        alert("挑战成功！")
+                        setTimeout(function() {
+                            alert("挑战成功！");
+                        },1000)
                     }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
