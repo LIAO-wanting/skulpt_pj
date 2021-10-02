@@ -346,6 +346,11 @@ var $builtinmodule = function (name) {
         }, actor.stepSpeed * 3)
     };
 
+    var highlight = function(id) {
+        Sk.ffi.remapToJs(id)
+        Blockly.mainWorkspace.highlightBlock(id);
+    };
+
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size ) {
                 img= Sk.ffi.remapToJs(img) || 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';
@@ -358,8 +363,9 @@ var $builtinmodule = function (name) {
                 init()
         });
         // func: Actor.moveForward()
-        $loc.moveForward=new Sk.builtin.func(function(self) {
+        $loc.moveForward=new Sk.builtin.func(function(self , id) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 1, 1);
+            highlight(id)
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(0) //0为向前移动
