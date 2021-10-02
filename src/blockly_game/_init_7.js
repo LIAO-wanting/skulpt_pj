@@ -365,7 +365,6 @@ var $builtinmodule = function (name) {
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self , id) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
-            highlight(id)
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(0) //0为向前移动
@@ -396,6 +395,7 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    highlight(id)
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
