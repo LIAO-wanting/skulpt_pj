@@ -355,8 +355,8 @@ var $builtinmodule = function (name) {
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self , id) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
-            // return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-            //     Sk.setTimeout(function() {
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                Sk.setTimeout(function() {
                     highlight(id)
                     var command= move(0) //0为向前移动
                     if(command==false){
@@ -391,16 +391,16 @@ var $builtinmodule = function (name) {
                         setTimeout(function() {
                             alert("挑战成功！");
                         },1000)
-                        // resolve(Sk.builtin.none.none$);
+                        resolve(Sk.builtin.none.none$);
                     }
-                //     resolve(Sk.builtin.none.none$);
-                // }, 800);
-            // }));
+                    resolve(Sk.builtin.none.none$);
+                }, 800);
+            }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self , id) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
-            // return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-            //     Sk.setTimeout(function() {
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                Sk.setTimeout(function() {
                     highlight(id)
                     var command= move(2) //2为向后运动
                     if(command==false){
@@ -436,15 +436,15 @@ var $builtinmodule = function (name) {
                             alert("挑战成功！");
                         },1000)
                     }
-            //         resolve(Sk.builtin.none.none$);
-            //     }, 800);
-            // }));
+                    resolve(Sk.builtin.none.none$);
+                }, 800);
+            }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction,id){
             Sk.builtin.pyCheckArgs("turn", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
-            // return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-            //     Sk.setTimeout(function() {
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                Sk.setTimeout(function() {
                     highlight(id)
                     direction=Sk.ffi.remapToJs(direction)
                     var command=turn(direction)
@@ -458,9 +458,9 @@ var $builtinmodule = function (name) {
                             actor.direction = constrainDirection4(actor.direction + 1);
                             break;
                     }
-            //         resolve(Sk.builtin.none.none$);
-            //     }, 800);
-            // }));
+                    resolve(Sk.builtin.none.none$);
+                }, 800);
+            }));
         });
         $loc.isDone=new Sk.builtin.func(function(self,id){
             Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
