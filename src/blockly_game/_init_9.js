@@ -482,6 +482,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
             var state=false
+            highlight(id)
             switch (direction) {
                 case 'left':
                     direction= 3
@@ -492,7 +493,6 @@ var $builtinmodule = function (name) {
                     state=isPath(direction, null)
                     return state
             }
-            highlight(id)
         });
 
     }, "Actor")
