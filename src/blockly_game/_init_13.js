@@ -366,8 +366,8 @@ var $builtinmodule = function (name) {
         $loc.moveForward=new Sk.builtin.func(function(self , id) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                highlight(id)
                 Sk.setTimeout(function() {
+                    highlight(id)
                     var command= move(0) //0为向前移动
                     if(command==false){
                         maze.result=ResultType.FAILURE
@@ -410,7 +410,6 @@ var $builtinmodule = function (name) {
         $loc.moveBackward=new Sk.builtin.func(function(self , id) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                highlight(id)
                 Sk.setTimeout(function() {
                     var command= move(2) //2为向后运动
                     if(command==false){
@@ -440,6 +439,7 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    highlight(id)
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -454,7 +454,6 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("turn", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                highlight(id)
                 Sk.setTimeout(function() {
                     direction=Sk.ffi.remapToJs(direction)
                     var command=turn(direction)
@@ -468,21 +467,27 @@ var $builtinmodule = function (name) {
                             actor.direction = constrainDirection4(actor.direction + 1);
                             break;
                     }
+                    highlight(id)
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
         });
         $loc.isDone=new Sk.builtin.func(function(self,id){
-            Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
-            highlight(id)
-            return Sk.ffi.remapToPy(checkFinish())
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                Sk.setTimeout(function() {
+                    Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
+                    highlight(id)
+                    return Sk.ffi.remapToPy(checkFinish())
+                    // resolve(Sk.builtin.none.none$);
+                }, 800);
+                
+            }));
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction,id){
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
             var state=false
-            highlight(id);
             switch (direction) {
                 case 'left':
                     direction= 3
@@ -493,6 +498,7 @@ var $builtinmodule = function (name) {
                     state=isPath(direction, null)
                     break;
             }
+            highlight(id);
             return state;
         });
 
