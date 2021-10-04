@@ -358,7 +358,7 @@ var $builtinmodule = function (name) {
                 highlight(id)
                 var isdone= Sk.ffi.remapToPy(checkFinish()); 
                 resolve(isdone);
-            }, 800);
+            }, 500);
         })
     }
 
@@ -379,12 +379,12 @@ var $builtinmodule = function (name) {
                         break;
                 };
                 resolve(state);
-            }, 800);
+            }, 500);
         })
     }
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
-        $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size ) {
+        $loc.__init__ = new Sk.builtin.func(function(self, id , img , direction , tile_SHAPES , size ) {
                 img= Sk.ffi.remapToJs(img) || 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';
                 actor.img = Sk.ffi.remapToJs(img);
 
@@ -392,6 +392,7 @@ var $builtinmodule = function (name) {
                 tile_SHAPES = tile_SHAPES || "";
                 size=size || [52,49]//[height,width]
 
+                highlight(id)
                 init()
         });
         // func: Actor.moveForward()
@@ -432,11 +433,11 @@ var $builtinmodule = function (name) {
                     if(state==true){
                         setTimeout(function() {
                             alert("挑战成功！");
-                        },1000)
+                        },500)
                         resolve(Sk.builtin.none.none$);
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 800);
+                }, 500);
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self , id) {
@@ -476,10 +477,10 @@ var $builtinmodule = function (name) {
                     if(state==true){
                         setTimeout(function() {
                             alert("挑战成功！");
-                        },1000)
+                        },500)
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 800);
+                }, 500);
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction,id){
@@ -501,7 +502,7 @@ var $builtinmodule = function (name) {
                             break;
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 800);
+                }, 500);
             }));
         });
         $loc.isDone=new Sk.builtin.func(function(self,id){
