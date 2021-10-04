@@ -354,11 +354,11 @@ var $builtinmodule = function (name) {
     var isDone = function(id) {
         return new Promise((resolve) => {
             // Do things
-            highlight(id)
-            var isdone= Sk.ffi.remapToPy(checkFinish()); 
             setTimeout( () => {   
+                highlight(id)
+                var isdone= Sk.ffi.remapToPy(checkFinish()); 
                 resolve(isdone);
-            }, 1000);
+            }, 1800);
         })
       }
 
