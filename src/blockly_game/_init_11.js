@@ -367,6 +367,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
+                    highlight(id)
                     var command= move(0) //0为向前移动
                     if(command==false){
                         maze.result=ResultType.FAILURE
@@ -395,7 +396,6 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
-                    highlight(id)
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -411,6 +411,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
+                    highlight(id)
                     var command= move(2) //2为向后运动
                     if(command==false){
                         maze.result=ResultType.FAILURE
@@ -439,7 +440,6 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
-                    highlight(id)
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -486,14 +486,14 @@ var $builtinmodule = function (name) {
                 case 'left':
                     direction= 3
                     state=isPath(direction, null)
-                    highlight(id)
-                    return state
+                    break;
                 case 'right':
                     direction= 1
                     state=isPath(direction, null)
-                    highlight(id)
-                    return state
+                    break;
             }
+            highlight(id);
+            return state;
         });
 
     }, "Actor")
