@@ -473,15 +473,14 @@ var $builtinmodule = function (name) {
             }));
         });
         $loc.isDone=new Sk.builtin.func(function(self,id){
-            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            var promise=new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
                     highlight(id)
-                    return Sk.ffi.remapToPy(checkFinish())
-                    // resolve(Sk.builtin.none.none$);
+                    resolve(Sk.builtin.none.none$);
                 }, 800);
-                
             }));
+            return Sk.ffi.remapToPy(checkFinish())
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction,id){
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
