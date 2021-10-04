@@ -351,6 +351,17 @@ var $builtinmodule = function (name) {
         Blockly.mainWorkspace.highlightBlock(id);
     };
 
+    var isDone = function(id) {
+        return new Promise((resolve) => {
+            // Do things
+            highlight(id)
+            var isdone= Sk.ffi.remapToPy(checkFinish()); 
+            setTimeout( () => {   
+                resolve(isdone);
+            }, 1000);
+        })
+      }
+
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size ) {
                 img= Sk.ffi.remapToJs(img) || 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';
@@ -473,14 +484,8 @@ var $builtinmodule = function (name) {
             }));
         });
         $loc.isDone=new Sk.builtin.func(function(self,id){
-            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                Sk.setTimeout(function() {
-                    Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
-                    highlight(id)
-                    return Sk.ffi.remapToPy(checkFinish()) 
-                    // resolve(Sk.builtin.none.none$);
-                }, 1600);
-            }));
+            Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
+            return new Sk.misceval.promiseToSuspension(isDone(id).then((r) => Sk.ffi.remapToPy(r)));
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction,id){
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
