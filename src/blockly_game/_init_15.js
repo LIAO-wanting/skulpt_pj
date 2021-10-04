@@ -411,6 +411,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
+                    highlight(id)
                     var command= move(2) //2为向后运动
                     if(command==false){
                         maze.result=ResultType.FAILURE
@@ -439,7 +440,6 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
-                    highlight(id)
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -455,6 +455,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
+                    highlight(id)
                     direction=Sk.ffi.remapToJs(direction)
                     var command=turn(direction)
                     switch (command) {
@@ -467,26 +468,21 @@ var $builtinmodule = function (name) {
                             actor.direction = constrainDirection4(actor.direction + 1);
                             break;
                     }
-                    highlight(id)
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
         });
         $loc.isDone=new Sk.builtin.func(function(self,id){
-            var promise=new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                Sk.setTimeout(function() {
-                    Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
-                    highlight(id)
-                    resolve(Sk.builtin.none.none$);
-                }, 800);
-            }));
+            Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
+            highlight(id)
             return Sk.ffi.remapToPy(checkFinish())
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction,id){
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
-            var state=false
+            var state=false;
+            highlight(id);
             switch (direction) {
                 case 'left':
                     direction= 3
@@ -497,7 +493,6 @@ var $builtinmodule = function (name) {
                     state=isPath(direction, null)
                     break;
             }
-            highlight(id);
             return state;
         });
 
