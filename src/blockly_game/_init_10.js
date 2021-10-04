@@ -482,15 +482,16 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
             var state=false
-            highlight(id)
             switch (direction) {
                 case 'left':
                     direction= 3
                     state=isPath(direction, null)
+                    highlight(id)
                     return state
                 case 'right':
                     direction= 1
                     state=isPath(direction, null)
+                    highlight(id)
                     return state
             }
         });
