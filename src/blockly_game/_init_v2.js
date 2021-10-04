@@ -358,9 +358,30 @@ var $builtinmodule = function (name) {
                 highlight(id)
                 var isdone= Sk.ffi.remapToPy(checkFinish()); 
                 resolve(isdone);
-            }, 1800);
+            }, 800);
         })
-      }
+    }
+
+    var isPathCheck=function(direction,id) {
+        return new Promise((resolve) => {
+            // Do things
+            setTimeout( () => {   
+                var state=false;
+                highlight(id);
+                switch (direction) {
+                    case 'left':
+                        direction= 3
+                        state=isPath(direction, null)
+                        break;
+                    case 'right':
+                        direction= 1
+                        state=isPath(direction, null)
+                        break;
+                };
+                resolve(state);
+            }, 800);
+        })
+    }
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size ) {
@@ -491,19 +512,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
-            var state=false;
-            highlight(id);
-            switch (direction) {
-                case 'left':
-                    direction= 3
-                    state=isPath(direction, null)
-                    break;
-                case 'right':
-                    direction= 1
-                    state=isPath(direction, null)
-                    break;
-            }
-            return state;
+            return new Sk.misceval.promiseToSuspension(isPathCheck(direction,id).then((r) => Sk.ffi.remapToPy(r)));
         });
 
     }, "Actor")
