@@ -358,7 +358,7 @@ var $builtinmodule = function (name) {
                 highlight(id)
                 var isdone= Sk.ffi.remapToPy(checkFinish()); 
                 resolve(isdone);
-            }, 500);
+            }, 800);
         })
     }
 
@@ -379,7 +379,7 @@ var $builtinmodule = function (name) {
                         break;
                 };
                 resolve(state);
-            }, 500);
+            }, 800);
         })
     }
 
@@ -433,11 +433,11 @@ var $builtinmodule = function (name) {
                     if(state==true){
                         setTimeout(function() {
                             alert("挑战成功！");
-                        },500)
+                        },1000)
                         resolve(Sk.builtin.none.none$);
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 500);
+                }, 800);
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self , id) {
@@ -477,10 +477,10 @@ var $builtinmodule = function (name) {
                     if(state==true){
                         setTimeout(function() {
                             alert("挑战成功！");
-                        },500)
+                        },1000)
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 500);
+                }, 800);
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction,id){
@@ -502,7 +502,7 @@ var $builtinmodule = function (name) {
                             break;
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 500);
+                }, 800);
             }));
         });
         $loc.isDone=new Sk.builtin.func(function(self,id){
