@@ -402,14 +402,14 @@ var $builtinmodule = function (name) {
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self , block_id) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
+            var re=/block_id=([\s\S]*)/.exec(block_id)
+            if(re!=null){
+                block_id=re[1];
+                console.log("enter+"+block_id)
+                highlight(block_id)
+            }
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    var re=/block_id=([\s\S]*)/.exec(block_id)
-                    if(re!=null){
-                        block_id=re[1];
-                        console.log("enter+"+block_id)
-                        highlight(block_id)
-                    }
                     var command= move(0) //0为向前移动
                     if(command==false){
                         maze.result=ResultType.FAILURE
@@ -451,13 +451,13 @@ var $builtinmodule = function (name) {
         });
         $loc.moveBackward=new Sk.builtin.func(function(self ,block_id) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
+            var re=/block_id=([\s\S]*)/.exec(block_id)
+            if(re!=null){
+                block_id=re[1];
+                highlight(block_id)
+            }
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    var re=/block_id=([\s\S]*)/.exec(block_id)
-                    if(re!=null){
-                        block_id=re[1];
-                        highlight(block_id)
-                    }
                     var command= move(2) //2为向后运动
                     if(command==false){
                         maze.result=ResultType.FAILURE
@@ -499,13 +499,13 @@ var $builtinmodule = function (name) {
         $loc.turn=new Sk.builtin.func(function(self,direction,block_id){
             Sk.builtin.pyCheckArgs("turn", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
+            var re=/block_id=([\s\S]*)/.exec(block_id)
+            if(re!=null){
+                block_id=re[1];
+                highlight(block_id)
+            }
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    var re=/block_id=([\s\S]*)/.exec(block_id)
-                    if(re!=null){
-                        block_id=re[1];
-                        highlight(block_id)
-                    }
                     direction=Sk.ffi.remapToJs(direction)
                     var command=turn(direction)
                     switch (command) {
