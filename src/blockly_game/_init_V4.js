@@ -391,13 +391,17 @@ var $builtinmodule = function (name) {
                 direction =  direction || DirectionType.EAST;
                 tile_SHAPES = tile_SHAPES || "";
                 size=size || [52,49]//[height,width]
-
-                var re=/block_id=([\s\S]*)/.exec(block_id)
-                if(re!=null){
-                    block_id=re[1];
-                    highlight(block_id)
-                }
-                init()
+                return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                    Sk.setTimeout(function() {
+                        var re=/block_id=([\s\S]*)/.exec(block_id)
+                        if(re!=null){
+                            block_id=re[1];
+                            highlight(block_id)
+                        }
+                        init()
+                        resolve(Sk.builtin.none.none$);
+                    }, 800);
+                }))
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self , block_id) {
