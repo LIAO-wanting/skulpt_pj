@@ -392,7 +392,7 @@ var $builtinmodule = function (name) {
                 tile_SHAPES = tile_SHAPES || "";
                 size=size || [52,49]//[height,width]
 
-                var re=/block_id=/.exec(block_id)
+                var re=/block_id=([\s\S]*)/.exec(block_id)
                 if(re!=null){
                     block_id=re[1];
                     highlight(block_id)
@@ -404,7 +404,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    var re=/block_id='([\s\S]*)'$/.exec(block_id)
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
                     if(re!=null){
                         block_id=re[1];
                         console.log(block_id)
@@ -453,7 +453,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    var re=/block_id='([\s\S]*)'$/.exec(block_id)
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
                     if(re!=null){
                         block_id=re[1];
                         highlight(block_id)
@@ -501,7 +501,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    var re=/block_id='([\s\S]*)'$/.exec(block_id)
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
                     if(re!=null){
                         block_id=re[1];
                         highlight(block_id)
@@ -524,7 +524,7 @@ var $builtinmodule = function (name) {
         });
         $loc.isDone=new Sk.builtin.func(function(self,block_id){
             Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
-            var re=/block_id='([\s\S]*)'$/.exec(block_id)
+            var re=/block_id=([\s\S]*)/.exec(block_id)
             if(re!=null){
                 block_id=re[1];
                 highlight(block_id)
@@ -534,7 +534,7 @@ var $builtinmodule = function (name) {
         $loc.isPath=new Sk.builtin.func(function(self,direction,block_id){
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
-            var re=/block_id='([\s\S]*)'$/.exec(block_id)
+            var re=/block_id=([\s\S]*)/.exec(block_id)
             if(re!=null){
                 block_id=re[1];
                 highlight(block_id)
