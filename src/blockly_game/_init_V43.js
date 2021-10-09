@@ -358,7 +358,7 @@ var $builtinmodule = function (name) {
                 highlight(block_id)
                 var isdone= Sk.ffi.remapToPy(checkFinish()); 
                 resolve(isdone);
-            }, 900);
+            }, 1000);
         })
     }
 
@@ -379,7 +379,7 @@ var $builtinmodule = function (name) {
                         break;
                 };
                 resolve(state);
-            }, 900);
+            }, 1000);
         })
     }
 
