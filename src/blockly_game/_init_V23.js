@@ -394,7 +394,7 @@ var $builtinmodule = function (name) {
 
                 var re=/block_id=/.exec(block_id)
                 if(re!=null){
-                    block_id==re[0];
+                    block_id=re[1];
                     highlight(block_id)
                 }
                 init()
@@ -406,7 +406,7 @@ var $builtinmodule = function (name) {
                 Sk.setTimeout(function() {
                     var re=/block_id=/.exec(block_id)
                     if(re!=null){
-                        block_id=re[0];
+                        block_id=re[1];
                         console.log(block_id)
                         highlight(block_id)
                     }
@@ -455,7 +455,7 @@ var $builtinmodule = function (name) {
                 Sk.setTimeout(function() {
                     var re=/block_id=/.exec(block_id)
                     if(re!=null){
-                        block_id=re[0];
+                        block_id=re[1];
                         highlight(block_id)
                     }
                     var command= move(2) //2为向后运动
@@ -503,7 +503,7 @@ var $builtinmodule = function (name) {
                 Sk.setTimeout(function() {
                     var re=/block_id=/.exec(block_id)
                     if(re!=null){
-                        block_id=re[0];
+                        block_id=re[1];
                         highlight(block_id)
                     }
                     direction=Sk.ffi.remapToJs(direction)
@@ -526,7 +526,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
             var re=/block_id=/.exec(block_id)
             if(re!=null){
-                block_id=re[0];
+                block_id=re[1];
                 highlight(block_id)
             }
             return new Sk.misceval.promiseToSuspension(isDone(block_id).then((r) => Sk.ffi.remapToPy(r)));
@@ -536,7 +536,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             var re=/block_id=/.exec(block_id)
             if(re!=null){
-                block_id=re[0];
+                block_id=re[1];
                 highlight(block_id)
             }
             direction=Sk.ffi.remapToJs(direction)
