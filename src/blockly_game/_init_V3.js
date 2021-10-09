@@ -407,7 +407,6 @@ var $builtinmodule = function (name) {
                     var re=/block_id=([\s\S]*)/.exec(block_id)
                     if(re!=null){
                         block_id=re[1];
-                        console.log(block_id)
                         highlight(block_id)
                     }
                     var command= move(0) //0为向前移动
