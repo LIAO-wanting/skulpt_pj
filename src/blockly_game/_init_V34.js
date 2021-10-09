@@ -405,7 +405,6 @@ var $builtinmodule = function (name) {
             var re=/block_id=([\s\S]*)/.exec(block_id)
             if(re!=null){
                 block_id=re[1];
-                console.log("enter+"+block_id)
                 highlight(block_id)
             }
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
@@ -446,7 +445,7 @@ var $builtinmodule = function (name) {
                         resolve(Sk.builtin.none.none$);
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 700);
+                }, 800);
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self ,block_id) {
@@ -493,7 +492,7 @@ var $builtinmodule = function (name) {
                         },1000)
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 700);
+                }, 800);
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction,block_id){
