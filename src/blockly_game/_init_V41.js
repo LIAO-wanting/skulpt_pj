@@ -391,14 +391,15 @@ var $builtinmodule = function (name) {
                 direction =  direction || DirectionType.EAST;
                 tile_SHAPES = tile_SHAPES || "";
                 size=size || [52,49]//[height,width]
+                init()
                 return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                     Sk.setTimeout(function() {
                         var re=/block_id=([\s\S]*)/.exec(block_id)
                         if(re!=null){
                             block_id=re[1];
+                            console.log(block_id)
                             highlight(block_id)
                         }
-                        init()
                         resolve(Sk.builtin.none.none$);
                     }, 800);
                 }))
@@ -406,11 +407,6 @@ var $builtinmodule = function (name) {
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self , block_id) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
-            var re=/block_id=([\s\S]*)/.exec(block_id)
-            if(re!=null){
-                block_id=re[1];
-                highlight(block_id)
-            }
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(0) //0为向前移动
@@ -441,6 +437,11 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -454,11 +455,6 @@ var $builtinmodule = function (name) {
         });
         $loc.moveBackward=new Sk.builtin.func(function(self ,block_id) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
-            var re=/block_id=([\s\S]*)/.exec(block_id)
-            if(re!=null){
-                block_id=re[1];
-                highlight(block_id)
-            }
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(2) //2为向后运动
@@ -489,6 +485,11 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -502,11 +503,6 @@ var $builtinmodule = function (name) {
         $loc.turn=new Sk.builtin.func(function(self,direction,block_id){
             Sk.builtin.pyCheckArgs("turn", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
-            var re=/block_id=([\s\S]*)/.exec(block_id)
-            if(re!=null){
-                block_id=re[1];
-                highlight(block_id)
-            }
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     direction=Sk.ffi.remapToJs(direction)
@@ -520,6 +516,11 @@ var $builtinmodule = function (name) {
                             schedule([actor.x, actor.y, actor.direction * 4], [actor.x, actor.y, actor.direction * 4 + 4]);
                             actor.direction = constrainDirection4(actor.direction + 1);
                             break;
+                    }
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
                     }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
