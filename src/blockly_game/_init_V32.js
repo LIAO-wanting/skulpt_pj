@@ -446,7 +446,7 @@ var $builtinmodule = function (name) {
                         resolve(Sk.builtin.none.none$);
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 800);
+                }, 700);
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self ,block_id) {
@@ -493,7 +493,7 @@ var $builtinmodule = function (name) {
                         },1000)
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 800);
+                }, 700);
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction,block_id){
