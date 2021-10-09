@@ -355,10 +355,15 @@ var $builtinmodule = function (name) {
         return new Promise((resolve) => {
             // Do things
             setTimeout( () => {   
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
                 highlight(block_id)
                 var isdone= Sk.ffi.remapToPy(checkFinish()); 
                 resolve(isdone);
-            }, 1000);
+            }, 800);
         })
     }
 
@@ -367,6 +372,11 @@ var $builtinmodule = function (name) {
             // Do things
             setTimeout( () => {   
                 var state=false;
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
                 highlight(block_id);
                 switch (direction) {
                     case 'left':
@@ -379,7 +389,7 @@ var $builtinmodule = function (name) {
                         break;
                 };
                 resolve(state);
-            }, 1000);
+            }, 800);
         })
     }
 
@@ -391,18 +401,13 @@ var $builtinmodule = function (name) {
                 direction =  direction || DirectionType.EAST;
                 tile_SHAPES = tile_SHAPES || "";
                 size=size || [52,49]//[height,width]
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    console.log(block_id)
+                    highlight(block_id)
+                }
                 init()
-                return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                    Sk.setTimeout(function() {
-                        var re=/block_id=([\s\S]*)/.exec(block_id)
-                        if(re!=null){
-                            block_id=re[1];
-                            console.log(block_id)
-                            highlight(block_id)
-                        }
-                        resolve(Sk.builtin.none.none$);
-                    }, 800);
-                }))
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self , block_id) {
@@ -528,21 +533,11 @@ var $builtinmodule = function (name) {
         });
         $loc.isDone=new Sk.builtin.func(function(self,block_id){
             Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
-            var re=/block_id=([\s\S]*)/.exec(block_id)
-            if(re!=null){
-                block_id=re[1];
-                highlight(block_id)
-            }
             return new Sk.misceval.promiseToSuspension(isDone(block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction,block_id){
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
-            var re=/block_id=([\s\S]*)/.exec(block_id)
-            if(re!=null){
-                block_id=re[1];
-                highlight(block_id)
-            }
             direction=Sk.ffi.remapToJs(direction)
             return new Sk.misceval.promiseToSuspension(isPathCheck(direction,block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
