@@ -333,7 +333,17 @@ var $builtinmodule = function (name) {
      * @param {!Array.<number>} endPos X, Y and direction ending points.
      */
     var schedule = function(startPos, endPos) {
-        displayPegman(endPos[0], endPos[1], constrainDirection16(endPos[2]));
+        var deltas = [(endPos[0] - startPos[0]) / 4, (endPos[1] - startPos[1]) / 4, (endPos[2] - startPos[2]) / 4];
+        displayPegman(startPos[0] + deltas[0], startPos[1] + deltas[1], constrainDirection16(startPos[2] + deltas[2]));
+        setTimeout(function() {
+            displayPegman(startPos[0] + deltas[0] * 2, startPos[1] + deltas[1] * 2, constrainDirection16(startPos[2] + deltas[2] * 2));
+        }, actor.stepSpeed);
+        setTimeout(function() {
+            displayPegman(startPos[0] + deltas[0] * 3, startPos[1] + deltas[1] * 3, constrainDirection16(startPos[2] + deltas[2] * 3));
+        }, actor.stepSpeed * 2)
+        setTimeout(function() {
+            displayPegman(endPos[0], endPos[1], constrainDirection16(endPos[2]));
+        }, actor.stepSpeed * 3)
     };
 
     var highlight = function(id) {
@@ -341,23 +351,78 @@ var $builtinmodule = function (name) {
         Blockly.mainWorkspace.highlightBlock(id);
     };
 
+    var isDone = function(block_id) {
+        return new Promise((resolve) => {
+            // Do things
+            setTimeout( () => {   
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
+                highlight(block_id)
+                var isdone= Sk.ffi.remapToPy(checkFinish()); 
+                resolve(isdone);
+            }, 800);
+        })
+    }
+
+    var isPathCheck=function(direction,block_id) {
+        return new Promise((resolve) => {
+            // Do things
+            setTimeout( () => {   
+                var state=false;
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
+                highlight(block_id);
+                switch (direction) {
+                    case 'left':
+                        direction= 3
+                        state=isPath(direction, null)
+                        break;
+                    case 'right':
+                        direction= 1
+                        state=isPath(direction, null)
+                        break;
+                };
+                resolve(state);
+            }, 800);
+        })
+    }
+
+    var highlight_f=function(block_id) {
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            setTimeout( () => {   
+                highlight(block_id)
+                resolve(Sk.builtin.none.none$);
+            }, 800);
+        }));
+    }
+    mod.highlight = new Sk.builtin.func(highlight_f);
+
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
-        $loc.__init__ = new Sk.builtin.func(function(self, img , direction , tile_SHAPES , size ) {
+        $loc.__init__ = new Sk.builtin.func(function(self, block_id , img , direction , tile_SHAPES , size ) {
                 img= Sk.ffi.remapToJs(img) || 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';
                 actor.img = Sk.ffi.remapToJs(img);
 
                 direction =  direction || DirectionType.EAST;
                 tile_SHAPES = tile_SHAPES || "";
                 size=size || [52,49]//[height,width]
-
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
                 init()
         });
         // func: Actor.moveForward()
-        $loc.moveForward=new Sk.builtin.func(function(self , id) {
+        $loc.moveForward=new Sk.builtin.func(function(self , block_id) {
             Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    highlight(id)
                     var command= move(0) //0为向前移动
                     if(command==false){
                         maze.result=ResultType.FAILURE
@@ -386,6 +451,11 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -397,11 +467,10 @@ var $builtinmodule = function (name) {
                 }, 800);
             }));
         });
-        $loc.moveBackward=new Sk.builtin.func(function(self , id) {
+        $loc.moveBackward=new Sk.builtin.func(function(self ,block_id) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    highlight(id)
                     var command= move(2) //2为向后运动
                     if(command==false){
                         maze.result=ResultType.FAILURE
@@ -430,6 +499,11 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -440,12 +514,11 @@ var $builtinmodule = function (name) {
                 }, 800);
             }));
         });
-        $loc.turn=new Sk.builtin.func(function(self,direction,id){
+        $loc.turn=new Sk.builtin.func(function(self,direction,block_id){
             Sk.builtin.pyCheckArgs("turn", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
-                    highlight(id)
                     direction=Sk.ffi.remapToJs(direction)
                     var command=turn(direction)
                     switch (command) {
@@ -458,32 +531,24 @@ var $builtinmodule = function (name) {
                             actor.direction = constrainDirection4(actor.direction + 1);
                             break;
                     }
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
         });
-        $loc.isDone=new Sk.builtin.func(function(self,id){
+        $loc.isDone=new Sk.builtin.func(function(self,block_id){
             Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
-            highlight(id)
-            return Sk.ffi.remapToPy(checkFinish())
+            return new Sk.misceval.promiseToSuspension(isDone(block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
-        $loc.isPath=new Sk.builtin.func(function(self,direction,id){
+        $loc.isPath=new Sk.builtin.func(function(self,direction,block_id){
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
-            var state=false;
-            highlight(id);
-            switch (direction) {
-                case 'left':
-                    direction= 3
-                    state=isPath(direction, null)
-                    break;
-                case 'right':
-                    direction= 1
-                    state=isPath(direction, null)
-                    break;
-            }
-            return state;
+            return new Sk.misceval.promiseToSuspension(isPathCheck(direction,block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
 
     }, "Actor")
