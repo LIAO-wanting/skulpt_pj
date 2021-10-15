@@ -347,7 +347,7 @@ var $builtinmodule = function (name) {
     };
 
     var highlight = function(id) {
-        Sk.ffi.remapToJs(id)
+        id=Sk.ffi.remapToJs(id)
         Blockly.mainWorkspace.highlightBlock(id);
     };
 
