@@ -122,8 +122,8 @@ var $builtinmodule = function (name) {
 
     var drawMap=function(){
         var svg = d3.select('#blocklySVG').append('svg');
-        // var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
-        // svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
+        var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
+        svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
 
         // 绘制外框
         svg.append('rect').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
@@ -176,7 +176,7 @@ var $builtinmodule = function (name) {
             }
         }
         // 绘制终点图标
-        svg.append('image').attr('id','finish').attr('width',  maze_SQUARE_SIZE).attr('height',  maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
+        svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
 
         //定位：精灵与终点初始的位置
         // Locate the start and finish squares.
@@ -343,8 +343,8 @@ var $builtinmodule = function (name) {
         M_y = Sk.ffi.remapToJs(M_y);
         maze_COLS=M_x;
         maze_ROWS=M_y;
-        maze.MAZE_HEIGHT= maze_SQUARE_SIZE * maze_COLS;
-        maze.MAZE_WIDTH=maze_SQUARE_SIZE * maze_ROWS;
+        maze.MAZE_WIDTH= maze_SQUARE_SIZE * maze_COLS;
+        maze.MAZE_HEIGHT=maze_SQUARE_SIZE * maze_ROWS;
 
         startPos =Sk.ffi.remapToJs(startPos)
         endPos =Sk.ffi.remapToJs(endPos)
