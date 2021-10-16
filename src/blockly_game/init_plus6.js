@@ -339,13 +339,13 @@ var $builtinmodule = function (name) {
         M_x = Sk.ffi.remapToJs(M_x);
         M_y = Sk.ffi.remapToJs(M_y);
         startPos =Sk.ffi.remapToJs(startPos)
-        startPos =Sk.ffi.remapToJs(endPos)
+        endPos =Sk.ffi.remapToJs(endPos)
         maze.background = Sk.ffi.remapToJs(bg_pic)
 
         for (var i=0; i<M_y; i++){ 
             var b = [];  //辅助数组
             for(var j=0; j<M_x; j++){ 
-                var pos='('+j+','+i+')'
+                var pos='('+(j+1)+','+(i+1)+')'
                 if( pos==startPos){
                     b[j]=maze.SquareType.START;
                 }else if(pos==endPos){
@@ -356,7 +356,7 @@ var $builtinmodule = function (name) {
             }
             map[i]=b;
         }
-
+        console.log(map)
     }
 	mod.setMap = new Sk.builtin.func(setMap_f);
 
