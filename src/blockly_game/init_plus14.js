@@ -368,6 +368,29 @@ var $builtinmodule = function (name) {
     }
 	mod.setMap = new Sk.builtin.func(setMap_f);
 
+    /**
+     * 设置路径类型，如果不对路径形状进行设置，则默认为方格.
+     * 
+     * @param {string} path_type代表可通行路径的样式，默认为null
+     */
+    var setPathType_f=function(path_type) { 
+        Sk.builtin.pyCheckArgs("setPathType", arguments, 1, 1);
+        path_type = Sk.ffi.remapToJs(path_type);
+        switch (path_type){
+            case "default":
+                maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png';//默认为方格
+                break;
+            case "pipeline":
+                maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_astro.png';//设置为管道
+                break;
+            case "bamboo":
+                maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_panda.png';//设置为竹子
+                break;
+        }
+
+    }
+	mod.setPathType = new Sk.builtin.func(ssetPathType_f);
+
     
     var initMap_f=function() {
         drawMap()
