@@ -389,7 +389,7 @@ var $builtinmodule = function (name) {
         }
 
     }
-	mod.setPathType = new Sk.builtin.func(ssetPathType_f);
+	mod.setPathType = new Sk.builtin.func(setPathType_f);
 
     
     var initMap_f=function() {
