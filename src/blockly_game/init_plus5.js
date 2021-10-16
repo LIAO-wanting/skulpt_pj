@@ -4,18 +4,7 @@ var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("blocklygame")};
     
     //其他变量设置
-    var maze_level=2
-    var map=[//迷宫布局
-        //Level1
-        [[0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 3, 0, 0, 0],
-        [0, 0, 2, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0]],
-        //level2
+    var map=//迷宫布局
         [[0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -23,18 +12,7 @@ var $builtinmodule = function (name) {
         [0, 2, 1, 1, 1, 1, 3, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0]],
-        //level3
-        // Level 6.
-        [[0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 1, 1, 1, 1, 0, 0],
-        [0, 1, 0, 0, 0, 1, 0, 0],
-        [0, 1, 1, 3, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 1, 0, 0],
-        [0, 2, 1, 1, 1, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0]],
-    ][maze_level]
+        [0, 0, 0, 0, 0, 0, 0, 0]]
     var DirectionType={//角色方向的类型
         NORTH: 0,
         EAST: 1,
@@ -130,6 +108,18 @@ var $builtinmodule = function (name) {
         clipRect.attr('y', pegmanIcon.attr('y'));
       };
 
+    var initPegman=function(){
+        // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
+        svg.append('clipPath').attr('id','pegmanClipPath')
+        d3.select("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.width).attr('height', actor.height)
+
+        //绘制精灵.
+        svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
+        .attr('xlink:href',actor.img)
+
+        displayPegman(actor.x , actor.y , actor.direction*4 )
+    }
+
     var drawMap=function(){
         var svg = d3.select('#blocklySVG').append('svg');
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
@@ -185,14 +175,6 @@ var $builtinmodule = function (name) {
 
         // 绘制终点图标
         svg.append('image').attr('id','finish').attr('width', 20).attr('height', 34).attr('xlink:href',maze.marker)
-        
-        // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
-        svg.append('clipPath').attr('id','pegmanClipPath')
-        d3.select("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.height).attr('height', actor.height)
-
-        //绘制精灵.
-        svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
-        .attr('xlink:href',actor.img)
 
         //定位：精灵与终点初始的位置
         // Locate the start and finish squares.
@@ -201,7 +183,6 @@ var $builtinmodule = function (name) {
                 if (map[y][x] == maze.SquareType.START) {
                     actor.x= x;
                     actor.y= y;
-                    displayPegman(actor.x , actor.y , actor.direction*4 )
                 } else if (map[y][x] == maze.SquareType.FINISH) {
                     // Move the finish icon into position.
                     var finishIcon = $('#finish');
@@ -214,10 +195,6 @@ var $builtinmodule = function (name) {
             }
         }
 
-    }
-
-    var init=function(){
-        drawMap();
     }
 
     //检查是否已到终点
@@ -348,17 +325,59 @@ var $builtinmodule = function (name) {
         }, actor.stepSpeed * 3)
     };
 
+    /**
+     * 设置地图属性.
+     * @param {number} M_x为地图横向方格的数目（范围为2-10）,初始默认为8
+     * @param {number} M_y为地图竖向方格的数目（范围为2-10）,初始默认为8
+     * @param {string} startPos X, Y 起点位置的坐标.
+     * @param {string} endPos X, Y 终点位置的坐标
+     * @param {string} bg_pic为地图背景的图片
+     */
+    var setMap_f=function(M_x , M_y , startPos , endPos , bg_pic) {
+        Sk.builtin.pyCheckArgs("setMap", arguments, 5, 5);
+        map=[]
+        M_x = Sk.ffi.remapToJs(M_x);
+        M_y = Sk.ffi.remapToJs(M_y);
+        startPos =Sk.ffi.remapToJs(startPos)
+        startPos =Sk.ffi.remapToJs(endPos)
+        maze.background = Sk.ffi.remapToJs(bg_pic)
+
+        for (var i=0; i<M_y; i++){ 
+            var b = [];  //辅助数组
+            for(var j=0; j<M_x; j++){ 
+                var pos='('+j+','+i+')'
+                if( pos==startPos){
+                    b[j]=maze.SquareType.START;
+                }else if(pos==endPos){
+                    b[j]=maze.SquareType.FINISH;
+                }else{
+                    b[j]=maze.SquareType.OPEN;
+                }
+            }
+            map[i]=b;
+        }
+
+    }
+	mod.setMap = new Sk.builtin.func(setMap_f);
+
+    
+    var initMap_f=function() {
+        drawMap()
+    }
+	mod.initMap = new Sk.builtin.func(initMap_f);
+
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
-        $loc.__init__ = new Sk.builtin.func(function(self,  img , direction , tile_SHAPES , size ) {
+        $loc.__init__ = new Sk.builtin.func(function(self,  img , direction , tile_SHAPES) {
+
                 img= Sk.ffi.remapToJs(img) || 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';
                 actor.img = Sk.ffi.remapToJs(img);
 
                 direction =  direction || DirectionType.EAST;
                 tile_SHAPES = tile_SHAPES || "";
-                size=size || [52,49]//[height,width]
+                size=size || [52,49]//[height,width]//size需要根据方格的数目来确定
                 
-                init()
+                initPegman()
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
