@@ -128,10 +128,14 @@ var $builtinmodule = function (name) {
         // 绘制外框
         svg.append('rect').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
         .style('fill','#F1EEE7').style('stroke','#CCB').style('stroke-width','1');
-        //绘制迷宫背景
-        svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
-        .attr('xlink:href',maze.background)
-
+        
+        for (var y = 0; y < maze_ROWS; y++) {
+            for (var x = 0; x < maze_COLS; x++) {
+                //绘制迷宫背景
+                svg.append('image').attr('x', x*maze_SQUARE_SIZE).attr('y', y*maze_SQUARE_SIZE).attr('width', maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                .attr('xlink:href',maze.background)
+            }
+        }
         //初始化地图
         var normalize = function(x, y) {
             if (x < 0 || x >= maze_COLS || y < 0 || y >= maze_ROWS) {
@@ -174,7 +178,7 @@ var $builtinmodule = function (name) {
         }
         console.log("2")
         // 绘制终点图标
-        svg.append('image').attr('id','finish').attr('width', 20).attr('height', 34).attr('xlink:href',maze.marker)
+        svg.append('image').attr('id','finish').attr('width',  maze_SQUARE_SIZE).attr('height',  maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
 
         //定位：精灵与终点初始的位置
         // Locate the start and finish squares.
@@ -337,7 +341,7 @@ var $builtinmodule = function (name) {
     var setMap_f=function(M_x , M_y , startPos , endPos , bg_pic) {
         Sk.builtin.pyCheckArgs("setMap", arguments, 5, 5);
         map=[]
-        
+
         M_x = Sk.ffi.remapToJs(M_x);
         M_y = Sk.ffi.remapToJs(M_y);
         maze_COLS=M_x;
