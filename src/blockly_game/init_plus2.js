@@ -383,7 +383,7 @@ var $builtinmodule = function (name) {
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self) {
-            Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
+            Sk.builtin.pyCheckArgs("moveForward", arguments, 1, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(0) //0为向前移动
@@ -426,7 +426,7 @@ var $builtinmodule = function (name) {
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self) {
-            Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
+            Sk.builtin.pyCheckArgs("moveBackward", arguments, 1, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(2) //2为向后运动
@@ -468,7 +468,7 @@ var $builtinmodule = function (name) {
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction){
-            Sk.builtin.pyCheckArgs("turn", arguments, 3, 3);
+            Sk.builtin.pyCheckArgs("turn", arguments, 2, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
@@ -489,11 +489,11 @@ var $builtinmodule = function (name) {
             }));
         });
         $loc.isDone=new Sk.builtin.func(function(self){
-            Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
+            Sk.builtin.pyCheckArgs("isDone", arguments, 1, 2);
             return new Sk.misceval.promiseToSuspension(isDone(block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction){
-            Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
+            Sk.builtin.pyCheckArgs("isPath", arguments, 2, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
             return new Sk.misceval.promiseToSuspension(isPathCheck(direction,block_id).then((r) => Sk.ffi.remapToPy(r)));
