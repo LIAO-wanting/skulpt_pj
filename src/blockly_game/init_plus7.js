@@ -121,6 +121,7 @@ var $builtinmodule = function (name) {
     }
 
     var drawMap=function(){
+        console.log("0")
         var svg = d3.select('#blocklySVG').append('svg');
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
         svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
@@ -132,6 +133,7 @@ var $builtinmodule = function (name) {
         svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
         .attr('xlink:href',maze.background)
 
+        console.log("1")
         //初始化地图
         var normalize = function(x, y) {
             if (x < 0 || x >= maze_COLS || y < 0 || y >= maze_ROWS) {
@@ -172,7 +174,7 @@ var $builtinmodule = function (name) {
                 tileId++;
             }
         }
-
+        console.log("2")
         // 绘制终点图标
         svg.append('image').attr('id','finish').attr('width', 20).attr('height', 34).attr('xlink:href',maze.marker)
 
@@ -184,6 +186,7 @@ var $builtinmodule = function (name) {
                     actor.x= x;
                     actor.y= y;
                 } else if (map[y][x] == maze.SquareType.FINISH) {
+                    console.log("3")
                     // Move the finish icon into position.
                     var finishIcon = $('#finish');
                     finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
