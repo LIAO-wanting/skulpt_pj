@@ -135,7 +135,7 @@ var $builtinmodule = function (name) {
     var drawMap=function(){
         svg.attr('id','game_stage')
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
-        svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
+        svg.attr('viewBox', '0 -10 ' + scale + ' ' + (scale+10));
 
         // 绘制外框
         svg.append('rect').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
