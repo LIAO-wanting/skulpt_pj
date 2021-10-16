@@ -121,7 +121,6 @@ var $builtinmodule = function (name) {
     }
 
     var drawMap=function(){
-        console.log("0")
         var svg = d3.select('#blocklySVG').append('svg');
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
         svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
@@ -133,7 +132,6 @@ var $builtinmodule = function (name) {
         svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
         .attr('xlink:href',maze.background)
 
-        console.log("1")
         //初始化地图
         var normalize = function(x, y) {
             if (x < 0 || x >= maze_COLS || y < 0 || y >= maze_ROWS) {
@@ -151,7 +149,7 @@ var $builtinmodule = function (name) {
                     normalize(x + 1, y) +  // West.
                     normalize(x, y + 1) +  // South.
                     normalize(x - 1, y);   // East.
-
+                console.log(tileShape)
                 // 绘制路径.
                 if (!tile_SHAPES[tileShape]) {
                     // Empty square.  Use null0 for large areas, with null1-4 for borders.
