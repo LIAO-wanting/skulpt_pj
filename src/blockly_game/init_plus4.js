@@ -1,3 +1,5 @@
+//这是一个老的版本，仅用于调试测试，不能直接迁移到图形化界面中使用；
+//图形化界面使用的库的最新版本：__init__.js
 var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("blocklygame")};
     
@@ -346,29 +348,6 @@ var $builtinmodule = function (name) {
         }, actor.stepSpeed * 3)
     };
 
-    // var highlight = function(id) {
-    //     id=Sk.ffi.remapToJs(id)
-    //     Blockly.mainWorkspace.highlightBlock(id);
-    // };
-
-    var isDone = function() {
-        isdone= Sk.ffi.remapToPy(checkFinish()); 
-        return isdone
-    }
-
-    var isPathCheck=function(direction) {
-        switch (direction) {
-            case 'left':
-                direction= 3
-                state=isPath(direction, null)
-                break;
-            case 'right':
-                direction= 1
-                state=isPath(direction, null)
-                break;
-        }
-        return state
-    }
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self,  img , direction , tile_SHAPES , size ) {
@@ -490,13 +469,25 @@ var $builtinmodule = function (name) {
         });
         $loc.isDone=new Sk.builtin.func(function(self){
             Sk.builtin.pyCheckArgs("isDone", arguments, 1, 2);
-            return new Sk.misceval.promiseToSuspension(isDone().then((r) => Sk.ffi.remapToPy(r)));
+            var isdone= Sk.ffi.remapToPy(checkFinish()); 
+            return isdone
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction){
             Sk.builtin.pyCheckArgs("isPath", arguments, 2, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
-            return new Sk.misceval.promiseToSuspension(isPathCheck(direction).then((r) => Sk.ffi.remapToPy(r)));
+            var state=null
+            switch (direction) {
+                case 'left':
+                    direction= 3
+                    state=isPath(direction, null)
+                    break;
+                case 'right':
+                    direction= 1
+                    state=isPath(direction, null)
+                    break;
+            }
+            return state
         });
 
     }, "Actor")
