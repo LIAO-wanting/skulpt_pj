@@ -122,8 +122,8 @@ var $builtinmodule = function (name) {
 
     var drawMap=function(){
         var svg = d3.select('#blocklySVG').append('svg');
-        var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
-        svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
+        // var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
+        // svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
 
         // 绘制外框
         svg.append('rect').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
@@ -153,7 +153,6 @@ var $builtinmodule = function (name) {
                     normalize(x + 1, y) +  // West.
                     normalize(x, y + 1) +  // South.
                     normalize(x - 1, y);   // East.
-                console.log(tileShape)
                 // 绘制路径.
                 if (!tile_SHAPES[tileShape]) {
                     // Empty square.  Use null0 for large areas, with null1-4 for borders.
@@ -176,7 +175,6 @@ var $builtinmodule = function (name) {
                 tileId++;
             }
         }
-        console.log("2")
         // 绘制终点图标
         svg.append('image').attr('id','finish').attr('width',  maze_SQUARE_SIZE).attr('height',  maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
 
@@ -188,7 +186,6 @@ var $builtinmodule = function (name) {
                     actor.x= x;
                     actor.y= y;
                 } else if (map[y][x] == maze.SquareType.FINISH) {
-                    console.log("3")
                     // Move the finish icon into position.
                     var finishIcon = $('#finish');
                     finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
