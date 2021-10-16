@@ -371,7 +371,7 @@ var $builtinmodule = function (name) {
     }
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
-        $loc.__init__ = new Sk.builtin.func(function(self, block_id , img , direction , tile_SHAPES , size ) {
+        $loc.__init__ = new Sk.builtin.func(function(self,  img , direction , tile_SHAPES , size ) {
                 img= Sk.ffi.remapToJs(img) || 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';
                 actor.img = Sk.ffi.remapToJs(img);
 
@@ -490,13 +490,13 @@ var $builtinmodule = function (name) {
         });
         $loc.isDone=new Sk.builtin.func(function(self){
             Sk.builtin.pyCheckArgs("isDone", arguments, 1, 2);
-            return new Sk.misceval.promiseToSuspension(isDone(block_id).then((r) => Sk.ffi.remapToPy(r)));
+            return new Sk.misceval.promiseToSuspension(isDone().then((r) => Sk.ffi.remapToPy(r)));
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction){
             Sk.builtin.pyCheckArgs("isPath", arguments, 2, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
-            return new Sk.misceval.promiseToSuspension(isPathCheck(direction,block_id).then((r) => Sk.ffi.remapToPy(r)));
+            return new Sk.misceval.promiseToSuspension(isPathCheck(direction).then((r) => Sk.ffi.remapToPy(r)));
         });
 
     }, "Actor")
