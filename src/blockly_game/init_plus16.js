@@ -115,6 +115,7 @@ var $builtinmodule = function (name) {
 
     var initPegman=function(){
         // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
+        var svg = d3.select('#game_stage')
         svg.append('clipPath').attr('id','pegmanClipPath')
         d3.select("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.width).attr('height', actor.height)
 
@@ -127,6 +128,7 @@ var $builtinmodule = function (name) {
 
     var drawMap=function(){
         var svg = d3.select('#blocklySVG').append('svg');
+        svg.attr('id','game_stage')
         var scale = Math.max(maze_ROWS, maze_COLS) * maze_SQUARE_SIZE;
         svg.attr('viewBox', '0 0 ' + scale + ' ' + scale);
 
