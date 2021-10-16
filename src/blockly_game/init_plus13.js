@@ -50,7 +50,7 @@ var $builtinmodule = function (name) {
     }
     // 角色变量
     var actor={
-        img : "https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/astro.png",
+        img : "https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png",
         tile_SHAPES : "",
         height : 52,
         width : 49,
@@ -64,7 +64,7 @@ var $builtinmodule = function (name) {
     var maze_ROWS=map.length;
     var maze_COLS=map[0].length;
     var maze={
-        tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_astro.png',//地图路径图片
+        tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
         SquareType :{//迷宫中方块的类型
