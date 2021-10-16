@@ -57,7 +57,8 @@ var $builtinmodule = function (name) {
         direction : DirectionType.EAST,
         x : 0,
         y : 0,
-        stepSpeed : 150
+        stepSpeed : 150,
+        type:"aminate"
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -93,16 +94,20 @@ var $builtinmodule = function (name) {
      */
     var displayPegman = function(x, y, d, opt_angle) {
         var pegmanIcon = $('#pegman');
-        pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width + 1);
-        pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 - 8);
-        if (opt_angle) {
-          pegmanIcon.attr('transform', 'rotate(' + opt_angle + ', ' +
-              (x * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ', ' +
-              (y * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ')');
-        } else {
-          pegmanIcon.attr('transform', 'rotate(0, 0, 0)');
+        if(actor.type=='aminate'){
+            pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width + 1);
+            pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 - 8);
+            if (opt_angle) {
+              pegmanIcon.attr('transform', 'rotate(' + opt_angle + ', ' +
+                  (x * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ', ' +
+                  (y * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ')');
+            } else {
+              pegmanIcon.attr('transform', 'rotate(0, 0, 0)');
+            }
+        }else{
+            pegmanIcon.attr('x', x * maze_SQUARE_SIZE + 1);
+            pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 - 8);
         }
-      
         var clipRect = $('#clipRect');
         clipRect.attr('x', x * maze_SQUARE_SIZE + 1);
         clipRect.attr('y', pegmanIcon.attr('y'));
@@ -401,12 +406,30 @@ var $builtinmodule = function (name) {
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self,  img , direction , tile_SHAPES) {
 
-                img= Sk.ffi.remapToJs(img) || 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';
-                actor.img = Sk.ffi.remapToJs(img);
+                img= Sk.ffi.remapToJs(img) || 'pegman';
+                switch (img){
+                    case "pegman":
+                        actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';//默认为方格
+                        actor.type="aminate"
+                        break;
+                    case "panda":
+                        actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/panda.png';//设置为管道
+                        actor.type="aminate"
+                        break;
+                    case "astro":
+                        actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/astro.png';//设置为竹子
+                        actor.type="aminate"
+                        break;
+                    case "robot":
+                        actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/robot.png';//设置为竹子
+                        actor.type="still"
+                        break;
+
+                }
 
                 direction =  direction || DirectionType.EAST;
                 tile_SHAPES = tile_SHAPES || "";
-                size=size || [52,49]//[height,width]//size需要根据方格的数目来确定
+                size=[52,49]//[height,width]//size需要根据方格的数目来确定
                 
                 initPegman()
         });
