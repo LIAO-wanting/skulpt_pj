@@ -337,8 +337,14 @@ var $builtinmodule = function (name) {
     var setMap_f=function(M_x , M_y , startPos , endPos , bg_pic) {
         Sk.builtin.pyCheckArgs("setMap", arguments, 5, 5);
         map=[]
+        
         M_x = Sk.ffi.remapToJs(M_x);
         M_y = Sk.ffi.remapToJs(M_y);
+        maze_COLS=M_x;
+        maze_ROWS=M_y;
+        maze.MAZE_HEIGHT= maze_SQUARE_SIZE * maze_COLS;
+        maze.MAZE_WIDTH=maze_SQUARE_SIZE * maze_ROWS;
+
         startPos =Sk.ffi.remapToJs(startPos)
         endPos =Sk.ffi.remapToJs(endPos)
         maze.background = Sk.ffi.remapToJs(bg_pic)
