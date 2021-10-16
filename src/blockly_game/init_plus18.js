@@ -59,7 +59,7 @@ var $builtinmodule = function (name) {
         x : 0,
         y : 0,
         stepSpeed : 150,
-        type:"aminate"
+        type:"animate"
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -95,7 +95,7 @@ var $builtinmodule = function (name) {
      */
     var displayPegman = function(x, y, d, opt_angle) {
         var pegmanIcon = $('#pegman');
-        if(actor.type=='aminate'){
+        if(actor.type=='animate'){
             pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width + 1);
             pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 - 8);
             if (opt_angle) {
@@ -107,7 +107,7 @@ var $builtinmodule = function (name) {
             }
         }else{
             pegmanIcon.attr('x', x * maze_SQUARE_SIZE + 1);
-            pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 - 8);
+            pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 );
         }
         var clipRect = $('#clipRect');
         clipRect.attr('x', x * maze_SQUARE_SIZE + 1);
@@ -119,9 +119,15 @@ var $builtinmodule = function (name) {
         svg.append('clipPath').attr('id','pegmanClipPath')
         d3.select("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.width).attr('height', actor.height)
 
-        //绘制精灵.
-        svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
-        .attr('xlink:href',actor.img)
+        if(actor.type=="animate"){
+            //绘制精灵.
+            svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
+            .attr('xlink:href',actor.img)
+        }else{
+            //绘制精灵.
+            svg.append('image').attr('id','pegman').attr('width', actor.width ).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
+            .attr('xlink:href',actor.img)
+        }
 
         displayPegman(actor.x , actor.y , actor.direction*4 )
     }
@@ -411,15 +417,15 @@ var $builtinmodule = function (name) {
                 switch (img){
                     case "pegman":
                         actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';//默认为方格
-                        actor.type="aminate"
+                        actor.type="animate"
                         break;
                     case "panda":
                         actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/panda.png';//设置为管道
-                        actor.type="aminate"
+                        actor.type="animate"
                         break;
                     case "astro":
                         actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/astro.png';//设置为竹子
-                        actor.type="aminate"
+                        actor.type="animate"
                         break;
                     case "robot":
                         actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/robot.png';//设置为竹子
