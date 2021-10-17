@@ -193,10 +193,10 @@ var $builtinmodule = function (name) {
                 tileId++;
 
                 if(map[y][x]==0){//当地图中此处标记为障碍物时
-                    svg.append('image').attr('x',x * maze_SQUARE_SIZE).attr('y',y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE*0.6 ).attr('height',maze_SQUARE_SIZE*0.6)
+                    svg.append('image').attr('x',x * maze_SQUARE_SIZE + (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*0.8 ).attr('height',maze_SQUARE_SIZE*0.8)
                     .attr('xlink:href',maze.wall)
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
-                    svg.append('image').attr('x',x * maze_SQUARE_SIZE).attr('y',y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE*0.6).attr('height',maze_SQUARE_SIZE*0.6)
+                    svg.append('image').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
                 }
             }
