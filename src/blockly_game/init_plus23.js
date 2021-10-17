@@ -193,12 +193,10 @@ var $builtinmodule = function (name) {
                 tileId++;
 
                 if(map[y][x]==0){//当地图中此处标记为障碍物时
-                    console.log("wall")
-                    svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                    svg.append('image').attr('x',x * maze_SQUARE_SIZE).attr('y',y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE*0.6 ).attr('height',maze_SQUARE_SIZE*0.6)
                     .attr('xlink:href',maze.wall)
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
-                    console.log("coin")
-                    svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                    svg.append('image').attr('x',x * maze_SQUARE_SIZE).attr('y',y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE*0.6).attr('height',maze_SQUARE_SIZE*0.6)
                     .attr('xlink:href',maze.award)
                 }
             }
@@ -430,7 +428,7 @@ var $builtinmodule = function (name) {
         Pos_x = Sk.ffi.remapToJs(Pos_x);
         Pos_y = Sk.ffi.remapToJs(Pos_y);
         type=Sk.ffi.remapToJs(type);
-        console.log(type)
+
         if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
             throw Error("错误！不能将放置物位置设置在起点或终点坐标！")
         }else if((Pos_x>(map[0].length-1)) || (Pos_x< 0) || (Pos_y>(map.length-1)) || (Pos_y< 0)){
