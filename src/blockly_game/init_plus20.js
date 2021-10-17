@@ -69,11 +69,14 @@ var $builtinmodule = function (name) {
         tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
+        wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
+        award:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/award.png',
         SquareType :{//迷宫中方块的类型
             WALL: 0,
             OPEN: 1,
             START: 2,
-            FINISH: 3
+            FINISH: 3,
+            AWARD:4//金币奖励
         },
         //迷宫部分参数指定
         MAZE_WIDTH : maze_SQUARE_SIZE * maze_COLS,
@@ -185,6 +188,14 @@ var $builtinmodule = function (name) {
                 svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE * 5).attr('height',maze_SQUARE_SIZE * 4)
                 .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
                 tileId++;
+
+                if(map[y][x]==0){//当地图中此处标记为障碍物时
+                    svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                    .attr('xlink:href',maze.wall)
+                }else if(map[y][x]==4){//当地图中此处标记为金币时
+                    svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                    .attr('xlink:href',maze.award)
+                }
             }
         }
         // 绘制终点图标
@@ -403,7 +414,35 @@ var $builtinmodule = function (name) {
     }
 	mod.setPathType = new Sk.builtin.func(setPathType_f);
 
-    
+    /**
+     * 在某处放置障碍或者金币.
+     * 
+     * @param {number} Pos_x 放置物的x坐标位置.
+     * @param {number} Pos_y 放置物的y坐标位置.
+     * @param {string} type 放置物的类型：障碍或是金币
+     */
+    var placeItem_f=function(Pos_x , Pos_y , type) { 
+        Sk.builtin.pyCheckArgs("placeItem", arguments, 3, 3);
+        Pos_x = Sk.ffi.remapToJs(Pos_x);
+        Pos_y = Sk.ffi.remapToJs(Pos_y);
+        if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
+            throw Error("错误！不能将放置物位置设置在起点或终点坐标！")
+        }else if((Pos_x>(map[0].length-1)) || (Pos_x< 0) || (Pos_y>(map.length-1)) || (Pos_y< 0)){
+            throw Error("错误！放置物坐标超过地图范围")
+        }
+        switch(type){
+            case "wall"://墙：障碍
+                map[Pos_y-1][Pos_x-1]=maze.SquareType.WALL;
+                break;
+            case "coin":
+                map[Pos_y-1][Pos_x-1]=maze.SquareType.AWARD;
+                break;
+        }
+
+    }
+	mod.placeItem = new Sk.builtin.func(placeItem_f);
+
+
     var initMap_f=function() {
         drawMap()
     }
