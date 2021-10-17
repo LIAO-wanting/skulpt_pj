@@ -152,6 +152,9 @@ var $builtinmodule = function (name) {
             }
         }
         //初始化地图
+
+        console.log(map)
+        
         var normalize = function(x, y) {
             if (x < 0 || x >= maze_COLS || y < 0 || y >= maze_ROWS) {
               return '0';
@@ -190,9 +193,11 @@ var $builtinmodule = function (name) {
                 tileId++;
 
                 if(map[y][x]==0){//当地图中此处标记为障碍物时
+                    console.log("wall")
                     svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                     .attr('xlink:href',maze.wall)
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
+                    console.log("coin")
                     svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                     .attr('xlink:href',maze.award)
                 }
@@ -387,7 +392,6 @@ var $builtinmodule = function (name) {
             }
             map[i]=b;
         }
-        console.log(map)
     }
 	mod.setMap = new Sk.builtin.func(setMap_f);
 
