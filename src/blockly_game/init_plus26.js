@@ -355,8 +355,8 @@ var $builtinmodule = function (name) {
 
     /**
      * 设置地图属性.
-     * @param {number} M_x为地图横向方格的数目（范围为2-10）,初始默认为8
-     * @param {number} M_y为地图竖向方格的数目（范围为2-10）,初始默认为8
+     * @param {number} M_x为地图横向方格的数目（范围为3-10）,初始默认为8
+     * @param {number} M_y为地图竖向方格的数目（范围为3-10）,初始默认为8
      * @param {string} startPos X, Y 起点位置的坐标.
      * @param {string} endPos X, Y 终点位置的坐标
      * @param {string} bg_pic为地图背景的图片
@@ -365,6 +365,9 @@ var $builtinmodule = function (name) {
         Sk.builtin.pyCheckArgs("setMap", arguments, 5, 5);
         map=[]
 
+        if((M_x<3) || (M_x>20) || (M_y<3) || (M_y>20)){
+            throw Error("错误！超出地图可设置范围，请设置横纵方格数大于等于3，小于等于20")
+        }
         M_x = Sk.ffi.remapToJs(M_x);
         M_y = Sk.ffi.remapToJs(M_y);
         maze_COLS=M_x;
@@ -375,6 +378,17 @@ var $builtinmodule = function (name) {
         startPos =Sk.ffi.remapToJs(startPos)
         endPos =Sk.ffi.remapToJs(endPos)
         maze.background = Sk.ffi.remapToJs(bg_pic)
+
+        var re=/\((\d+),(\d)\)/.exec(startPos);
+        if(re!=null){
+            var target=re[1];
+            console.log(target)
+        }
+        var re=/\((\d+),(\d)\)/.exec(endPos);
+        if(re!=null){
+            var target=re[1];
+            console.log(target)
+        }
 
         for (var i=0; i<M_y; i++){ 
             var b = [];  //辅助数组
