@@ -361,7 +361,9 @@ var $builtinmodule = function (name) {
      */
      var hasCoin=function(x , y) {
         if(map[y][x]==maze.SquareType.AWARD){//如果此处是金币
-            $('#coin'+y+x).remove()
+            setTimeout(function() {
+                $('#coin'+y+x).remove()
+            }, actor.stepSpeed * 3)
             map[y][x]=maze.SquareType.OPEN
             actor.coin_point+=1
         }
