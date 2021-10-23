@@ -379,15 +379,17 @@ var $builtinmodule = function (name) {
         endPos =Sk.ffi.remapToJs(endPos)
         maze.background = Sk.ffi.remapToJs(bg_pic)
 
-        var re=/\((\d+),(\d)\)/.exec(startPos);
+        var re=/\((\d+),(\d+)\)/.exec(startPos);
         if(re!=null){
-            var target=re[1];
-            console.log(target)
+            if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
+                throw Error("错误！起点坐标超出地图范围！")
+            }
         }
-        var re=/\((\d+),(\d)\)/.exec(endPos);
+        var re=/\((\d+),(\d+)\)/.exec(endPos);
         if(re!=null){
-            var target=re[1];
-            console.log(target)
+            if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
+                throw Error("错误！终点坐标超出地图范围！")
+            }
         }
 
         for (var i=0; i<M_y; i++){ 
