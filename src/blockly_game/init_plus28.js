@@ -59,7 +59,8 @@ var $builtinmodule = function (name) {
         x : 0,
         y : 0,
         stepSpeed : 150,
-        type:"animate"
+        type:"animate",
+        coin_point:0
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -196,7 +197,7 @@ var $builtinmodule = function (name) {
                     svg.append('image').attr('x',x * maze_SQUARE_SIZE + (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*0.8 ).attr('height',maze_SQUARE_SIZE*0.8)
                     .attr('xlink:href',maze.wall)
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
-                    svg.append('image').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
+                    svg.append('image').attr('id','coin'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
                 }
             }
@@ -354,6 +355,20 @@ var $builtinmodule = function (name) {
     };
 
     /**
+     * 检查精灵在移动的过程中是否吃到了金币
+     * @param {<number>} x 当前精灵的横坐标.
+     * @param {<number>} y 当前精灵的纵坐标.
+     */
+     var hasCoin=function(x , y) {
+        if(map[y][x]==maze.SquareType.AWARD){//如果此处是金币
+            $('#coin'+y+x).remove()
+            map[y][x]=maze.SquareType.OPEN
+            coin_point+=1
+        }
+     }
+    
+
+    /**
      * 设置地图属性.
      * @param {number} M_x为地图横向方格的数目（范围为3-10）,初始默认为8
      * @param {number} M_y为地图竖向方格的数目（范围为3-10）,初始默认为8
@@ -496,6 +511,7 @@ var $builtinmodule = function (name) {
                 direction =  direction || DirectionType.EAST;
                 tile_SHAPES = tile_SHAPES || "";
                 size=[52,49]//[height,width]//size需要根据方格的数目来确定
+                actor.coin_point=0
                 
                 initPegman()
         });
@@ -628,6 +644,10 @@ var $builtinmodule = function (name) {
             }
             return state
         });
+        $loc.getPoint=new Sk.builtin.func(function(self){
+            return Sk.ffi.remapToPy(actor.coin_point)
+        });
+     
 
     }, "Actor")
 
