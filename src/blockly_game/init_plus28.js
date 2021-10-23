@@ -548,6 +548,7 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    hasCoin(actor.x,actor.y)
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -591,6 +592,7 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    hasCoin(actor.x,actor.y)
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
