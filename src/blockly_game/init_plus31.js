@@ -441,7 +441,7 @@ var $builtinmodule = function (name) {
      * @param {string} bg_pic为地图背景的图片
      */
     var setMap_f=function( M_x , M_y , startPos , endPos , bg_pic,block_id) {
-        Sk.builtin.pyCheckArgs("setMap", arguments, 5, 5);
+        Sk.builtin.pyCheckArgs("setMap", arguments, 6, 6);
         map=[]
 
         return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
