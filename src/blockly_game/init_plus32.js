@@ -443,6 +443,9 @@ var $builtinmodule = function (name) {
     var setMap_f=function( M_x , M_y , startPos , endPos , bg_pic,block_id) {
         Sk.builtin.pyCheckArgs("setMap", arguments, 6, 6);
         map=[]
+        if(bg_pic=='无可用地图'){
+            bg_pic=""
+        }
 
         return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
             Sk.setTimeout(function() {
