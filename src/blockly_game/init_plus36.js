@@ -628,7 +628,7 @@ var $builtinmodule = function (name) {
 
                     }
 
-                    direction =  direction || DirectionType.EAST;
+                    actor.direction =  direction || DirectionType.EAST;
                     size=[52,49]//[height,width]//size需要根据方格的数目来确定
                     actor.coin_point=0
                     //高亮效果
