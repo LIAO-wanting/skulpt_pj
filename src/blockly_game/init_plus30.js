@@ -1,5 +1,3 @@
-//这是一个老的版本，仅用于调试测试，不能直接迁移到图形化界面中使用；
-//图形化界面使用的库的最新版本：__init__.js
 var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("blocklygame")};
     
@@ -354,6 +352,69 @@ var $builtinmodule = function (name) {
         }, actor.stepSpeed * 3)
     };
 
+    var highlight = function(id) {
+        id=Sk.ffi.remapToJs(id)
+        Blockly.mainWorkspace.highlightBlock(id);
+    };
+
+    var getpoint= function(id){
+        return new Promise((resolve) => {
+            // Do things
+            setTimeout( () => {   
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
+                highlight(block_id)
+                var point= actor.coin_point; 
+                resolve(point);
+            }, 800);
+        })
+    }
+
+    var isDone = function(block_id) {
+        return new Promise((resolve) => {
+            // Do things
+            setTimeout( () => {   
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
+                highlight(block_id)
+                var isdone= Sk.ffi.remapToPy(checkFinish()); 
+                resolve(isdone);
+            }, 800);
+        })
+    }
+
+    var isPathCheck=function(direction,block_id) {
+        return new Promise((resolve) => {
+            // Do things
+            setTimeout( () => {   
+                var state=false;
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
+                highlight(block_id);
+                switch (direction) {
+                    case 'left':
+                        direction= 3
+                        state=isPath(direction, null)
+                        break;
+                    case 'right':
+                        direction= 1
+                        state=isPath(direction, null)
+                        break;
+                };
+                resolve(state);
+            }, 800);
+        })
+    }
+
     /**
      * 检查精灵在移动的过程中是否吃到了金币
      * @param {<number>} x 当前精灵的横坐标.
@@ -372,122 +433,172 @@ var $builtinmodule = function (name) {
 
     /**
      * 设置地图属性.
+     * @param {string} block_id 高亮块的ID
      * @param {number} M_x为地图横向方格的数目（范围为3-10）,初始默认为8
      * @param {number} M_y为地图竖向方格的数目（范围为3-10）,初始默认为8
      * @param {string} startPos X, Y 起点位置的坐标.
      * @param {string} endPos X, Y 终点位置的坐标
      * @param {string} bg_pic为地图背景的图片
      */
-    var setMap_f=function(M_x , M_y , startPos , endPos , bg_pic) {
+    var setMap_f=function( M_x , M_y , startPos , endPos , bg_pic,block_id) {
         Sk.builtin.pyCheckArgs("setMap", arguments, 5, 5);
         map=[]
 
-        if((M_x<3) || (M_x>20) || (M_y<3) || (M_y>20)){
-            throw Error("错误！超出地图可设置范围，请设置横纵方格数大于等于3，小于等于20")
-        }
-        M_x = Sk.ffi.remapToJs(M_x);
-        M_y = Sk.ffi.remapToJs(M_y);
-        maze_COLS=M_x;
-        maze_ROWS=M_y;
-        maze.MAZE_WIDTH= maze_SQUARE_SIZE * maze_COLS;
-        maze.MAZE_HEIGHT=maze_SQUARE_SIZE * maze_ROWS;
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            Sk.setTimeout(function() {
+                //高亮效果
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                } 
 
-        startPos =Sk.ffi.remapToJs(startPos)
-        endPos =Sk.ffi.remapToJs(endPos)
-        maze.background = Sk.ffi.remapToJs(bg_pic)
-
-        var re=/\((\d+),(\d+)\)/.exec(startPos);
-        if(re!=null){
-            if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
-                throw Error("错误！起点坐标超出地图范围！")
-            }
-        }
-        var re=/\((\d+),(\d+)\)/.exec(endPos);
-        if(re!=null){
-            if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
-                throw Error("错误！终点坐标超出地图范围！")
-            }
-        }
-
-        for (var i=0; i<M_y; i++){ 
-            var b = [];  //辅助数组
-            for(var j=0; j<M_x; j++){ 
-                var pos='('+(j+1)+','+(i+1)+')'
-                if( pos==startPos){
-                    b[j]=maze.SquareType.START;
-                }else if(pos==endPos){
-                    b[j]=maze.SquareType.FINISH;
-                }else{
-                    b[j]=maze.SquareType.OPEN;
+                if((M_x<3) || (M_x>20) || (M_y<3) || (M_y>20)){
+                    throw Error("错误！超出地图可设置范围，请设置横纵方格数大于等于3，小于等于20")
                 }
-            }
-            map[i]=b;
-        }
+                M_x = Sk.ffi.remapToJs(M_x);
+                M_y = Sk.ffi.remapToJs(M_y);
+                maze_COLS=M_x;
+                maze_ROWS=M_y;
+                maze.MAZE_WIDTH= maze_SQUARE_SIZE * maze_COLS;
+                maze.MAZE_HEIGHT=maze_SQUARE_SIZE * maze_ROWS;
+
+                startPos =Sk.ffi.remapToJs(startPos)
+                endPos =Sk.ffi.remapToJs(endPos)
+                maze.background = Sk.ffi.remapToJs(bg_pic)
+
+                var re=/\((\d+),(\d+)\)/.exec(startPos);
+                if(re!=null){
+                    if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
+                        throw Error("错误！起点坐标超出地图范围！")
+                    }
+                }
+                var re=/\((\d+),(\d+)\)/.exec(endPos);
+                if(re!=null){
+                    if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
+                        throw Error("错误！终点坐标超出地图范围！")
+                    }
+                }
+
+                for (var i=0; i<M_y; i++){ 
+                    var b = [];  //辅助数组
+                    for(var j=0; j<M_x; j++){ 
+                        var pos='('+(j+1)+','+(i+1)+')'
+                        if( pos==startPos){
+                            b[j]=maze.SquareType.START;
+                        }else if(pos==endPos){
+                            b[j]=maze.SquareType.FINISH;
+                        }else{
+                            b[j]=maze.SquareType.OPEN;
+                        }
+                    }
+                    map[i]=b;
+                }
+                resolve(Sk.builtin.none.none$);
+            }, 800);
+        }));
+
     }
 	mod.setMap = new Sk.builtin.func(setMap_f);
 
     /**
      * 设置路径类型，如果不对路径形状进行设置，则默认为方格.
      * 
+     * @param {string} block_id 高亮块的ID
      * @param {string} path_type代表可通行路径的样式，默认为null
      */
-    var setPathType_f=function(path_type) { 
-        Sk.builtin.pyCheckArgs("setPathType", arguments, 1, 1);
+    var setPathType_f=function(path_type,block_id) { 
+        Sk.builtin.pyCheckArgs("setPathType", arguments, 2, 2);
         path_type = Sk.ffi.remapToJs(path_type);
-        switch (path_type){
-            case "default":
-                maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png';//默认为方格
-                break;
-            case "pipeline":
-                maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_astro.png';//设置为管道
-                break;
-            case "bamboo":
-                maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_panda.png';//设置为竹子
-                break;
-        }
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            Sk.setTimeout(function() {  
+                //高亮效果
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }  
 
+                switch (path_type){
+                    case "default":
+                        maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png';//默认为方格
+                        break;
+                    case "pipeline":
+                        maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_astro.png';//设置为管道
+                        break;
+                    case "bamboo":
+                        maze.tiles='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_panda.png';//设置为竹子
+                        break;
+                }
+                resolve(Sk.builtin.none.none$);
+            }, 800);
+        }));
     }
 	mod.setPathType = new Sk.builtin.func(setPathType_f);
 
     /**
      * 在某处放置障碍或者金币.
      * 
+     * @param {string} block_id 高亮块的ID
      * @param {number} Pos_x 放置物的x坐标位置.
      * @param {number} Pos_y 放置物的y坐标位置.
      * @param {string} type 放置物的类型：障碍或是金币
      */
-    var placeItem_f=function(Pos_x , Pos_y , type) { 
-        Sk.builtin.pyCheckArgs("placeItem", arguments, 3, 3);
+    var placeItem_f=function(Pos_x , Pos_y , type,block_id) { 
+        Sk.builtin.pyCheckArgs("placeItem", arguments, 4, 4);
         Pos_x = Sk.ffi.remapToJs(Pos_x);
         Pos_y = Sk.ffi.remapToJs(Pos_y);
         type=Sk.ffi.remapToJs(type);
 
-        if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
-            throw Error("错误！不能将放置物位置设置在起点或终点坐标！")
-        }else if((Pos_x>(map[0].length)) || (Pos_x< 0) || (Pos_y>(map.length)) || (Pos_y< 0)){
-            throw Error("错误！放置物坐标超过地图范围")
-        }
-        switch(type){
-            case "wall"://墙：障碍
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.WALL;
-                break;
-            case "coin":
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.AWARD;
-                break;
-        }
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            Sk.setTimeout(function() {  
+                //高亮效果
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                } 
 
+                if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
+                    throw Error("错误！不能将放置物位置设置在起点或终点坐标！")
+                }else if((Pos_x>(map[0].length)) || (Pos_x< 0) || (Pos_y>(map.length)) || (Pos_y< 0)){
+                    throw Error("错误！放置物坐标超过地图范围")
+                }
+  
+                switch(type){
+                    case "wall"://墙：障碍
+                        map[Pos_y-1][Pos_x-1]=maze.SquareType.WALL;
+                        break;
+                    case "coin":
+                        map[Pos_y-1][Pos_x-1]=maze.SquareType.AWARD;
+                        break;
+                }
+                resolve(Sk.builtin.none.none$);
+            }, 800);
+        }));
     }
 	mod.placeItem = new Sk.builtin.func(placeItem_f);
 
 
-    var initMap_f=function() {
-        drawMap()
+    var initMap_f=function(block_id) {
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            Sk.setTimeout(function() {  
+                //高亮效果
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }   
+                drawMap()
+                resolve(Sk.builtin.none.none$);
+            }, 800);
+        }));
     }
 	mod.initMap = new Sk.builtin.func(initMap_f);
 
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
-        $loc.__init__ = new Sk.builtin.func(function(self,  img , direction , tile_SHAPES) {
+        $loc.__init__ = new Sk.builtin.func(function(self,img , direction , tile_SHAPES,block_id) {
 
                 img= Sk.ffi.remapToJs(img) || 'pegman';
                 switch (img){
@@ -514,12 +625,18 @@ var $builtinmodule = function (name) {
                 tile_SHAPES = tile_SHAPES || "";
                 size=[52,49]//[height,width]//size需要根据方格的数目来确定
                 actor.coin_point=0
+                //高亮效果
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
                 
                 initPegman()
         });
         // func: Actor.moveForward()
-        $loc.moveForward=new Sk.builtin.func(function(self) {
-            Sk.builtin.pyCheckArgs("moveForward", arguments, 1, 2);
+        $loc.moveForward=new Sk.builtin.func(function(self,block_id) {
+            Sk.builtin.pyCheckArgs("moveForward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(0) //0为向前移动
@@ -550,6 +667,13 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    //高亮效果
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
+
                     hasCoin(actor.x,actor.y)
                     var state=checkFinish()
                     if(state==true){
@@ -562,8 +686,8 @@ var $builtinmodule = function (name) {
                 }, 800);
             }));
         });
-        $loc.moveBackward=new Sk.builtin.func(function(self) {
-            Sk.builtin.pyCheckArgs("moveBackward", arguments, 1, 2);
+        $loc.moveBackward=new Sk.builtin.func(function(self,block_id) {
+            Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
                     var command= move(2) //2为向后运动
@@ -594,6 +718,12 @@ var $builtinmodule = function (name) {
                             actor.x--;
                             break;
                     }
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
+
                     hasCoin(actor.x,actor.y)
                     var state=checkFinish()
                     if(state==true){
@@ -605,8 +735,8 @@ var $builtinmodule = function (name) {
                 }, 800);
             }));
         });
-        $loc.turn=new Sk.builtin.func(function(self,direction){
-            Sk.builtin.pyCheckArgs("turn", arguments, 2, 3);
+        $loc.turn=new Sk.builtin.func(function(self,direction,block_id){
+            Sk.builtin.pyCheckArgs("turn", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                 Sk.setTimeout(function() {
@@ -622,34 +752,28 @@ var $builtinmodule = function (name) {
                             actor.direction = constrainDirection4(actor.direction + 1);
                             break;
                     }
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
         });
-        $loc.isDone=new Sk.builtin.func(function(self){
-            Sk.builtin.pyCheckArgs("isDone", arguments, 1, 2);
-            var isdone= Sk.ffi.remapToPy(checkFinish()); 
-            return isdone
+        $loc.isDone=new Sk.builtin.func(function(self,block_id){
+            Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
+            return new Sk.misceval.promiseToSuspension(isDone(block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
-        $loc.isPath=new Sk.builtin.func(function(self,direction){
-            Sk.builtin.pyCheckArgs("isPath", arguments, 2, 3);
+        $loc.isPath=new Sk.builtin.func(function(self,direction,block_id){
+            Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
-            var state=null
-            switch (direction) {
-                case 'left':
-                    direction= 3
-                    state=isPath(direction, null)
-                    break;
-                case 'right':
-                    direction= 1
-                    state=isPath(direction, null)
-                    break;
-            }
-            return state
+            return new Sk.misceval.promiseToSuspension(isPathCheck(direction,block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
-        $loc.getPoint=new Sk.builtin.func(function(self){
-            return Sk.ffi.remapToPy(actor.coin_point)
+        $loc.getPoint=new Sk.builtin.func(function(self,block_id){
+            Sk.builtin.pyCheckArgs("getPoint", arguments, 2, 2);
+            return new Sk.misceval.promiseToSuspension(getpoint(block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
      
 
