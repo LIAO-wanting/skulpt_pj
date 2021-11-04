@@ -357,7 +357,7 @@ var $builtinmodule = function (name) {
         Blockly.mainWorkspace.highlightBlock(id);
     };
 
-    var getpoint= function(id){
+    var getpoint= function(block_id){
         return new Promise((resolve) => {
             // Do things
             setTimeout( () => {   
