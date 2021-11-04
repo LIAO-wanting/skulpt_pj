@@ -601,9 +601,12 @@ var $builtinmodule = function (name) {
 
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
-        $loc.__init__ = new Sk.builtin.func(function(self,img , direction , tile_SHAPES,block_id) {
+        $loc.__init__ = new Sk.builtin.func(function(self,img , direction , block_id) {
 
                 img= Sk.ffi.remapToJs(img) || 'pegman';
+                if(img=='无可用角色'){
+                    img='pegman';
+                }
                 switch (img){
                     case "pegman":
                         actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';//默认为方格
@@ -625,7 +628,6 @@ var $builtinmodule = function (name) {
                 }
 
                 direction =  direction || DirectionType.EAST;
-                tile_SHAPES = tile_SHAPES || "";
                 size=[52,49]//[height,width]//size需要根据方格的数目来确定
                 actor.coin_point=0
                 //高亮效果
