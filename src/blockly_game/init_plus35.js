@@ -602,42 +602,47 @@ var $builtinmodule = function (name) {
 
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self,img , direction , block_id) {
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                Sk.setTimeout(function() {  
+                    img= Sk.ffi.remapToJs(img) || 'pegman';
+                    if(img=='无可用角色'){
+                        img='pegman';
+                    }
+                    switch (img){
+                        case "pegman":
+                            actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';//默认为方格
+                            actor.type="animate"
+                            break;
+                        case "panda":
+                            actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/panda.png';//设置为管道
+                            actor.type="animate"
+                            break;
+                        case "astro":
+                            actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/astro.png';//设置为竹子
+                            actor.type="animate"
+                            break;
+                        case "robot":
+                            actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/robot.png';//设置为竹子
+                            actor.type="still"
+                            break;
 
-                img= Sk.ffi.remapToJs(img) || 'pegman';
-                if(img=='无可用角色'){
-                    img='pegman';
-                }
-                switch (img){
-                    case "pegman":
-                        actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png';//默认为方格
-                        actor.type="animate"
-                        break;
-                    case "panda":
-                        actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/panda.png';//设置为管道
-                        actor.type="animate"
-                        break;
-                    case "astro":
-                        actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/astro.png';//设置为竹子
-                        actor.type="animate"
-                        break;
-                    case "robot":
-                        actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/robot.png';//设置为竹子
-                        actor.type="still"
-                        break;
+                    }
 
-                }
-
-                direction =  direction || DirectionType.EAST;
-                size=[52,49]//[height,width]//size需要根据方格的数目来确定
-                actor.coin_point=0
-                //高亮效果
-                var re=/block_id=([\s\S]*)/.exec(block_id)
-                if(re!=null){
-                    block_id=re[1];
-                    highlight(block_id)
-                }
+                    direction =  direction || DirectionType.EAST;
+                    size=[52,49]//[height,width]//size需要根据方格的数目来确定
+                    actor.coin_point=0
+                    //高亮效果
+                    var re=/block_id=([\s\S]*)/.exec(block_id)
+                    if(re!=null){
+                        block_id=re[1];
+                        highlight(block_id)
+                    }
+                    
+                    initPegman()
+                    resolve(Sk.builtin.none.none$);
+                }, 800);
+            }));
                 
-                initPegman()
         });
         // func: Actor.moveForward()
         $loc.moveForward=new Sk.builtin.func(function(self,block_id) {
