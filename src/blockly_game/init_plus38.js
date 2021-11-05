@@ -468,7 +468,18 @@ var $builtinmodule = function (name) {
 
                 startPos =Sk.ffi.remapToJs(startPos)
                 endPos =Sk.ffi.remapToJs(endPos)
-                maze.background = Sk.ffi.remapToJs(bg_pic)
+    
+                switch (Sk.ffi.remapToJs(bg_pic)){
+                    case "bg_default":
+                        maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_default.png';//默认为方格
+                        break;
+                    case "bg_astro":
+                        maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg';//设置为管道
+                        break;
+                    case "bg_panda":
+                        maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_panda.png';//设置为竹子
+                        break;
+                }
 
                 var re=/\((\d+),(\d+)\)/.exec(startPos);
                 if(re!=null){
