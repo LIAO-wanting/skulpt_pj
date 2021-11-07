@@ -264,6 +264,7 @@ var $builtinmodule = function (name) {
                 break;
         }
         console.log(command)
+        console.log(square)
         if (id) {
             return [command , square !== maze.SquareType.WALL && square !== undefined ]
         }
