@@ -292,7 +292,7 @@ var $builtinmodule = function (name) {
      * @throws {false} If Pegman collides with a wall.
      */
     var move = function(direction) {
-        if (!isPath(direction, null)) {
+        if (!isPath(0, null)) {
             return false
         }
         var command;
