@@ -521,7 +521,7 @@ var $builtinmodule = function (name) {
                     break;
             }
 
-            actor.direction =  Sk.ffi.remapToJs(direction) || DirectionType.SOUTH;
+            actor.direction =  Sk.ffi.remapToJs(direction) || DirectionType.NORTH;
             size=[52,49]//[height,width]//size需要根据方格的数目来确定
             actor.coin_point=0
             initPegman()     
@@ -532,46 +532,46 @@ var $builtinmodule = function (name) {
         $loc.moveDirection=new Sk.builtin.func(function(self,direction) {
             Sk.builtin.pyCheckArgs("moveDirection", arguments, 2,2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                    Sk.setTimeout(function() {
-                        actor.direction =  parseInt(Sk.ffi.remapToJs(direction));
-                        var command= move(direction) //向某个方向移动
-                        if(command==false){
-                            maze.result=ResultType.FAILURE
-                            alert("挑战失败")
-                            throw Error("挑战失败，请修改代码后重新尝试！")
-                        }
-                        switch (command) {
-                            case 'north':
-                                schedule([actor.x, actor.y, actor.direction * 4],
-                                                [actor.x, actor.y - 1, actor.direction * 4]);
-                                actor.y--;
-                                break;
-                            case 'east':
-                                schedule([actor.x, actor.y, actor.direction * 4],
-                                                [actor.x + 1, actor.y, actor.direction * 4]);
-                                actor.x++;
-                                break;
-                            case 'south':
-                                schedule([actor.x, actor.y, actor.direction * 4],
-                                                [actor.x, actor.y + 1, actor.direction * 4]);
-                                actor.y++;
-                                break;
-                            case 'west':
-                                schedule([actor.x, actor.y, actor.direction * 4],
-                                            [actor.x - 1, actor.y, actor.direction * 4]);
-                                actor.x--;
-                                break;
-                        }
-                        hasCoin(actor.x,actor.y)
-                        var state=checkFinish()
-                        if(state==true){
-                            setTimeout(function() {
-                                alert("挑战成功！");
-                            },1000)
-                            resolve(Sk.builtin.none.none$);
-                        }            
-                    }, 800);
-                resolve(Sk.builtin.none.none$);
+                Sk.setTimeout(function() {
+                    actor.direction =  parseInt(Sk.ffi.remapToJs(direction));
+                    var command= move(direction) //向某个方向移动
+                    if(command==false){
+                        maze.result=ResultType.FAILURE
+                        alert("挑战失败")
+                        throw Error("挑战失败，请修改代码后重新尝试！")
+                    }
+                    switch (command) {
+                        case 'north':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x, actor.y - 1, actor.direction * 4]);
+                            actor.y--;
+                            break;
+                        case 'east':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x + 1, actor.y, actor.direction * 4]);
+                            actor.x++;
+                            break;
+                        case 'south':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                            [actor.x, actor.y + 1, actor.direction * 4]);
+                            actor.y++;
+                            break;
+                        case 'west':
+                            schedule([actor.x, actor.y, actor.direction * 4],
+                                        [actor.x - 1, actor.y, actor.direction * 4]);
+                            actor.x--;
+                            break;
+                    }
+                    hasCoin(actor.x,actor.y)
+                    var state=checkFinish()
+                    if(state==true){
+                        setTimeout(function() {
+                            alert("挑战成功！");
+                        },1000)
+                        resolve(Sk.builtin.none.none$);
+                    }            
+                    resolve(Sk.builtin.none.none$);
+                }, 800);
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction){
