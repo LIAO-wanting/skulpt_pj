@@ -576,7 +576,7 @@ var $builtinmodule = function (name) {
                         }
                     }
                     resolve(Sk.builtin.none.none$);
-                }, 800);
+                }, 800*times);
             }));
         });
         $loc.moveBackward=new Sk.builtin.func(function(self,times) {
