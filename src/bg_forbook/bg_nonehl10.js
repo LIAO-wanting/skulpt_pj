@@ -243,7 +243,6 @@ var $builtinmodule = function (name) {
      */
     var isPath=function(direction,id){
         var effectiveDirection = actor.direction + direction;
-        console.log(effectiveDirection)
         var square;
         var command;
         switch (constrainDirection4(effectiveDirection)) {
@@ -264,8 +263,6 @@ var $builtinmodule = function (name) {
                 command = 'look_west';
                 break;
         }
-        console.log(command)
-        console.log(square)
         if (id) {
             return [command , square !== maze.SquareType.WALL && square !== undefined ]
         }
@@ -536,7 +533,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("moveDirection", arguments, 2,2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
                     Sk.setTimeout(function() {
-                        actor.direction =  direction;
+                        actor.direction =  parseInt(Sk.ffi.remapToJs(direction));
                         var command= move(direction) //向某个方向移动
                         if(command==false){
                             maze.result=ResultType.FAILURE
