@@ -286,7 +286,7 @@ var $builtinmodule = function (name) {
     
     /**
      * Attempt to move pegman forward or backward.
-     * @param {number} direction Direction to move (0 = forward, 2 = backward).
+     * @param {number} direction Direction to move .
      * @param {string} id ID of block that triggered this action.
      * @throws {true} If the end of the maze is reached.
      * @throws {false} If Pegman collides with a wall.
@@ -295,8 +295,6 @@ var $builtinmodule = function (name) {
         if (!isPath(direction, null)) {
             return false
         }
-        // If moving backward, flip the effective direction.
-        var effectiveDirection = actor.direction + direction;
         var command;
         switch (constrainDirection4(effectiveDirection)) {
             case DirectionType.NORTH:
