@@ -13,7 +13,7 @@ var $builtinmodule = function (name) {
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0]]
-    var DirectionType={//角色方向的类型
+    var DirectionType={//移动方向的类型
         NORTH: 0,
         EAST: 1,
         SOUTH: 2,
@@ -51,14 +51,13 @@ var $builtinmodule = function (name) {
     // 角色变量
     var actor={
         img : "https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/pegman.png",
-        tile_SHAPES : "",
         height : 52,
         width : 49,
         direction : DirectionType.EAST,
+        type:"animate",
         x : 0,
         y : 0,
         stepSpeed : 150,
-        type:"animate",
         coin_point:0
     };
     //迷宫变量
@@ -86,10 +85,7 @@ var $builtinmodule = function (name) {
         finish : {x:0,y:0}
     };
     
-    
-    //pidList = [] 暂时先不设置，后续根据需要设置
-
-    /**
+   /**
      * Display Pegman at the specified location, facing the specified direction.
      * @param {number} x Horizontal grid (or fraction thereof).
      * @param {number} y Vertical grid (or fraction thereof).
@@ -338,8 +334,8 @@ var $builtinmodule = function (name) {
 
     /**
      * Schedule the animations for a move or turn.
-     * @param {!Array.<number>} startPos X, Y and direction starting points.
-     * @param {!Array.<number>} endPos X, Y and direction ending points.
+     * @param {!Array.<number>} startPos X, Y starting points.
+     * @param {!Array.<number>} endPos X, Y ending points.
      */
     var schedule = function(startPos, endPos) {
         var deltas = [(endPos[0] - startPos[0]) / 4, (endPos[1] - startPos[1]) / 4, (endPos[2] - startPos[2]) / 4];
@@ -527,24 +523,25 @@ var $builtinmodule = function (name) {
                     break;
             }
 
-            actor.direction =  Sk.ffi.remapToJs(direction) || DirectionType.EAST;
+            actor.direction =  Sk.ffi.remapToJs(direction) || DirectionType.SOUTH;
             size=[52,49]//[height,width]//size需要根据方格的数目来确定
             actor.coin_point=0
             initPegman()     
         });
         //向北移动
         //func: Actor.moveNorth()
-        $loc.moveNorth=new Sk.builtin.func(function(self,times) {
-            Sk.builtin.pyCheckArgs("moveNorth", arguments, 2, 2);
+        $loc.moveNorth=new Sk.builtin.func(function(self) {
+            Sk.builtin.pyCheckArgs("moveNorth", arguments, 1,1);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                for(var i=0;i<times;i++){
                     Sk.setTimeout(function() {
+                        actor.direction =  DirectionType.NORTH;
                         var command= move(DirectionType.NORTH) //向北移动
                         if(command==false){
                             maze.result=ResultType.FAILURE
                             alert("挑战失败")
                             throw Error("挑战失败，请修改代码后重新尝试！")
                         }
+                        console.log(command)
                         switch (command) {
                             case 'north':
                                 schedule([actor.x, actor.y, actor.direction * 4],
@@ -576,7 +573,6 @@ var $builtinmodule = function (name) {
                             resolve(Sk.builtin.none.none$);
                         }            
                     }, 800);
-                }
                 resolve(Sk.builtin.none.none$);
             }));
         });
