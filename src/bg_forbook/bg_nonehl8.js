@@ -243,6 +243,7 @@ var $builtinmodule = function (name) {
      */
     var isPath=function(direction,id){
         var effectiveDirection = actor.direction + direction;
+        console.log(actor.direction)
         var square;
         var command;
         switch (constrainDirection4(effectiveDirection)) {
@@ -263,6 +264,7 @@ var $builtinmodule = function (name) {
                 command = 'look_west';
                 break;
         }
+        console.log(constrainDirection4(effectiveDirection))
         console.log(command)
         console.log(square)
         if (id) {
