@@ -263,6 +263,7 @@ var $builtinmodule = function (name) {
                 command = 'look_west';
                 break;
         }
+        console.log(command)
         if (id) {
             return [command , square !== maze.SquareType.WALL && square !== undefined ]
         }
