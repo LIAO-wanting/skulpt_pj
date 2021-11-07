@@ -296,7 +296,7 @@ var $builtinmodule = function (name) {
             return false
         }
         var command;
-        switch (constrainDirection4(effectiveDirection)) {
+        switch (constrainDirection4(direction)) {
             case DirectionType.NORTH:
                 command = 'north';
                 break;
