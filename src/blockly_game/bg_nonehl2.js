@@ -582,46 +582,46 @@ var $builtinmodule = function (name) {
         $loc.moveBackward=new Sk.builtin.func(function(self,times) {
             Sk.builtin.pyCheckArgs("moveBackward", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
-                Sk.setTimeout(function() {
-                    for(var i=0;i<times;i++){
-                        var command= move(2) //2为向后运动
-                        if(command==false){
-                            maze.result=ResultType.FAILURE
-                            alert("挑战失败")
-                            throw Error("挑战失败，请修改代码后重新尝试！")
-                        }
-                        switch (command) {
-                            case 'north':
-                                schedule([actor.x, actor.y, actor.direction * 4],
-                                                [actor.x, actor.y - 1, actor.direction * 4]);
-                                actor.y--;
-                                break;
-                            case 'east':
-                                schedule([actor.x, actor.y, actor.direction * 4],
-                                                [actor.x + 1, actor.y, actor.direction * 4]);
-                                actor.x++;
-                                break;
-                            case 'south':
-                                schedule([actor.x, actor.y, actor.direction * 4],
-                                                [actor.x, actor.y + 1, actor.direction * 4]);
-                                actor.y++;
-                                break;
-                            case 'west':
-                                schedule([actor.x, actor.y, actor.direction * 4],
-                                            [actor.x - 1, actor.y, actor.direction * 4]);
-                                actor.x--;
-                                break;
-                        }
-                        hasCoin(actor.x,actor.y)
-                        var state=checkFinish()
-                        if(state==true){
-                            setTimeout(function() {
-                                alert("挑战成功！");
-                            },1000)
-                        }
-                    }
-                    resolve(Sk.builtin.none.none$);
-                }, 800);
+                for(var i=0;i<times;i++){
+                    Sk.setTimeout(function() {
+                            var command= move(2) //2为向后运动
+                            if(command==false){
+                                maze.result=ResultType.FAILURE
+                                alert("挑战失败")
+                                throw Error("挑战失败，请修改代码后重新尝试！")
+                            }
+                            switch (command) {
+                                case 'north':
+                                    schedule([actor.x, actor.y, actor.direction * 4],
+                                                    [actor.x, actor.y - 1, actor.direction * 4]);
+                                    actor.y--;
+                                    break;
+                                case 'east':
+                                    schedule([actor.x, actor.y, actor.direction * 4],
+                                                    [actor.x + 1, actor.y, actor.direction * 4]);
+                                    actor.x++;
+                                    break;
+                                case 'south':
+                                    schedule([actor.x, actor.y, actor.direction * 4],
+                                                    [actor.x, actor.y + 1, actor.direction * 4]);
+                                    actor.y++;
+                                    break;
+                                case 'west':
+                                    schedule([actor.x, actor.y, actor.direction * 4],
+                                                [actor.x - 1, actor.y, actor.direction * 4]);
+                                    actor.x--;
+                                    break;
+                            }
+                            hasCoin(actor.x,actor.y)
+                            var state=checkFinish()
+                            if(state==true){
+                                setTimeout(function() {
+                                    alert("挑战成功！");
+                                },1000)
+                            }
+                        resolve(Sk.builtin.none.none$);
+                    }, 800);
+                }
             }));
         });
         $loc.turn=new Sk.builtin.func(function(self,direction){
