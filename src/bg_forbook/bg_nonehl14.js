@@ -83,7 +83,8 @@ var $builtinmodule = function (name) {
         MAZE_HEIGHT : maze_SQUARE_SIZE * maze_ROWS,
         PATH_WIDTH : maze_SQUARE_SIZE / 3,
         result :  ResultType.UNSET,
-        finish : {x:0,y:0}
+        finish : {x:0,y:0},
+        type:1//类型为用户自定义的
     };
     
     //已经设置好的关卡的map
@@ -96,7 +97,8 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
-            [0, 0, 0, 1, 1, 1, 1, 0]],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
             background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
@@ -109,10 +111,11 @@ var $builtinmodule = function (name) {
             },
             //迷宫部分参数指定
             MAZE_WIDTH : maze_SQUARE_SIZE * 8,
-            MAZE_HEIGHT : maze_SQUARE_SIZE * 7,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 8,
             PATH_WIDTH : maze_SQUARE_SIZE / 3,
             result :  ResultType.UNSET,
-            finish : {x:0,y:0}
+            finish : {x:0,y:0},
+            type:0//类型为非用户自定义的
         }
     ]
 
@@ -214,10 +217,17 @@ var $builtinmodule = function (name) {
                 svg.append('clipPath').attr('id','tileClipPath' + tileId)
                 d3.select("#tileClipPath" + tileId).append('rect').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',  maze_SQUARE_SIZE).attr('height',  maze_SQUARE_SIZE)
                
-                // Tile sprite.
-                svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE * 5).attr('height',maze_SQUARE_SIZE * 4)
-                .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
-                tileId++;
+                if(maze.type==0){//非用户自定义
+                    // Tile sprite.
+                    svg.append('image').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE ).attr('height',maze_SQUARE_SIZE )
+                    .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
+                    tileId++;
+                }else{
+                    // Tile sprite.
+                    svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE * 5).attr('height',maze_SQUARE_SIZE * 4)
+                    .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
+                    tileId++;
+                }
 
                 if(map[y][x]==0){//当地图中此处标记为障碍物时
                     svg.append('image').attr('x',x * maze_SQUARE_SIZE + (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*0.8 ).attr('height',maze_SQUARE_SIZE*0.8)
