@@ -59,7 +59,8 @@ var $builtinmodule = function (name) {
         x : 0,
         y : 0,
         stepSpeed : 150,
-        coin_point:0
+        coin_point:0,
+        marker_num:0
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -72,6 +73,7 @@ var $builtinmodule = function (name) {
         wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
         award:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/award.png',
         barrier:'',
+        marker:[],
         SquareType :{//迷宫中方块的类型
             WALL: 0,
             OPEN: 1,
@@ -106,9 +108,14 @@ var $builtinmodule = function (name) {
             wall:'',
             award:'',
             barrier:'',
+            marker:[],
             SquareType :{//迷宫中方块的类型
                 WALL: 0,
                 OPEN: 1,
+                MARKER1:10,
+                MARKER2:11,
+                MARKER3:12,
+                MARKER4:13,
                 S_F: 9,//既是起点又是终点
             },
             //迷宫部分参数指定
@@ -135,10 +142,15 @@ var $builtinmodule = function (name) {
             wall:'',
             award:'',
             barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/barrier.png',
+            marker:[],
             SquareType :{//迷宫中方块的类型
                 WALL: 0,
                 OPEN: 1,
                 BARRIER:5,
+                MARKER1:10,
+                MARKER2:11,
+                MARKER3:12,
+                MARKER4:13,
                 S_F: 9,//既是起点又是终点
             },
             //迷宫部分参数指定
@@ -283,6 +295,18 @@ var $builtinmodule = function (name) {
                 }else if(map[y][x]==5){//当地图中此处标记为障碍时
                     svg.append('image').attr('id','barrier'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                     .attr('xlink:href',maze.barrier)
+                }else if(map[y][x]==10){//当地图中此处标记为符号1——红标时
+                    svg.append('image').attr('id','marker1').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                    .attr('xlink:href',maze.marker[0])
+                }else if(map[y][x]==11){//当地图中此处标记为符号2——橘标时
+                    svg.append('image').attr('id','marker2').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                    .attr('xlink:href',maze.marker[1])
+                }else if(map[y][x]==12){//当地图中此处标记为符号3——蓝标时
+                    svg.append('image').attr('id','marker3').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                    .attr('xlink:href',maze.marker[2])
+                }else if(map[y][x]==13){//当地图中此处标记为符号4——绿标时
+                    svg.append('image').attr('id','marker4').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                    .attr('xlink:href',maze.marker[3])
                 }
             }
         }
@@ -332,10 +356,18 @@ var $builtinmodule = function (name) {
     var checkFinish=function(){
         maze.result = actor.x != maze.finish.x || actor.y != maze.finish.y ?
         ResultType.UNSET : ResultType.SUCCESS;
-        if(maze.result==ResultType.SUCCESS){
-            return true
+        if(maze.type==1){
+            if(maze.result==ResultType.SUCCESS){
+                return true
+            }else{
+                return false
+            }
         }else{
-            return false
+            if((maze.result==ResultType.SUCCESS)&&(actor.marker_num==4)){
+                return true
+            }else{
+                return "error2"
+            }
         }
     }
     /**
@@ -469,6 +501,16 @@ var $builtinmodule = function (name) {
         }
      }
     
+     /**
+     * 检查精灵在移动的过程中是否走到了标记处
+     * @param {<number>} x 当前精灵的横坐标.
+     * @param {<number>} y 当前精灵的纵坐标.
+     */
+      var hasMarker=function(x , y) {
+        if((map[y][x]==maze.SquareType.MARKER1)||(map[y][x]==maze.SquareType.MARKER2)||(map[y][x]==maze.SquareType.MARKER3)||(map[y][x]==maze.SquareType.MARKER4)){//如果此处是标记
+            actor.marker_num+=1
+        }
+     }
 
     /**
      * 设置地图属性.
@@ -672,13 +714,18 @@ var $builtinmodule = function (name) {
                             break;
                     }
                     hasCoin(actor.x,actor.y)
+                    hasMarker(actor.x,actor.y)
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
                             alert("挑战成功！");
                         },1000)
                         resolve(Sk.builtin.none.none$);
-                    }            
+                    }else if(state=="error2"){
+                        maze.result=ResultType.FAILURE
+                        alert("挑战失败，请检查是否通过所有标记点！")
+                        throw new Sk.builtin.TypeError("挑战失败，请检查是否通过所有标记点！");
+                    }     
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
