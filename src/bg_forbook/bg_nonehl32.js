@@ -108,7 +108,7 @@ var $builtinmodule = function (name) {
             wall:'',
             award:'',
             barrier:'',
-            marker:[],
+            marker:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
             SquareType :{//迷宫中方块的类型
                 WALL: 0,
                 OPEN: 1,
@@ -142,7 +142,7 @@ var $builtinmodule = function (name) {
             wall:'',
             award:'',
             barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/barrier.png',
-            marker:[],
+            marker:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
             SquareType :{//迷宫中方块的类型
                 WALL: 0,
                 OPEN: 1,
@@ -356,19 +356,20 @@ var $builtinmodule = function (name) {
     var checkFinish=function(){
         maze.result = actor.x != maze.finish.x || actor.y != maze.finish.y ?
         ResultType.UNSET : ResultType.SUCCESS;
-        if(maze.type==1){
-            if(maze.result==ResultType.SUCCESS){
+        if(maze.result==ResultType.SUCCESS){
+            if(maze.type==1){
                 return true
             }else{
-                return false
+                if(actor.marker_num==4){
+                    return true
+                }else{
+                    return "error2"
+                }
             }
         }else{
-            if((maze.result==ResultType.SUCCESS)&&(actor.marker_num==4)){
-                return true
-            }else{
-                return "error2"
-            }
+            return false
         }
+        
     }
     /**
      * Is there a path next to pegman?
