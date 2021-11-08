@@ -285,7 +285,7 @@ var $builtinmodule = function (name) {
                         actor.y= y;
                         var finishIcon = $('#finish');
                         finishIcon.attr('x', maze_SQUARE_SIZE * x );
-                        finishIcon.attr('y', maze_SQUARE_SIZE * y+10);
+                        finishIcon.attr('y', maze_SQUARE_SIZE * y+5);
                         maze.finish={x:x,y:y}
                     }
                 }
@@ -590,7 +590,7 @@ var $builtinmodule = function (name) {
                     actor.type="still"
                     break;
                 case "car":
-                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/car1.png';//设置为小车
+                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/car2.png';//设置为小车
                     actor.type="animate"
                     break;
             }
