@@ -284,8 +284,8 @@ var $builtinmodule = function (name) {
                         actor.x= x;
                         actor.y= y;
                         var finishIcon = $('#finish');
-                        finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -finishIcon.attr('width'));
-                        finishIcon.attr('y', maze_SQUARE_SIZE * (y + 0.6) -finishIcon.attr('height'));
+                        finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5));
+                        finishIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5));
                         maze.finish={x:x,y:y}
                     }
                 }
