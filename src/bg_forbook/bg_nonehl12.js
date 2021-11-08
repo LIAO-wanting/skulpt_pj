@@ -3,6 +3,36 @@ var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("bg_nonehl")};
     
     var svg = d3.select('#blocklySVG').append('svg');
+    //已经设置好的关卡的map
+    var MAZE_setted=[
+        //第一关
+        {   map:[
+            [0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0, 0, 1, 0],
+            [0, 1, 1, 2, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/tiles_road.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
+            wall:'',
+            award:'',
+            SquareType :{//迷宫中方块的类型
+                WALL: 0,
+                OPEN: 1,
+                S_F: 9,//既是起点又是终点
+            },
+            //迷宫部分参数指定
+            MAZE_WIDTH : maze_SQUARE_SIZE * 8,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 7,
+            PATH_WIDTH : maze_SQUARE_SIZE / 3,
+            result :  ResultType.UNSET,
+            finish : {x:0,y:0}
+        }
+    ]
+
     //其他变量设置
     var map=//迷宫布局
         [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -150,8 +180,6 @@ var $builtinmodule = function (name) {
         svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze_SQUARE_SIZE*maze_COLS).attr('height',maze_SQUARE_SIZE*maze_ROWS)
         .attr('xlink:href',maze.background)
         //初始化地图
-
-        console.log(map)
         
         var normalize = function(x, y) {
             if (x < 0 || x >= maze_COLS || y < 0 || y >= maze_ROWS) {
@@ -196,6 +224,9 @@ var $builtinmodule = function (name) {
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
                     svg.append('image').attr('id','coin'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
+                }else if(map[y][x]==9){//当地图中此点既表示起点又表示终点时
+                    svg.append('image').attr('id','SF_point').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.8).attr('height',maze_SQUARE_SIZE*0.8)
+                    .attr('xlink:href',maze.marker)
                 }
             }
         }
@@ -516,8 +547,12 @@ var $builtinmodule = function (name) {
                     actor.type="animate"
                     break;
                 case "robot":
-                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/robot.png';//设置为竹子
+                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/robot.png';//设置为机器人
                     actor.type="still"
+                    break;
+                case "car":
+                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/car.png';//设置为小车
+                    actor.type="animate"
                     break;
             }
 
@@ -625,6 +660,18 @@ var $builtinmodule = function (name) {
      
 
     }, "Actor")
+
+    /**
+     * 初始化为设定好的地图
+     * 
+     * @param {number} level 初始化地图，level为地图的等级.
+     */
+     var settedMap_f=function(level) { 
+        maze=MAZE_setted[level]
+        map=MAZE_setted[level].map
+        drawMap()
+    }
+	mod.settedMap = new Sk.builtin.func(settedMap_f);
 
 	return mod;
 }
