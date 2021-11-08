@@ -3,36 +3,7 @@ var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("bg_nonehl")};
     
     var svg = d3.select('#blocklySVG').append('svg');
-    //已经设置好的关卡的map
-    var MAZE_setted=[
-        //第一关
-        {   map:[
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 0, 1, 0, 0, 1, 0],
-            [0, 1, 1, 2, 0, 0, 1, 0],
-            [0, 0, 0, 1, 0, 0, 1, 0],
-            [0, 0, 0, 1, 0, 0, 1, 0],
-            [0, 0, 0, 1, 0, 0, 1, 0],
-            [0, 0, 0, 1, 1, 1, 1, 0]],
-            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/tiles_road.png',//地图路径图片
-            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
-            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
-            wall:'',
-            award:'',
-            SquareType :{//迷宫中方块的类型
-                WALL: 0,
-                OPEN: 1,
-                S_F: 9,//既是起点又是终点
-            },
-            //迷宫部分参数指定
-            MAZE_WIDTH : maze_SQUARE_SIZE * 8,
-            MAZE_HEIGHT : maze_SQUARE_SIZE * 7,
-            PATH_WIDTH : maze_SQUARE_SIZE / 3,
-            result :  ResultType.UNSET,
-            finish : {x:0,y:0}
-        }
-    ]
-
+    
     //其他变量设置
     var map=//迷宫布局
         [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -115,6 +86,36 @@ var $builtinmodule = function (name) {
         finish : {x:0,y:0}
     };
     
+    //已经设置好的关卡的map
+    var MAZE_setted=[
+        //第一关
+        {   map:[
+            [0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0, 0, 1, 0],
+            [0, 1, 1, 2, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/tiles_road.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
+            wall:'',
+            award:'',
+            SquareType :{//迷宫中方块的类型
+                WALL: 0,
+                OPEN: 1,
+                S_F: 9,//既是起点又是终点
+            },
+            //迷宫部分参数指定
+            MAZE_WIDTH : maze_SQUARE_SIZE * 8,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 7,
+            PATH_WIDTH : maze_SQUARE_SIZE / 3,
+            result :  ResultType.UNSET,
+            finish : {x:0,y:0}
+        }
+    ]
+
    /**
      * Display Pegman at the specified location, facing the specified direction.
      * @param {number} x Horizontal grid (or fraction thereof).
