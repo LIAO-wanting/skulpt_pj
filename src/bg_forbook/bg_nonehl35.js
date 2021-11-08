@@ -138,7 +138,7 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
-            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car2.png',//地图背景图片
             wall:'',
             award:'',
             barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/barrier.png',
