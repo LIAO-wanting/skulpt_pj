@@ -122,7 +122,7 @@ var $builtinmodule = function (name) {
         //第二关
         {   map:[
             [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 0, 1, 0, 0, 1, 0],
+            [0, 1, 0, 5, 0, 0, 1, 0],
             [0, 1, 1, 9, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
@@ -646,9 +646,8 @@ var $builtinmodule = function (name) {
                     var command= move(direction) //向某个方向移动
                     if(command==false){
                         maze.result=ResultType.FAILURE
-                        alert("挑战失败")
-                        throw new Sk.builtin.NotImplementedError("挑战失败!请修改后重新尝试");
-
+                        alert("挑战失败!请修改后重新尝试")
+                        throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
                     }
                     switch (command) {
                         case 'north':
