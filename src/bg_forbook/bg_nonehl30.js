@@ -281,7 +281,7 @@ var $builtinmodule = function (name) {
                     svg.append('image').attr('id','coin'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
                 }else if(map[y][x]==5){//当地图中此处标记为障碍时
-                    svg.append('image').attr('id','barrier'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                    svg.append('image').attr('id','barrier'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                     .attr('xlink:href',maze.barrier)
                 }
             }
@@ -371,7 +371,7 @@ var $builtinmodule = function (name) {
         if (id) {
             return [command , square !== maze.SquareType.WALL && square !== undefined ]
         }
-        return square !== maze.SquareType.WALL && square !== undefined;
+        return square !== maze.SquareType.WALL && square !== undefined && square !== maze.SquareType.BARRIER;
     };
 
     var constrainDirection4 = function(d) {
