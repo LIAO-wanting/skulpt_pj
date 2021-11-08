@@ -590,7 +590,7 @@ var $builtinmodule = function (name) {
                     actor.type="still"
                     break;
                 case "car":
-                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/car2.png';//设置为小车
+                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/car.png';//设置为小车
                     actor.type="animate"
                     break;
             }
