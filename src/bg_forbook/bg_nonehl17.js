@@ -97,10 +97,9 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
-            [0, 0, 0, 1, 1, 1, 1, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]],
+            [0, 0, 0, 1, 1, 1, 1, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
-            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
             background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
             wall:'',
             award:'',
@@ -111,7 +110,7 @@ var $builtinmodule = function (name) {
             },
             //迷宫部分参数指定
             MAZE_WIDTH : maze_SQUARE_SIZE * 8,
-            MAZE_HEIGHT : maze_SQUARE_SIZE * 8,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 7,
             PATH_WIDTH : maze_SQUARE_SIZE / 3,
             result :  ResultType.UNSET,
             finish : {x:0,y:0},
@@ -153,9 +152,15 @@ var $builtinmodule = function (name) {
         d3.select("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.width).attr('height', actor.height)
 
         if(actor.type=="animate"){
-            //绘制精灵.
-            svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
-            .attr('xlink:href',actor.img)
+            if(maze.type==0){
+                //绘制精灵.
+                svg.append('image').attr('id','pegman').attr('width', actor.width * 16).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
+                .attr('xlink:href',actor.img)
+            }else{      
+                //绘制精灵.
+                svg.append('image').attr('id','pegman').attr('width', actor.width * 21).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
+                .attr('xlink:href',actor.img)
+            }
         }else{
             //绘制精灵.
             svg.append('image').attr('id','pegman').attr('width', actor.width ).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
@@ -244,9 +249,9 @@ var $builtinmodule = function (name) {
             }
         }
 
+         // 绘制终点图标
+         svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
         if(maze.type==1){
-            // 绘制终点图标
-            svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
             //定位：精灵与终点初始的位置
             // Locate the start and finish squares.
             for (var y = 0; y < maze_ROWS; y++) {
@@ -267,7 +272,19 @@ var $builtinmodule = function (name) {
             }
         }else{
             //绘制既是起点、又是终点的坐标
-
+            // Locate the start and finish squares.
+            for (var y = 0; y < maze_ROWS; y++) {
+                for (var x = 0; x < maze_COLS; x++) {
+                    if (map[y][x] == 9) {//既是起点又是终点
+                        actor.x= x;
+                        actor.y= y;
+                        var finishIcon = $('#finish');
+                        finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -finishIcon.attr('width') / 2);
+                        finishIcon.attr('y', maze_SQUARE_SIZE * (y + 0.6) -finishIcon.attr('height'));
+                        maze.finish={x:x,y:y}
+                    }
+                }
+            }
         }
     }
 
