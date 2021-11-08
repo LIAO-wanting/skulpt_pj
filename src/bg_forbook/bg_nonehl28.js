@@ -647,7 +647,8 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
-                        throw new Sk.builtin.TypeError("Something went wrong");
+                        throw new Sk.builtin.NotImplementedError("挑战失败!请修改后重新尝试");
+
                     }
                     switch (command) {
                         case 'north':
