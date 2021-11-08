@@ -97,7 +97,8 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
-            [0, 0, 0, 1, 1, 1, 1, 0]],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
             background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
@@ -110,7 +111,7 @@ var $builtinmodule = function (name) {
             },
             //迷宫部分参数指定
             MAZE_WIDTH : maze_SQUARE_SIZE * 8,
-            MAZE_HEIGHT : maze_SQUARE_SIZE * 7,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 8,
             PATH_WIDTH : maze_SQUARE_SIZE / 3,
             result :  ResultType.UNSET,
             finish : {x:0,y:0},
@@ -243,14 +244,14 @@ var $builtinmodule = function (name) {
                     svg.append('image').attr('id','coin'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
                 }else if(map[y][x]==9){//当地图中此点既表示起点又表示终点时
-                    svg.append('image').attr('id','SF_point').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.8).attr('height',maze_SQUARE_SIZE*0.8)
+                    svg.append('image').attr('id','SF_point').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                     .attr('xlink:href',maze.marker)
                 }
             }
         }
 
-         // 绘制终点图标
-         svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
+        // 绘制终点图标
+        svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
         if(maze.type==1){
             //定位：精灵与终点初始的位置
             // Locate the start and finish squares.
@@ -701,6 +702,7 @@ var $builtinmodule = function (name) {
      * @param {number} level 初始化地图，level为地图的等级.
      */
      var settedMap_f=function(level) { 
+        level=Sk.ffi.remapToJs(level)
         maze=MAZE_setted[level]
         map=MAZE_setted[level].map
         drawMap()
