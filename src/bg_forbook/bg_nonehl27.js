@@ -162,7 +162,7 @@ var $builtinmodule = function (name) {
         var pegmanIcon = $('#pegman');
         if(actor.type=='animate'){
             if(maze.type==0){
-                pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width+ 10);
+                pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width+ 1);
                 pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 );
             }else{
                 pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width + 1);
@@ -647,7 +647,7 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
-                        throw new Sk.builtin.TypeError("挑战失败，请修改代码后重新尝试！");
+                        throw new Sk.builtin.TypeError("Something went wrong");
                     }
                     switch (command) {
                         case 'north':
