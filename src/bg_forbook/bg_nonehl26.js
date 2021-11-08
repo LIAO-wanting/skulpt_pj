@@ -71,6 +71,7 @@ var $builtinmodule = function (name) {
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
         wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
         award:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/award.png',
+        barrier:'',
         SquareType :{//迷宫中方块的类型
             WALL: 0,
             OPEN: 1,
@@ -104,9 +105,40 @@ var $builtinmodule = function (name) {
             background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
             wall:'',
             award:'',
+            barrier:'',
             SquareType :{//迷宫中方块的类型
                 WALL: 0,
                 OPEN: 1,
+                S_F: 9,//既是起点又是终点
+            },
+            //迷宫部分参数指定
+            MAZE_WIDTH : maze_SQUARE_SIZE * 8,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 8,
+            PATH_WIDTH : maze_SQUARE_SIZE / 3,
+            result :  ResultType.UNSET,
+            finish : {x:0,y:0},
+            type:0//类型为非用户自定义的
+        },
+        //第二关
+        {   map:[
+            [0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0, 0, 1, 0],
+            [0, 1, 1, 9, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
+            wall:'',
+            award:'',
+            barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/barrier.png',
+            SquareType :{//迷宫中方块的类型
+                WALL: 0,
+                OPEN: 1,
+                BARRIER:5,
                 S_F: 9,//既是起点又是终点
             },
             //迷宫部分参数指定
@@ -242,12 +274,15 @@ var $builtinmodule = function (name) {
                     tileId++;
                 }
 
-                if(map[y][x]==0){//当地图中此处标记为障碍物时
+                if(map[y][x]==0){//当地图中此处标记为墙时
                     svg.append('image').attr('x',x * maze_SQUARE_SIZE + (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*0.8 ).attr('height',maze_SQUARE_SIZE*0.8)
                     .attr('xlink:href',maze.wall)
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
                     svg.append('image').attr('id','coin'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
+                }else if(map[y][x]==5){//当地图中此处标记为障碍时
+                    svg.append('image').attr('id','barrier'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                    .attr('xlink:href',maze.barrier)
                 }
             }
         }
@@ -451,7 +486,7 @@ var $builtinmodule = function (name) {
             bg_pic=""
         }
         if((M_x<3) || (M_x>20) || (M_y<3) || (M_y>20)){
-            throw Error("错误！超出地图可设置范围，请设置横纵方格数大于等于3，小于等于20")
+            throw new Sk.builtin.TypeError("错误！超出地图可设置范围，请设置横纵方格数大于等于3，小于等于20");
         }
         M_x = Sk.ffi.remapToJs(M_x);
         M_y = Sk.ffi.remapToJs(M_y);
@@ -478,13 +513,13 @@ var $builtinmodule = function (name) {
         var re=/\((\d+),(\d+)\)/.exec(startPos);
         if(re!=null){
             if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
-                throw Error("错误！起点坐标超出地图范围！")
+                throw new Sk.builtin.TypeError("错误！起点坐标超出地图范围！");
             }
         }
         var re=/\((\d+),(\d+)\)/.exec(endPos);
         if(re!=null){
             if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
-                throw Error("错误！终点坐标超出地图范围！")
+                throw new Sk.builtin.TypeError("错误！终点坐标超出地图范围！");
             }
         }
 
@@ -541,9 +576,9 @@ var $builtinmodule = function (name) {
         type=Sk.ffi.remapToJs(type);
 
         if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
-            throw Error("错误！不能将放置物位置设置在起点或终点坐标！")
+            throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");
         }else if((Pos_x>(map[0].length)) || (Pos_x< 0) || (Pos_y>(map.length)) || (Pos_y< 0)){
-            throw Error("错误！放置物坐标超过地图范围")
+            throw new Sk.builtin.TypeError("错误！放置物坐标超过地图范围");
         }
 
         switch(type){
@@ -590,7 +625,7 @@ var $builtinmodule = function (name) {
                     actor.type="still"
                     break;
                 case "car":
-                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/car.png';//设置为小车
+                    actor.img='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/actor_car.png';//设置为小车
                     actor.type="animate"
                     break;
             }
@@ -612,7 +647,7 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败")
-                        throw Error("挑战失败，请修改代码后重新尝试！")
+                        throw new Sk.builtin.TypeError("挑战失败，请修改代码后重新尝试！");
                     }
                     switch (command) {
                         case 'north':
