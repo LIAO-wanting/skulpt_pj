@@ -93,13 +93,13 @@ var $builtinmodule = function (name) {
         {   map:[
             [0, 1, 1, 1, 1, 1, 1, 0],
             [0, 1, 0, 1, 0, 0, 1, 0],
-            [0, 1, 1, 2, 0, 0, 1, 0],
+            [0, 1, 1, 9, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 1, 1, 1, 0],
             [0, 0, 0, 0, 0, 0, 0, 0]],
-            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/tiles_road.png',//地图路径图片
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
             background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car1.png',//地图背景图片
             wall:'',
@@ -219,7 +219,7 @@ var $builtinmodule = function (name) {
                
                 if(maze.type==0){//非用户自定义
                     // Tile sprite.
-                    if (map[y][x] == maze.SquareType.OPEN) {
+                    if (map[y][x] != maze.SquareType.WALL) {
                         svg.append('image').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE ).attr('height',maze_SQUARE_SIZE )
                         .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
                         tileId++;
@@ -243,28 +243,32 @@ var $builtinmodule = function (name) {
                 }
             }
         }
-        // 绘制终点图标
-        svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
 
-        //定位：精灵与终点初始的位置
-        // Locate the start and finish squares.
-        for (var y = 0; y < maze_ROWS; y++) {
-            for (var x = 0; x < maze_COLS; x++) {
-                if (map[y][x] == maze.SquareType.START) {
-                    actor.x= x;
-                    actor.y= y;
-                } else if (map[y][x] == maze.SquareType.FINISH) {
-                    // Move the finish icon into position.
-                    var finishIcon = $('#finish');
-                    finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
-                        finishIcon.attr('width') / 2);
-                    finishIcon.attr('y', maze_SQUARE_SIZE * (y + 0.6) -
-                        finishIcon.attr('height'));
-                    maze.finish={x:x,y:y}
+        if(maze.type==1){
+            // 绘制终点图标
+            svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
+            //定位：精灵与终点初始的位置
+            // Locate the start and finish squares.
+            for (var y = 0; y < maze_ROWS; y++) {
+                for (var x = 0; x < maze_COLS; x++) {
+                    if (map[y][x] == maze.SquareType.START) {
+                        actor.x= x;
+                        actor.y= y;
+                    } else if (map[y][x] == maze.SquareType.FINISH) {
+                        // Move the finish icon into position.
+                        var finishIcon = $('#finish');
+                        finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
+                            finishIcon.attr('width') / 2);
+                        finishIcon.attr('y', maze_SQUARE_SIZE * (y + 0.6) -
+                            finishIcon.attr('height'));
+                        maze.finish={x:x,y:y}
+                    }
                 }
             }
-        }
+        }else{
+            //绘制既是起点、又是终点的坐标
 
+        }
     }
 
     //检查是否已到终点
