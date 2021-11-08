@@ -219,9 +219,11 @@ var $builtinmodule = function (name) {
                
                 if(maze.type==0){//非用户自定义
                     // Tile sprite.
-                    svg.append('image').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE ).attr('height',maze_SQUARE_SIZE )
-                    .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
-                    tileId++;
+                    if (map[y][x] == maze.SquareType.OPEN) {
+                        svg.append('image').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE ).attr('height',maze_SQUARE_SIZE )
+                        .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
+                        tileId++;
+                    } 
                 }else{
                     // Tile sprite.
                     svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE * 5).attr('height',maze_SQUARE_SIZE * 4)
