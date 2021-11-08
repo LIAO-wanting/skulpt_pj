@@ -129,15 +129,20 @@ var $builtinmodule = function (name) {
     var displayPegman = function(x, y, d, opt_angle) {
         var pegmanIcon = $('#pegman');
         if(actor.type=='animate'){
-            pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width + 1);
-            pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 - 8);
-            if (opt_angle) {
-              pegmanIcon.attr('transform', 'rotate(' + opt_angle + ', ' +
-                  (x * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ', ' +
-                  (y * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ')');
-            } else {
-              pegmanIcon.attr('transform', 'rotate(0, 0, 0)');
+            if(maze.type==0){
+                pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width+ 10);
+                pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 );
+            }else{
+                pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width + 1);
+                pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 - 8);
             }
+            if (opt_angle) {
+                pegmanIcon.attr('transform', 'rotate(' + opt_angle + ', ' +
+                    (x * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ', ' +
+                    (y * maze_SQUARE_SIZE + maze_SQUARE_SIZE / 2) + ')');
+              } else {
+                pegmanIcon.attr('transform', 'rotate(0, 0, 0)');
+              }
         }else{
             pegmanIcon.attr('x', x * maze_SQUARE_SIZE + 1);
             pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 );
@@ -243,16 +248,13 @@ var $builtinmodule = function (name) {
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
                     svg.append('image').attr('id','coin'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
-                }else if(map[y][x]==9){//当地图中此点既表示起点又表示终点时
-                    svg.append('image').attr('id','SF_point').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
-                    .attr('xlink:href',maze.marker)
                 }
             }
         }
 
-        // 绘制终点图标
-        svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
         if(maze.type==1){
+            // 绘制终点图标
+            svg.append('image').attr('id','finish').attr('width',  0.5 * maze_SQUARE_SIZE).attr('height',  0.5*maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
             //定位：精灵与终点初始的位置
             // Locate the start and finish squares.
             for (var y = 0; y < maze_ROWS; y++) {
@@ -272,6 +274,8 @@ var $builtinmodule = function (name) {
                 }
             }
         }else{
+            // 绘制终点图标
+            svg.append('image').attr('id','finish').attr('width',  maze_SQUARE_SIZE).attr('height', maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
             //绘制既是起点、又是终点的坐标
             // Locate the start and finish squares.
             for (var y = 0; y < maze_ROWS; y++) {
