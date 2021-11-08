@@ -94,13 +94,13 @@ var $builtinmodule = function (name) {
     var MAZE_setted=[
         //第一关
         {   map:[
-            [0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 13, 1, 1, 12, 0],
             [0, 1, 0, 1, 0, 0, 1, 0],
             [0, 1, 1, 9, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
-            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 10, 1, 1, 11, 0],
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
@@ -128,13 +128,13 @@ var $builtinmodule = function (name) {
         },
         //第二关
         {   map:[
-            [0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 13, 1, 1, 12, 0],
             [0, 1, 0, 5, 0, 0, 1, 0],
             [0, 1, 1, 9, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
-            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 10, 1, 1, 11, 0],
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
