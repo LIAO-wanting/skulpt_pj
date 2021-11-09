@@ -451,6 +451,9 @@ var $builtinmodule = function (name) {
         }
         
     }
+
+
+
     /**
      * Is there a path next to pegman?
      * @param {number} direction Direction to look
@@ -852,6 +855,29 @@ var $builtinmodule = function (name) {
                     state=isPath(direction, null)
                     break;
             };
+            return Sk.ffi.remapToPy(state);
+        });
+        //判断某个方向是否存在障碍物
+        $loc.isBarrier=new Sk.builtin.func(function(self,direction){
+            Sk.builtin.pyCheckArgs("isBarrier", arguments, 2, 2);
+            Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
+            direction=Sk.ffi.remapToJs(direction)
+            var state=false;
+            switch (direction) {
+                case DirectionType.NORTH:
+                    square = map[actor.y - 1] && map[actor.y - 1][actor.x];
+                    break;
+                case DirectionType.EAST:
+                    square = map[actor.y][actor.x + 1];
+                    break;
+                case DirectionType.SOUTH:
+                    square = map[actor.y + 1] && map[actor.y + 1][actor.x];
+                    break;
+                case DirectionType.WEST:
+                    square = map[actor.y][actor.x - 1];
+                    break;
+            };
+            state= square == maze.SquareType.BARRIER;
             return Sk.ffi.remapToPy(state);
         });
         $loc.getPoint=new Sk.builtin.func(function(self){
