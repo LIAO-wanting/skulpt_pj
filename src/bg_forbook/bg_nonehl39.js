@@ -60,7 +60,8 @@ var $builtinmodule = function (name) {
         y : 0,
         stepSpeed : 150,
         coin_point:0,
-        marker_num:0
+        marker_num:0,
+        oil:1//表示小车有充足的油量（为了适应教材而新增的变量）
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -68,6 +69,7 @@ var $builtinmodule = function (name) {
     var maze_COLS=map[0].length;
     var maze_marker_num=0;//迷宫中标记点的数目
     var maze={
+        mlevel:0,
         tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
@@ -94,7 +96,8 @@ var $builtinmodule = function (name) {
     //已经设置好的关卡的map
     var MAZE_setted=[
         //第一关
-        {   map:[
+        {   mlevel:1,
+            map:[
             [0, 1, 1, 13, 1, 1, 12, 0],
             [0, 1, 0, 1, 0, 0, 1, 0],
             [0, 1, 1, 9, 0, 0, 1, 0],
@@ -128,7 +131,9 @@ var $builtinmodule = function (name) {
             type:0//类型为非用户自定义的
         },
         //第二关
-        {   map:[
+        {   
+            mlevel:2,
+            map:[
             [0, 1, 1, 13, 1, 1, 12, 0],
             [0, 1, 0, 5, 0, 0, 1, 0],
             [0, 1, 1, 9, 0, 0, 1, 0],
@@ -163,7 +168,8 @@ var $builtinmodule = function (name) {
             type:0//类型为非用户自定义的
         },
         //第三关
-        {   map:[
+        {   mlevel:3,
+            map:[
             [0, 1, 1, 13, 1, 1, 1, 0],
             [0, 1, 0, Math.random()>0.5?1:5, 0, 0, 1, 0],
             [0, 1, 1, 9, 0, 0, 1, 0],
@@ -185,6 +191,40 @@ var $builtinmodule = function (name) {
                 BARRIER:5,
                 MARKER4:13,
                 S_F: 9,//既是起点又是终点
+            },
+            //迷宫部分参数指定
+            MAZE_WIDTH : maze_SQUARE_SIZE * 8,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 8,
+            PATH_WIDTH : maze_SQUARE_SIZE / 3,
+            result :  ResultType.UNSET,
+            finish : {x:0,y:0},
+            type:0//类型为非用户自定义的
+        },
+        //第四关
+        {   mlevel:4,
+            map:[
+            [0, 1, 1, 13, 1, 1, 1, 0],
+            [20, 1, 0, Math.random()>0.5?1:5, 0, 0, 1, 0],
+            [0, 1, 1, 9, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car3.png',//地图背景图片
+            wall:'',
+            award:'',
+            barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/barrier.png',
+            markers:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
+            SquareType :{//迷宫中方块的类型
+                WALL: 0,
+                OPEN: 1,
+                BARRIER:5,
+                MARKER4:13,
+                S_F: 9,//既是起点又是终点
+                OIL_STATION:20//加油站
             },
             //迷宫部分参数指定
             MAZE_WIDTH : maze_SQUARE_SIZE * 8,
@@ -344,6 +384,9 @@ var $builtinmodule = function (name) {
                     svg.append('image').attr('id','marker4').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                     .attr('xlink:href',maze.markers[3])
                     maze_marker_num+=1
+                }else if(map[y][x]==20){//当地图中此处标记为20——加油站时
+                    svg.append('image').attr('id','station').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*2*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                    .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/oilstation.png')
                 }
             }
         }
