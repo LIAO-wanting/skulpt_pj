@@ -160,6 +160,38 @@ var $builtinmodule = function (name) {
             result :  ResultType.UNSET,
             finish : {x:0,y:0},
             type:0//类型为非用户自定义的
+        },
+        //第三关
+        {   map:[
+            [0, 1, 1, 13, 1, 1, 1, 0],
+            [0, 1, 0, Math.Random()>0.5?1:5, 0, 0, 1, 0],
+            [0, 1, 1, 9, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car2.png',//地图背景图片
+            wall:'',
+            award:'',
+            barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/barrier.png',
+            markers:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
+            SquareType :{//迷宫中方块的类型
+                WALL: 0,
+                OPEN: 1,
+                BARRIER:5,
+                MARKER4:13,
+                S_F: 9,//既是起点又是终点
+            },
+            //迷宫部分参数指定
+            MAZE_WIDTH : maze_SQUARE_SIZE * 8,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 8,
+            PATH_WIDTH : maze_SQUARE_SIZE / 3,
+            result :  ResultType.UNSET,
+            finish : {x:0,y:0},
+            type:0//类型为非用户自定义的
         }
     ]
 
