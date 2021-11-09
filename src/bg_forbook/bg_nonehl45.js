@@ -860,7 +860,7 @@ var $builtinmodule = function (name) {
         //判断某个方向是否存在障碍物
         $loc.isBarrier=new Sk.builtin.func(function(self,direction){
             Sk.builtin.pyCheckArgs("isBarrier", arguments, 2, 2);
-            Sk.builtin.pyCheckType("direction", "number", Sk.builtin.checkString(direction));
+            Sk.builtin.pyCheckType("direction", "number", Sk.builtin.checkNumber(direction));
             direction=Sk.ffi.remapToJs(direction)
             var state=false;
             switch (direction) {
