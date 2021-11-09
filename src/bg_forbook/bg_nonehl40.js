@@ -317,7 +317,7 @@ var $builtinmodule = function (name) {
             if (x < 0 || x >= maze_COLS || y < 0 || y >= maze_ROWS) {
               return '0';
             }
-            return (map[y][x] == maze.SquareType.WALL) ? '0' : '1';
+            return ((map[y][x] == maze.SquareType.WALL)||(map[y][x] == maze.SquareType.OIL_STATION)) ? '0' : '1';
         };
         // 依次判断格子的类型，并绘制相应格子内的图形
         var tileId = 0;
@@ -484,7 +484,7 @@ var $builtinmodule = function (name) {
         if (id) {
             return [command , square !== maze.SquareType.WALL && square !== undefined ]
         }
-        return square !== maze.SquareType.WALL && square !== undefined && square !== maze.SquareType.BARRIER;
+        return square !== maze.SquareType.WALL && square !== undefined && square !== maze.SquareType.BARRIER && square !== maze.SquareType.OIL_STATION;
     };
 
     var constrainDirection4 = function(d) {
