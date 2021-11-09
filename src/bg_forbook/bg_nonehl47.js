@@ -777,8 +777,9 @@ var $builtinmodule = function (name) {
                     }
 
                     if(maze.mlevel==4){//如果是第四关，则需要判断是否需要加油的问题
-                        //如果周围存在加油站
-                        if((map[actor.y - 1][actor.x])==maze.SquareType.OIL_STATION||(map[actor.y + 1][actor.x])==maze.SquareType.OIL_STATION||(map[actor.y ][actor.x-1])==maze.SquareType.OIL_STATION||(map[actor.y ][actor.x+1])==maze.SquareType.OIL_STATION){
+                        //如果左侧存在加油站
+                        // if((map[actor.y - 1][actor.x])==maze.SquareType.OIL_STATION||(map[actor.y + 1][actor.x])==maze.SquareType.OIL_STATION||(map[actor.y ][actor.x-1])==maze.SquareType.OIL_STATION||(map[actor.y ][actor.x+1])==maze.SquareType.OIL_STATION){
+                        if((map[actor.y][actor.x-1])==maze.SquareType.OIL_STATION){  
                             if(actor.oil==0){//在加油站处，如果没有油还想继续往前面走
                                 maze.result=ResultType.FAILURE
                                 svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
