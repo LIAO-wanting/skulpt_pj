@@ -384,9 +384,6 @@ var $builtinmodule = function (name) {
                     svg.append('image').attr('id','marker4').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                     .attr('xlink:href',maze.markers[3])
                     maze_marker_num+=1
-                }else if(map[y][x]==20){//当地图中此处标记为20——加油站时
-                    svg.append('image').attr('id','station').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*2*0.7).attr('height',maze_SQUARE_SIZE*0.7)
-                    .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/oilstation.png')
                 }
             }
         }
@@ -426,6 +423,9 @@ var $builtinmodule = function (name) {
                         finishIcon.attr('x', maze_SQUARE_SIZE * x );
                         finishIcon.attr('y', maze_SQUARE_SIZE * y+5);
                         maze.finish={x:x,y:y}
+                    }else if(map[y][x]==20){//当地图中此处标记为20——加油站时
+                        svg.append('image').attr('id','station').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*2*0.8).attr('height',maze_SQUARE_SIZE*0.8)
+                        .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/oilstation.png')
                     }
                 }
             }
