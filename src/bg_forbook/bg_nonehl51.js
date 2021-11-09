@@ -257,6 +257,7 @@ var $builtinmodule = function (name) {
             SquareType :{//迷宫中方块的类型
                 WALL: 0,
                 OPEN: 1,
+                START: 1,
                 S_F: 9,//既是起点又是终点
                 TRAFFIC_LIGHT:21//红绿灯
             },
@@ -444,13 +445,13 @@ var $builtinmodule = function (name) {
                 }
             }
         }else{
-            // 绘制终点图标
-            svg.append('image').attr('id','finish').attr('width',  maze_SQUARE_SIZE).attr('height', maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
             //绘制既是起点、又是终点的坐标
             // Locate the start and finish squares.
             for (var y = 0; y < maze_ROWS; y++) {
                 for (var x = 0; x < maze_COLS; x++) {
                     if (map[y][x] == 9) {//既是起点又是终点
+                        // 绘制终点图标
+                        svg.append('image').attr('id','finish').attr('width',  maze_SQUARE_SIZE).attr('height', maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
                         actor.x= x;
                         actor.y= y;
                         var finishIcon = $('#finish');
