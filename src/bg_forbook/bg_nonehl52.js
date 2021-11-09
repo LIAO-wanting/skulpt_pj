@@ -257,7 +257,7 @@ var $builtinmodule = function (name) {
             SquareType :{//迷宫中方块的类型
                 WALL: 0,
                 OPEN: 1,
-                START: 1,
+                START: 2,
                 S_F: 9,//既是起点又是终点
                 TRAFFIC_LIGHT:21//红绿灯
             },
@@ -979,7 +979,18 @@ var $builtinmodule = function (name) {
             var point= actor.coin_point; 
             return Sk.ffi.remapToPy(point);
         });
-     
+        //检查循环的次数是否正确
+        $loc.isCirculationRight=new Sk.builtin.func(function(self){
+            Sk.builtin.pyCheckArgs("isCirculationRight", arguments, 1, 1);
+            var mlevel=maze.mlevel;//获取当前关卡序数
+            var state=false;
+            switch (mlevel){
+                case 5://第五关
+                state=actor.circulation_num==3?true:false;
+                break;
+            }
+            return Sk.ffi.remapToPy(state);
+        });
 
     }, "Actor")
 
