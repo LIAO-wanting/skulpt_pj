@@ -775,6 +775,21 @@ var $builtinmodule = function (name) {
                         alert("挑战失败!请修改后重新尝试")
                         throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
                     }
+
+                    if(maze.mlevel==4){//如果是第四关，则需要判断是否需要加油的问题
+                        //如果周围存在加油站
+                        if((map[actor.y - 1][actor.x])==maze.SquareType.OIL_STATION||(map[actor.y + 1][actor.x])==maze.SquareType.OIL_STATION||(map[actor.y ][actor.x-1])==maze.SquareType.OIL_STATION||(map[actor.y ][actor.x+1])==maze.SquareType.OIL_STATION){
+                            if(actor.oil==0){//在加油站处，如果没有油还想继续往前面走
+                                maze.result=ResultType.FAILURE
+                                svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/no_oil.png')
+                                alert("挑战失败!小车没有油了")
+                                throw new Sk.builtin.TypeError("挑战失败!小车没有油了");
+                            }
+                        }
+
+                    }
+
                     switch (command) {
                         case 'north':
                             schedule([actor.x, actor.y, actor.direction * 4],
@@ -799,6 +814,7 @@ var $builtinmodule = function (name) {
                     }
                     hasCoin(actor.x,actor.y)
                     hasMarker(actor.x,actor.y)
+
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -879,6 +895,39 @@ var $builtinmodule = function (name) {
             };
             state= square == maze.SquareType.BARRIER;
             return Sk.ffi.remapToPy(state);
+        });
+        //随机生成小车油量
+        $loc.randomOil=new Sk.builtin.func(function(self){
+            Sk.builtin.pyCheckArgs("randomOil", arguments, 1, 1);
+            actor.oil=Math.random()>0.5?1:0;//随机初始化汽车的油量
+            if(actor.oil==0){//没油(呈现少量油的图片)
+                svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/none_oil.png')
+            }else if(actor.oil==1){//油量充足（呈现油量充足的图片）
+                svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/full_oil.png')
+            }
+        });
+        //判断是否需要加油
+        $loc.isOilFull=new Sk.builtin.func(function(self){
+            Sk.builtin.pyCheckArgs("isOilFull", arguments, 1, 1);
+            if(actor.oil==0){//没油了，返回需要加油为True
+                return Sk.ffi.remapToPy(true);
+            }else if(actor.oil==1){//还有油，返回需要加油为False
+                return Sk.ffi.remapToPy(false);
+            }
+        });
+        //进加油站加油
+        $loc.addOil=new Sk.builtin.func(function(self){
+            Sk.builtin.pyCheckArgs("addOil", arguments, 1, 1);
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                Sk.setTimeout(function() {
+                    svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                    .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/full_oil.png')
+                    actor.oil=1//油量充足
+                    resolve(Sk.builtin.none.none$);
+                }, 800);
+            }));
         });
         $loc.getPoint=new Sk.builtin.func(function(self){
             Sk.builtin.pyCheckArgs("getPoint", arguments, 1, 1);
