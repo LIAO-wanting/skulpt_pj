@@ -66,6 +66,7 @@ var $builtinmodule = function (name) {
     var maze_SQUARE_SIZE = 50;
     var maze_ROWS=map.length;
     var maze_COLS=map[0].length;
+    var maze_marker_num=0;//迷宫中标记点的数目
     var maze={
         tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
@@ -330,15 +331,19 @@ var $builtinmodule = function (name) {
                 }else if(map[y][x]==10){//当地图中此处标记为符号1——红标时
                     svg.append('image').attr('id','marker1').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                     .attr('xlink:href',maze.markers[0])
+                    maze_marker_num+=1
                 }else if(map[y][x]==11){//当地图中此处标记为符号2——橘标时
                     svg.append('image').attr('id','marker2').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                     .attr('xlink:href',maze.markers[1])
+                    maze_marker_num+=1
                 }else if(map[y][x]==12){//当地图中此处标记为符号3——蓝标时
                     svg.append('image').attr('id','marker3').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                     .attr('xlink:href',maze.markers[2])
+                    maze_marker_num+=1
                 }else if(map[y][x]==13){//当地图中此处标记为符号4——绿标时
                     svg.append('image').attr('id','marker4').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                     .attr('xlink:href',maze.markers[3])
+                    maze_marker_num+=1
                 }
             }
         }
@@ -392,7 +397,7 @@ var $builtinmodule = function (name) {
             if(maze.type==1){
                 return true
             }else{
-                if(actor.marker_num==4){
+                if(actor.marker_num==maze_marker_num){
                     return true
                 }else{
                     return "error2"
