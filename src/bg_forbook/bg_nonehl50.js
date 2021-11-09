@@ -489,15 +489,7 @@ var $builtinmodule = function (name) {
                 }
             }
         }else{
-            if(maze.mlevel==5){//如果是第五关，判断胜利的机制不同，为经过3次起点
-                if(actor.circulation_num>3){//走了三次循环以上
-                    return true
-                }else{
-                    return "error3"
-                }
-            }else{
-                return false
-            }
+            return false
         }
     }
 
@@ -835,6 +827,11 @@ var $builtinmodule = function (name) {
                                 throw new Sk.builtin.TypeError("挑战失败!小车没有油了");
                             }
                         }
+                    }else if(maze.mlevel==5){//如果是第五关，则需要记录循环次数；每次经过起点处循环次数+1
+                        if((map[actor.y][actor.x])==maze.SquareType.START){  
+                            actor.circulation_num+=1;
+                            console.log(actor.circulation_num)
+                        }
                     }
 
                     switch (command) {
@@ -862,11 +859,6 @@ var $builtinmodule = function (name) {
                     hasCoin(actor.x,actor.y)
                     hasMarker(actor.x,actor.y)
 
-                    if(maze.mlevel==5){//如果是第五关，则需要记录循环次数；每次经过起点处循环次数+1
-                        if((map[actor.y][actor.x])==maze.SquareType.START){  
-                            actor.circulation_num+=1;
-                        }
-                    }
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -877,11 +869,7 @@ var $builtinmodule = function (name) {
                         maze.result=ResultType.FAILURE
                         alert("挑战失败，请检查是否通过所有标记点！")
                         throw new Sk.builtin.TypeError("挑战失败，请检查是否通过所有标记点！");
-                    }else if(state=="error3"){
-                        maze.result=ResultType.FAILURE
-                        alert("挑战失败，请检查循环次数是否正确！")
-                        throw new Sk.builtin.TypeError("挑战失败，请检查循环次数是否正确！");
-                    }   
+                    } 
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
