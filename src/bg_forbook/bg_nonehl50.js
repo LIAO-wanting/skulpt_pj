@@ -61,7 +61,9 @@ var $builtinmodule = function (name) {
         stepSpeed : 150,
         coin_point:0,
         marker_num:0,
-        oil:1//表示小车有充足的油量（为了适应教材而新增的变量）
+        oil:1,//表示小车有充足的油量（为了适应教材而新增的变量）
+        traffic_light:1,//表示红绿灯为绿灯
+        circulation_num:0//小车在赛道中循环的次数
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -238,8 +240,8 @@ var $builtinmodule = function (name) {
         {   mlevel:5,
             map:[
             [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 0, 1, 0, 0, 1, 0],
-            [0, 1, 1, 9, 21, 0, 1, 0],
+            [0, 1, 0, 0, 0, 0, 1, 0],
+            [0, 1, 1, 2, 21, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
@@ -461,6 +463,11 @@ var $builtinmodule = function (name) {
                     }else if(map[y][x]==21){//当地图中此处标记为21——红绿灯时
                         svg.append('image').attr('id','trafficlight').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/trafficlight.png')
+                    }else if(map[y][x]==2){//当地图中此处标记为起点时，画上和“既是起点又是终点”一样的图标
+                        actor.x= x;
+                        actor.y= y;
+                        svg.append('image').attr('id','start').attr('x', maze_SQUARE_SIZE * x).attr('y',maze_SQUARE_SIZE * y+5).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                        .attr('xlink:href',maze.marker)
                     }
                 }
             }
@@ -482,12 +489,17 @@ var $builtinmodule = function (name) {
                 }
             }
         }else{
-            return false
+            if(maze.mlevel==5){//如果是第五关，判断胜利的机制不同，为经过3次起点
+                if(actor.circulation_num>3){//走了三次循环以上
+                    return true
+                }else{
+                    return "error3"
+                }
+            }else{
+                return false
+            }
         }
-        
     }
-
-
 
     /**
      * Is there a path next to pegman?
@@ -823,7 +835,6 @@ var $builtinmodule = function (name) {
                                 throw new Sk.builtin.TypeError("挑战失败!小车没有油了");
                             }
                         }
-
                     }
 
                     switch (command) {
@@ -851,6 +862,11 @@ var $builtinmodule = function (name) {
                     hasCoin(actor.x,actor.y)
                     hasMarker(actor.x,actor.y)
 
+                    if(maze.mlevel==5){//如果是第五关，则需要记录循环次数；每次经过起点处循环次数+1
+                        if((map[actor.y][actor.x])==maze.SquareType.START){  
+                            actor.circulation_num+=1;
+                        }
+                    }
                     var state=checkFinish()
                     if(state==true){
                         setTimeout(function() {
@@ -861,7 +877,11 @@ var $builtinmodule = function (name) {
                         maze.result=ResultType.FAILURE
                         alert("挑战失败，请检查是否通过所有标记点！")
                         throw new Sk.builtin.TypeError("挑战失败，请检查是否通过所有标记点！");
-                    }     
+                    }else if(state=="error3"){
+                        maze.result=ResultType.FAILURE
+                        alert("挑战失败，请检查循环次数是否正确！")
+                        throw new Sk.builtin.TypeError("挑战失败，请检查循环次数是否正确！");
+                    }   
                     resolve(Sk.builtin.none.none$);
                 }, 800);
             }));
