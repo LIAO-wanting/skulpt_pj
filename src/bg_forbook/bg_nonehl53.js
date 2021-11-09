@@ -982,14 +982,25 @@ var $builtinmodule = function (name) {
         //检查循环的次数是否正确
         $loc.isCirculationRight=new Sk.builtin.func(function(self){
             Sk.builtin.pyCheckArgs("isCirculationRight", arguments, 1, 1);
-            var mlevel=maze.mlevel;//获取当前关卡序数
-            var state=false;
-            switch (mlevel){
-                case 5://第五关
-                state=actor.circulation_num==3?true:false;
-                break;
-            }
-            return Sk.ffi.remapToPy(state);
+            return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+                var mlevel=maze.mlevel;//获取当前关卡序数
+                var state=false;
+                switch (mlevel){
+                    case 5://第五关
+                    state=actor.circulation_num==3?true:false;
+                    break;
+                }
+                if(state==true){
+                    setTimeout(function() {
+                        alert("挑战成功！");
+                    },1000)
+                    resolve(Sk.builtin.none.none$);
+                }else{
+                    maze.result=ResultType.FAILURE
+                    alert("挑战失败，请检查循环次数是否正确！")
+                    throw new Sk.builtin.TypeError("挑战失败，请检查循环次数是否正确！");
+                } 
+            }))
         });
 
     }, "Actor")
