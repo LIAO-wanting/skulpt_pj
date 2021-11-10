@@ -499,10 +499,10 @@ var $builtinmodule = function (name) {
                         svg.append('image').attr('id','trafficlight').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/trafficlight.png')
                     }else if(map[y][x]==22){//当地图中此处标记为22——红绿灯中的绿灯时
-                        svg.append('image').attr('id','lightgreen').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                        svg.append('image').attr('id','lightgreen').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/greenlight.png')
                     }else if(map[y][x]==23){//当地图中此处标记为23——红绿灯中的红灯时
-                        svg.append('image').attr('id','lightred').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                        svg.append('image').attr('id','lightred').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/redlight.png')
                     }else if(map[y][x]==2){//当地图中此处标记为起点时，画上和“既是起点又是终点”一样的图标
                         actor.x= x;
@@ -908,7 +908,8 @@ var $builtinmodule = function (name) {
                             map[actor.y][actor.x+1]=Math.random()>0.5? maze.SquareType.LIGHT_RED:maze.SquareType.LIGHT_GREEN;//随机刷新红绿灯的状态
                             actor.traffic_light=map[actor.y][actor.x+1];
                             if(actor.traffic_light==maze.SquareType.LIGHT_RED){//图像变为红灯
-                                svg.append('image').attr('id','lightred').attr('x',(actor.x+1) * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',actor.y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                                d3.select("#lightgreen").remove();
+                                svg.append('image').attr('id','lightred').attr('x',(actor.x+1) * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('y',actor.y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                                 .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/redlight.png')
                             }   
                         }
@@ -1032,6 +1033,15 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("getPoint", arguments, 1, 1);
             var point= actor.coin_point; 
             return Sk.ffi.remapToPy(point);
+        });
+        //判断信号灯是否为绿灯？
+        $loc.isLightGreen=new Sk.builtin.func(function(self){
+            Sk.builtin.pyCheckArgs("isLightGreen", arguments, 1, 1);
+            if(actor.traffic_light==maze.SquareType.LIGHT_GREEN){//绿灯，返回 true
+                return Sk.ffi.remapToPy(true);
+            }else if(actor.traffic_light==maze.SquareType.LIGHT_RED){//红灯，返回false
+                return Sk.ffi.remapToPy(false);
+            }
         });
         //检查循环的次数是否正确
         $loc.isCirculationRight=new Sk.builtin.func(function(self){
