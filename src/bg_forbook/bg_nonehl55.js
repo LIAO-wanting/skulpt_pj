@@ -416,7 +416,7 @@ var $builtinmodule = function (name) {
                
                 if(maze.type==0){//非用户自定义
                     // Tile sprite.
-                    if ((map[y][x] != maze.SquareType.WALL) && (map[y][x] != maze.SquareType.OIL_STATION) && (map[y][x] != maze.SquareType.TRAFFIC_LIGHT)) {
+                    if ((map[y][x] != maze.SquareType.WALL) && (map[y][x] != maze.SquareType.OIL_STATION) && (map[y][x] != maze.SquareType.TRAFFIC_LIGHT)&& (map[y][x] != maze.SquareType.LIGHT_GREEN)&& (map[y][x] != maze.SquareType.LIGHT_RED)) {
                         svg.append('image').attr('x', x * maze_SQUARE_SIZE).attr('y', y * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE ).attr('height',maze_SQUARE_SIZE )
                         .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
                         tileId++;
@@ -498,7 +498,7 @@ var $builtinmodule = function (name) {
                     }else if(map[y][x]==21){//当地图中此处标记为21——红绿灯时
                         svg.append('image').attr('id','trafficlight').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/trafficlight.png')
-                    }else if(map[y][x]==21){//当地图中此处标记为22——红绿灯中的绿灯时
+                    }else if(map[y][x]==22){//当地图中此处标记为22——红绿灯中的绿灯时
                         svg.append('image').attr('id','lightgreen').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/greenlight.png')
                     }else if(map[y][x]==23){//当地图中此处标记为23——红绿灯中的红灯时
@@ -565,9 +565,9 @@ var $builtinmodule = function (name) {
                 break;
         }
         if (id) {
-            return [command , square !== maze.SquareType.WALL && square !== undefined && square !== maze.SquareType.BARRIER && square !== maze.SquareType.OIL_STATION && square !== maze.SquareType.TRAFFIC_LIGHT ]
+            return [command , square !== maze.SquareType.WALL && square !== undefined && square !== maze.SquareType.BARRIER && square !== maze.SquareType.OIL_STATION && square !== maze.SquareType.TRAFFIC_LIGHT && square !== maze.SquareType.LIGHT_RED && square !== maze.SquareType.LIGHT_GREEN]
         }
-        return square !== maze.SquareType.WALL && square !== undefined && square !== maze.SquareType.BARRIER && square !== maze.SquareType.OIL_STATION && square !== maze.SquareType.TRAFFIC_LIGHT;
+        return square !== maze.SquareType.WALL && square !== undefined && square !== maze.SquareType.BARRIER && square !== maze.SquareType.OIL_STATION && square !== maze.SquareType.TRAFFIC_LIGHT && square !== maze.SquareType.LIGHT_RED && square !== maze.SquareType.LIGHT_GREEN;
     };
 
     var constrainDirection4 = function(d) {
