@@ -1054,8 +1054,8 @@ var $builtinmodule = function (name) {
                     state=actor.circulation_num==3?true:false;
                     break;
                     case 6://第六关
-                    if(actor.traffic_light==maze.SquareType.LIGHT_GREEN){//如果是绿灯，则怎么都算成功
-                        state=true;
+                    if(actor.traffic_light==maze.SquareType.LIGHT_GREEN){//如果是绿灯，则怎么都算失败
+                        state=false;
                     }else if(actor.traffic_light==maze.SquareType.LIGHT_RED){//如果是红灯
                         for (var y = 0; y < maze.map.length; y++) {
                             for (var x = 0; x <  maze.map[0].length; x++) {
