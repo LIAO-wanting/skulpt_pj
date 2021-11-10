@@ -499,10 +499,10 @@ var $builtinmodule = function (name) {
                         svg.append('image').attr('id','trafficlight').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/trafficlight.png')
                     }else if(map[y][x]==22){//当地图中此处标记为22——红绿灯中的绿灯时
-                        svg.append('image').attr('id','lightgreen').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                        svg.append('image').attr('id','lightgreen').attr('x',x * maze_SQUARE_SIZE-10).attr('y',y * maze_SQUARE_SIZE+ 10).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/greenlight.png')
                     }else if(map[y][x]==23){//当地图中此处标记为23——红绿灯中的红灯时
-                        svg.append('image').attr('id','lightred').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                        svg.append('image').attr('id','lightred').attr('x',x * maze_SQUARE_SIZE-10).attr('y',y * maze_SQUARE_SIZE+ 10).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/redlight.png')
                     }else if(map[y][x]==2){//当地图中此处标记为起点时，画上和“既是起点又是终点”一样的图标
                         actor.x= x;
@@ -909,7 +909,7 @@ var $builtinmodule = function (name) {
                             actor.traffic_light=map[actor.y][actor.x+1];
                             if(actor.traffic_light==maze.SquareType.LIGHT_RED){//图像变为红灯
                                 d3.select("#lightgreen").remove();
-                                svg.append('image').attr('id','lightred').attr('x',(actor.x+1) * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('y',actor.y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE/2)).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                                svg.append('image').attr('id','lightred').attr('x',(actor.x+1) * maze_SQUARE_SIZE+10).attr('y',actor.y * maze_SQUARE_SIZE-10).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                                 .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/redlight.png')
                             }   
                         }
@@ -1052,6 +1052,21 @@ var $builtinmodule = function (name) {
                 switch (mlevel){
                     case 5://第五关
                     state=actor.circulation_num==3?true:false;
+                    break;
+                    case 6://第六关
+                    if(actor.traffic_light==maze.SquareType.LIGHT_GREEN){//如果是绿灯，则怎么都算成功
+                        state=true;
+                    }else if(actor.traffic_light==maze.SquareType.LIGHT_RED){//如果是红灯
+                        for (var y = 0; y < maze.map.length; y++) {
+                            for (var x = 0; x <  maze.map[0].length; x++) {
+                                if(maze.map[y][x]==maze.SquareType.LIGHT_RED){
+                                    if((actor.x+1)==x|| (actor.y)==y){//如果小车停的位置在红绿灯的左边，则挑战成功
+                                        state=true;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     break;
                 }
                 if(state==true){
