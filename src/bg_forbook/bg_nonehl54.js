@@ -62,7 +62,7 @@ var $builtinmodule = function (name) {
         coin_point:0,
         marker_num:0,
         oil:1,//表示小车有充足的油量（为了适应教材而新增的变量）
-        traffic_light:1,//表示红绿灯为绿灯
+        traffic_light:22,//表示红绿灯为绿灯
         circulation_num:0//小车在赛道中循环的次数
     };
     //迷宫变量
@@ -252,14 +252,48 @@ var $builtinmodule = function (name) {
             background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car4.png',//地图背景图片
             wall:'',
             award:'',
-            barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/barrier.png',
-            markers:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
+            barrier:'',
+            markers:[],
             SquareType :{//迷宫中方块的类型
                 WALL: 0,
                 OPEN: 1,
                 START: 2,
                 S_F: 9,//既是起点又是终点
                 TRAFFIC_LIGHT:21//红绿灯
+            },
+            //迷宫部分参数指定
+            MAZE_WIDTH : maze_SQUARE_SIZE * 8,
+            MAZE_HEIGHT : maze_SQUARE_SIZE * 8,
+            PATH_WIDTH : maze_SQUARE_SIZE / 3,
+            result :  ResultType.UNSET,
+            finish : {x:0,y:0},
+            type:0//类型为非用户自定义的
+        },
+        //第六关
+        {   mlevel:6,
+            map:[
+            [0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 0, 0, 0, 0, 1, 0],
+            [0, 1, 1, 2, 22, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/tiles_road.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/Start_final.png',//终点图标图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/bg_car4.png',//地图背景图片
+            wall:'',
+            award:'',
+            barrier:'',
+            markers:[],
+            SquareType :{//迷宫中方块的类型
+                WALL: 0,
+                OPEN: 1,
+                START: 2,
+                S_F: 9,//既是起点又是终点
+                LIGHT_GREEN:22,//红绿灯中的绿灯
+                LIGHT_RED:23//红绿灯中的红灯
             },
             //迷宫部分参数指定
             MAZE_WIDTH : maze_SQUARE_SIZE * 8,
@@ -464,6 +498,12 @@ var $builtinmodule = function (name) {
                     }else if(map[y][x]==21){//当地图中此处标记为21——红绿灯时
                         svg.append('image').attr('id','trafficlight').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/trafficlight.png')
+                    }else if(map[y][x]==21){//当地图中此处标记为22——红绿灯中的绿灯时
+                        svg.append('image').attr('id','lightgreen').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                        .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/greenlight.png')
+                    }else if(map[y][x]==23){//当地图中此处标记为23——红绿灯中的红灯时
+                        svg.append('image').attr('id','lightred').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                        .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/redlight.png')
                     }else if(map[y][x]==2){//当地图中此处标记为起点时，画上和“既是起点又是终点”一样的图标
                         actor.x= x;
                         actor.y= y;
@@ -831,7 +871,11 @@ var $builtinmodule = function (name) {
                     }else if(maze.mlevel==5){//如果是第五关，则需要记录循环次数；每次经过起点处循环次数+1
                         if((map[actor.y][actor.x])==maze.SquareType.START){  
                             actor.circulation_num+=1;
-                            console.log(actor.circulation_num)
+                        }
+                    }else if(maze.mlevel==6){//如果是第六关，则需要判断红绿灯是否为绿灯的问题
+                        if(actor.traffic_light==maze.SquareType.LIGHT_RED){  
+                                alert("挑战失败:小车在红灯亮时还未停止！");
+                                throw new Sk.builtin.TypeError("挑战失败:小车在红灯亮时还未停止！");
                         }
                     }
 
@@ -859,6 +903,16 @@ var $builtinmodule = function (name) {
                     }
                     hasCoin(actor.x,actor.y)
                     hasMarker(actor.x,actor.y)
+                    if(maze.mlevel==6){//如果是第六关，则需要随机改变红绿灯的颜色
+                        if((map[actor.y][actor.x+1])==maze.SquareType.LIGHT_RED || (map[actor.y][actor.x+1])==maze.SquareType.LIGHT_GREEN){  
+                            map[actor.y][actor.x+1]=Math.random()>0.5? maze.SquareType.LIGHT_RED:maze.SquareType.LIGHT_GREEN;//随机刷新红绿灯的状态
+                            actor.traffic_light=map[actor.y][actor.x+1];
+                            if(actor.traffic_light==maze.SquareType.LIGHT_RED){//图像变为红灯
+                                svg.append('image').attr('id','lightred').attr('x',(actor.x+1) * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',actor.y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/redlight.png')
+                            }   
+                        }
+                    }
 
                     var state=checkFinish()
                     if(state==true){
