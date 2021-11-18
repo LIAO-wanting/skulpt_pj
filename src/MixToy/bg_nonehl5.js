@@ -962,9 +962,7 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
             var state=false;
-            var square=""
-            console.log(direction)
-            console.log(map)
+            var square=0;
             switch (direction) {
                 case DirectionType.NORTH:
                     if(map[actor.y - 1]!=undefined){
@@ -989,7 +987,6 @@ var $builtinmodule = function (name) {
             };
             console.log(square)
             state= (square != maze.SquareType.BARRIER) && (square != maze.SquareType.WALL);
-            console.log(state)
             return Sk.ffi.remapToPy(state);
         });
         //判断某个方向是否存在障碍物
