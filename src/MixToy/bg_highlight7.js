@@ -1210,7 +1210,7 @@ var $builtinmodule = function (name) {
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction,block_id){
             Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
-            Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
+            Sk.builtin.pyCheckType("direction","number", Sk.builtin.checkNumber(direction));
             direction=Sk.ffi.remapToJs(direction)
             return new Sk.misceval.promiseToSuspension(isPathCheck(direction,block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
