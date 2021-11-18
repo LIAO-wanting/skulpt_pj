@@ -965,10 +965,13 @@ var $builtinmodule = function (name) {
             var square=0;
             switch (direction) {
                 case DirectionType.NORTH:
-                    if(map[actor.y - 1]!=undefined){
+                    console.log(map[actor.y - 1])
+                    if(map[actor.y - 1]){
                         square = map[actor.y - 1][actor.x];
+                        console.log("enter1"+square)
                     }else{
                         square = 0
+                        console.log("enter2"+square)
                     }
                     break;
                 case DirectionType.EAST:
