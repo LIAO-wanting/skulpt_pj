@@ -834,6 +834,7 @@ var $builtinmodule = function (name) {
             // Do things
             setTimeout( () => {   
                 var state="";
+                var square="";
                 var re=/block_id=([\s\S]*)/.exec(block_id)
                 if(re!=null){
                     block_id=re[1];
