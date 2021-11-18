@@ -1208,8 +1208,8 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckArgs("isDone", arguments, 2, 2);
             return new Sk.misceval.promiseToSuspension(isDone(block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
-        $loc.isPath=new Sk.builtin.func(function(self,direction){
-            Sk.builtin.pyCheckArgs("isPath", arguments, 2, 2);
+        $loc.isPath=new Sk.builtin.func(function(self,direction,block_id){
+            Sk.builtin.pyCheckArgs("isPath", arguments, 3, 3);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
             direction=Sk.ffi.remapToJs(direction)
             return new Sk.misceval.promiseToSuspension(isPathCheck(direction,block_id).then((r) => Sk.ffi.remapToPy(r)));
