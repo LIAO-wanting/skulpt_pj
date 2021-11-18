@@ -962,6 +962,7 @@ var $builtinmodule = function (name) {
             direction=Sk.ffi.remapToJs(direction)
             direction=Sk.ffi.remapToJs(direction)
             var state=false;
+            var square=""
             switch (direction) {
                 case DirectionType.NORTH:
                     if(map[actor.y - 1]!=undefined){
