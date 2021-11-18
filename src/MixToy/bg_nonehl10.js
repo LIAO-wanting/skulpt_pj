@@ -75,9 +75,9 @@ var $builtinmodule = function (name) {
         tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
-        wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
+        wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/wall.png',
         award:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/award.png',
-        barrier:'',
+        barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
         markers:[],
         SquareType :{//迷宫中方块的类型
             WALL: 0,
@@ -430,8 +430,10 @@ var $builtinmodule = function (name) {
                 }
 
                 if(map[y][x]==0){//当地图中此处标记为墙时
-                    svg.append('image').attr('x',x * maze_SQUARE_SIZE + (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*0.8 ).attr('height',maze_SQUARE_SIZE*0.8)
-                    .attr('xlink:href',maze.wall)
+                    if(maze.tiles=='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png'){//当是默认方格时，显示为墙的图片
+                        svg.append('image').attr('x',x * maze_SQUARE_SIZE + (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*0.8 ).attr('height',maze_SQUARE_SIZE*0.8)
+                        .attr('xlink:href',maze.wall)
+                    }
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
                     svg.append('image').attr('id','coin'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
@@ -774,7 +776,7 @@ var $builtinmodule = function (name) {
      * 
      * @param {number} Pos_x 放置物的x坐标位置.
      * @param {number} Pos_y 放置物的y坐标位置.
-     * @param {string} type 放置物的类型：障碍或是金币
+     * @param {string} type 放置物的类型：墙、障碍或是金币
      */
     var placeItem_f=function(Pos_x , Pos_y , type) { 
         Sk.builtin.pyCheckArgs("placeItem", arguments, 3, 3);
@@ -789,11 +791,14 @@ var $builtinmodule = function (name) {
         }
 
         switch(type){
-            case "wall"://墙：障碍
+            case "wall"://墙
                 map[Pos_y-1][Pos_x-1]=maze.SquareType.WALL;
                 break;
             case "coin":
                 map[Pos_y-1][Pos_x-1]=maze.SquareType.AWARD;
+                break;
+            case "barrier":
+                map[Pos_y-1][Pos_x-1]=maze.SquareType.BARRIER;
                 break;
         }
     }
