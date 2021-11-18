@@ -834,8 +834,8 @@ var $builtinmodule = function (name) {
         return new Promise((resolve) => {
             // Do things
             setTimeout( () => {   
-                var state="";
-                var square="";
+                var state=false;
+                var square=0;
                 var re=/block_id=([\s\S]*)/.exec(block_id)
                 if(re!=null){
                     block_id=re[1];
@@ -844,24 +844,32 @@ var $builtinmodule = function (name) {
                 highlight(block_id);
                 switch (direction) {
                     case DirectionType.NORTH:
-                        if(map[actor.y - 1]!=undefined){
+                        if(map[actor.y - 1]){
                             square = map[actor.y - 1][actor.x];
                         }else{
                             square = 0
                         }
                         break;
                     case DirectionType.EAST:
-                        square = map[actor.y][actor.x + 1];
+                        if(map[actor.y][actor.x + 1]){
+                            square = map[actor.y][actor.x + 1];
+                        }else{
+                            square = 0
+                        }
                         break;
                     case DirectionType.SOUTH:
-                        if(map[actor.y + 1]!=undefined){
+                        if(map[actor.y + 1]){
                             square = map[actor.y + 1][actor.x];
                         }else{
                             square = 0
                         }
                         break;
                     case DirectionType.WEST:
-                        square = map[actor.y][actor.x - 1];
+                        if(map[actor.y][actor.x - 1]){
+                            square = map[actor.y][actor.x - 1];
+                        }else{
+                            square = 0
+                        }
                         break;
                 };
                 state= (square != maze.SquareType.BARRIER) && (square != maze.SquareType.WALL);
@@ -875,6 +883,7 @@ var $builtinmodule = function (name) {
             // Do things
             setTimeout( () => {   
                 var state=false;
+                var square=0;
                 var re=/block_id=([\s\S]*)/.exec(block_id)
                 if(re!=null){
                     block_id=re[1];
@@ -883,16 +892,32 @@ var $builtinmodule = function (name) {
                 highlight(block_id);
                 switch (direction) {
                     case DirectionType.NORTH:
-                        square = map[actor.y - 1] && map[actor.y - 1][actor.x];
+                        if(map[actor.y - 1]){
+                            square = map[actor.y - 1][actor.x];
+                        }else{
+                            square = 0
+                        }
                         break;
                     case DirectionType.EAST:
-                        square = map[actor.y][actor.x + 1];
+                        if(map[actor.y][actor.x + 1]){
+                            square = map[actor.y][actor.x + 1];
+                        }else{
+                            square = 0
+                        }
                         break;
                     case DirectionType.SOUTH:
-                        square = map[actor.y + 1] && map[actor.y + 1][actor.x];
+                        if(map[actor.y + 1]){
+                            square = map[actor.y + 1][actor.x];
+                        }else{
+                            square = 0
+                        }
                         break;
                     case DirectionType.WEST:
-                        square = map[actor.y][actor.x - 1];
+                        if(map[actor.y][actor.x - 1]){
+                            square = map[actor.y][actor.x - 1];
+                        }else{
+                            square = 0
+                        }
                         break;
                 };
                 state= square == maze.SquareType.BARRIER;
