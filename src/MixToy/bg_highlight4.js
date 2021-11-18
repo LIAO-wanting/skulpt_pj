@@ -430,8 +430,10 @@ var $builtinmodule = function (name) {
                 }
 
                 if(map[y][x]==0){//当地图中此处标记为墙时
-                    svg.append('image').attr('x',x * maze_SQUARE_SIZE + (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*0.8 ).attr('height',maze_SQUARE_SIZE*0.8)
-                    .attr('xlink:href',maze.wall)
+                    if(maze.tiles=='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png'){//当是默认方格时，显示为墙的图片
+                        svg.append('image').attr('x',x * maze_SQUARE_SIZE + (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.8/2)).attr('width',maze_SQUARE_SIZE*0.8 ).attr('height',maze_SQUARE_SIZE*0.8)
+                        .attr('xlink:href',maze.wall)
+                    }
                 }else if(map[y][x]==4){//当地图中此处标记为金币时
                     svg.append('image').attr('id','coin'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.5/2)).attr('width',maze_SQUARE_SIZE*0.5).attr('height',maze_SQUARE_SIZE*0.5)
                     .attr('xlink:href',maze.award)
@@ -795,11 +797,14 @@ var $builtinmodule = function (name) {
         }
 
         switch(type){
-            case "wall"://墙：障碍
+            case "wall"://墙
                 map[Pos_y-1][Pos_x-1]=maze.SquareType.WALL;
                 break;
             case "coin":
                 map[Pos_y-1][Pos_x-1]=maze.SquareType.AWARD;
+                break;
+            case "barrier":
+                map[Pos_y-1][Pos_x-1]=maze.SquareType.BARRIER;
                 break;
         }
     }
