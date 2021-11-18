@@ -959,7 +959,7 @@ var $builtinmodule = function (name) {
         });
         $loc.isPath=new Sk.builtin.func(function(self,direction){
             Sk.builtin.pyCheckArgs("isPath", arguments, 2, 2);
-            Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
+            Sk.builtin.pyCheckType("direction", "number", Sk.builtin.checkNumber(direction));
             direction=Sk.ffi.remapToJs(direction)
             var state=false;
             var square=0;
