@@ -985,7 +985,9 @@ var $builtinmodule = function (name) {
                     square = map[actor.y][actor.x - 1];
                     break;
             };
+            console.log(square)
             state= (square != maze.SquareType.BARRIER) && (square != maze.SquareType.WALL);
+            console.log(state)
             return Sk.ffi.remapToPy(state);
         });
         //判断某个方向是否存在障碍物
