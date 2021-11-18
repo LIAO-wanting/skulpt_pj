@@ -965,30 +965,34 @@ var $builtinmodule = function (name) {
             var square=0;
             switch (direction) {
                 case DirectionType.NORTH:
-                    console.log(map[actor.y - 1])
                     if(map[actor.y - 1]){
                         square = map[actor.y - 1][actor.x];
-                        console.log("enter1"+square)
                     }else{
                         square = 0
-                        console.log("enter2"+square)
                     }
                     break;
                 case DirectionType.EAST:
-                    square = map[actor.y][actor.x + 1];
+                    if(map[actor.y][actor.x + 1]){
+                        square = map[actor.y][actor.x + 1];
+                    }else{
+                        square = 0
+                    }
                     break;
                 case DirectionType.SOUTH:
-                    if(map[actor.y + 1]!=undefined){
+                    if(map[actor.y + 1]){
                         square = map[actor.y + 1][actor.x];
                     }else{
                         square = 0
                     }
                     break;
                 case DirectionType.WEST:
-                    square = map[actor.y][actor.x - 1];
+                    if(map[actor.y][actor.x - 1]){
+                        square = map[actor.y][actor.x - 1];
+                    }else{
+                        square = 0
+                    }
                     break;
             };
-            console.log(square)
             state= (square != maze.SquareType.BARRIER) && (square != maze.SquareType.WALL);
             return Sk.ffi.remapToPy(state);
         });
