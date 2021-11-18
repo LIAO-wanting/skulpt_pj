@@ -979,18 +979,35 @@ var $builtinmodule = function (name) {
             Sk.builtin.pyCheckType("direction", "number", Sk.builtin.checkNumber(direction));
             direction=Sk.ffi.remapToJs(direction)
             var state=false;
+            var square=0;
             switch (direction) {
                 case DirectionType.NORTH:
-                    square = map[actor.y - 1] && map[actor.y - 1][actor.x];
+                    if(map[actor.y - 1]){
+                        square = map[actor.y - 1][actor.x];
+                    }else{
+                        square = 0
+                    }
                     break;
                 case DirectionType.EAST:
-                    square = map[actor.y][actor.x + 1];
+                    if(map[actor.y][actor.x + 1]){
+                        square = map[actor.y][actor.x + 1];
+                    }else{
+                        square = 0
+                    }
                     break;
                 case DirectionType.SOUTH:
-                    square = map[actor.y + 1] && map[actor.y + 1][actor.x];
+                    if(map[actor.y + 1]){
+                        square = map[actor.y + 1][actor.x];
+                    }else{
+                        square = 0
+                    }
                     break;
                 case DirectionType.WEST:
-                    square = map[actor.y][actor.x - 1];
+                    if(map[actor.y][actor.x - 1]){
+                        square = map[actor.y][actor.x - 1];
+                    }else{
+                        square = 0
+                    }
                     break;
             };
             state= square == maze.SquareType.BARRIER;
