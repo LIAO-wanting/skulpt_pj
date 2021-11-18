@@ -84,7 +84,8 @@ var $builtinmodule = function (name) {
             OPEN: 1,
             START: 2,
             FINISH: 3,
-            AWARD:4//金币奖励
+            AWARD:4,//金币奖励
+            BARRIER:5//障碍物
         },
         //迷宫部分参数指定
         MAZE_WIDTH : maze_SQUARE_SIZE * maze_COLS,
@@ -959,7 +960,6 @@ var $builtinmodule = function (name) {
         $loc.isPath=new Sk.builtin.func(function(self,direction){
             Sk.builtin.pyCheckArgs("isPath", arguments, 2, 2);
             Sk.builtin.pyCheckType("direction", "string", Sk.builtin.checkString(direction));
-            direction=Sk.ffi.remapToJs(direction)
             direction=Sk.ffi.remapToJs(direction)
             var state=false;
             var square=""
