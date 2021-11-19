@@ -684,16 +684,16 @@ var $builtinmodule = function (name) {
         }
         switch (map[y][x]){
             case maze.SquareType.MARKER1:
-                apart_markers['redmarker']+=1;
+                actor.apart_markers['redmarker']+=1;
                 break;
             case maze.SquareType.MARKER2:
-                apart_markers['yellowmarker']+=1;
+                actor.apart_markers['yellowmarker']+=1;
                 break;
             case maze.SquareType.MARKER3:
-                apart_markers['bluemarker']+=1;
+                actor.apart_markers['bluemarker']+=1;
                 break;
             case maze.SquareType.MARKER4:
-                apart_markers['greenmarker']+=1;
+                actor.apart_markers['greenmarker']+=1;
                 break;
         }
      }
