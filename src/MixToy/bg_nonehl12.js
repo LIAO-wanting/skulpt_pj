@@ -63,7 +63,8 @@ var $builtinmodule = function (name) {
         marker_num:0,
         oil:1,//表示小车有充足的油量（为了适应教材而新增的变量）
         traffic_light:22,//表示红绿灯为绿灯
-        circulation_num:0//小车在赛道中循环的次数
+        circulation_num:0,//小车在赛道中循环的次数
+        apart_markers:{"redmarker":0,"yellowmarker":0,"bluemarker":0,"greenmarker":0}
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -673,13 +674,27 @@ var $builtinmodule = function (name) {
      }
     
      /**
-     * 检查精灵在移动的过程中是否走到了标记处
+     * 检查精灵在移动的过程中是否走到了标记处,并分别统计没种不同类型的标记的数目
      * @param {<number>} x 当前精灵的横坐标.
      * @param {<number>} y 当前精灵的纵坐标.
      */
       var hasMarker=function(x , y) {
         if((map[y][x]==maze.SquareType.MARKER1)||(map[y][x]==maze.SquareType.MARKER2)||(map[y][x]==maze.SquareType.MARKER3)||(map[y][x]==maze.SquareType.MARKER4)){//如果此处是标记
             actor.marker_num+=1
+        }
+        switch (map[y][x]){
+            case maze.SquareType.MARKER1:
+                apart_markers['redmarker']+=1;
+                break;
+            case maze.SquareType.MARKER2:
+                apart_markers['yellowmarker']+=1;
+                break;
+            case maze.SquareType.MARKER3:
+                apart_markers['bluemarker']+=1;
+                break;
+            case maze.SquareType.MARKER4:
+                apart_markers['greenmarker']+=1;
+                break;
         }
      }
 
@@ -1142,7 +1157,24 @@ var $builtinmodule = function (name) {
                 } 
             }))
         });
-
+        //判断是否经过某种颜色的标记
+        $loc.checkMarker=new Sk.builtin.func(function(self,marker){
+            Sk.builtin.pyCheckArgs("checkMarker", arguments, 2, 2);
+            marker=Sk.ffi.remapToJs(marker);
+            var marker_num=actor.apart_markers[marker];
+            if(marker_num==0){
+                return Sk.ffi.remapToPy(false);
+            }else{
+                return Sk.ffi.remapToPy(true);
+            }
+        });
+        //返回经过某种颜色标记的数目
+        $loc.getMarkerNum=new Sk.builtin.func(function(self,marker){
+            Sk.builtin.pyCheckArgs("getMarkerNum", arguments, 2, 2);
+            marker=Sk.ffi.remapToJs(marker);
+            var marker_num=actor.apart_markers[marker];
+            return Sk.ffi.remapToPy(marker_num);
+        })
     }, "Actor")
 
     /**
