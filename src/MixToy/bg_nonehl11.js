@@ -78,14 +78,18 @@ var $builtinmodule = function (name) {
         wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/wall.png',
         award:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/award.png',
         barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
-        markers:[],
+        markers:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
         SquareType :{//迷宫中方块的类型
             WALL: 0,
             OPEN: 1,
             START: 2,
             FINISH: 3,
             AWARD:4,//金币奖励
-            BARRIER:5//障碍物
+            BARRIER:5,//障碍物
+            MARKER1:10,
+            MARKER2:11,
+            MARKER3:12,
+            MARKER4:13,
         },
         //迷宫部分参数指定
         MAZE_WIDTH : maze_SQUARE_SIZE * maze_COLS,
@@ -799,6 +803,18 @@ var $builtinmodule = function (name) {
                 break;
             case "barrier":
                 map[Pos_y-1][Pos_x-1]=maze.SquareType.BARRIER;
+                break;
+            case "redmarker":
+                map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER1;
+                break;
+            case "yellowmarker":
+                map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER2;
+                break;
+            case "bluemarker":
+                map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER3;
+                break;
+            case "greenmarker":
+                map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER4;
                 break;
         }
     }
