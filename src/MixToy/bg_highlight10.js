@@ -1392,13 +1392,13 @@ var $builtinmodule = function (name) {
         });
         //判断是否经过某种颜色的标记
         $loc.checkMarker=new Sk.builtin.func(function(self,marker,block_id){
-            Sk.builtin.pyCheckArgs("checkMarker", arguments, 2, 2);
+            Sk.builtin.pyCheckArgs("checkMarker", arguments, 3, 3);
             marker=Sk.ffi.remapToJs(marker);
             return new Sk.misceval.promiseToSuspension(helpCheckMarker(marker,block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
         //返回经过某种颜色标记的数目
         $loc.getMarkerNum=new Sk.builtin.func(function(self,marker,block_id){
-            Sk.builtin.pyCheckArgs("getMarkerNum", arguments, 2, 2);
+            Sk.builtin.pyCheckArgs("getMarkerNum", arguments, 3, 3);
             marker=Sk.ffi.remapToJs(marker);
             return new Sk.misceval.promiseToSuspension(helpGetMNum(marker,block_id).then((r) => Sk.ffi.remapToPy(r)));
         })
