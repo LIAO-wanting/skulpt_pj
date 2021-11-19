@@ -76,9 +76,9 @@ var $builtinmodule = function (name) {
         tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
-        wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
+        wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/wall.png',
         award:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/award.png',
-        barrier:'',
+        barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
         markers:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
         SquareType :{//迷宫中方块的类型
             WALL: 0,
@@ -1065,6 +1065,42 @@ var $builtinmodule = function (name) {
         })
     }
 
+    var helpCheckMarker=function(marker,block_id){
+        return new Promise((resolve) => {
+            // Do things
+            setTimeout( () => {   
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
+                highlight(block_id)
+                var marker_num=actor.apart_markers[marker];
+                if(marker_num==0){
+                    resolve(Sk.ffi.remapToPy(false));
+                }else{
+                    resolve(Sk.ffi.remapToPy(true));
+                }
+            }, 800);
+        })
+    }
+
+    var helpGetMNum=function(marker,block_id){
+        return new Promise((resolve) => {
+            // Do things
+            setTimeout( () => {   
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                }
+                highlight(block_id)
+                var marker_num=actor.apart_markers[marker];
+                resolve(Sk.ffi.remapToPy(marker_num));
+            }, 800);
+        })
+    }
+
     mod.Actor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
         $loc.__init__ = new Sk.builtin.func(function(self,img , direction ,block_id) {
             return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
@@ -1355,22 +1391,16 @@ var $builtinmodule = function (name) {
             }))
         });
         //判断是否经过某种颜色的标记
-        $loc.checkMarker=new Sk.builtin.func(function(self,marker){
+        $loc.checkMarker=new Sk.builtin.func(function(self,marker,block_id){
             Sk.builtin.pyCheckArgs("checkMarker", arguments, 2, 2);
             marker=Sk.ffi.remapToJs(marker);
-            var marker_num=actor.apart_markers[marker];
-            if(marker_num==0){
-                return Sk.ffi.remapToPy(false);
-            }else{
-                return Sk.ffi.remapToPy(true);
-            }
+            return new Sk.misceval.promiseToSuspension(helpCheckMarker(marker,block_id).then((r) => Sk.ffi.remapToPy(r)));
         });
         //返回经过某种颜色标记的数目
-        $loc.getMarkerNum=new Sk.builtin.func(function(self,marker){
+        $loc.getMarkerNum=new Sk.builtin.func(function(self,marker,block_id){
             Sk.builtin.pyCheckArgs("getMarkerNum", arguments, 2, 2);
             marker=Sk.ffi.remapToJs(marker);
-            var marker_num=actor.apart_markers[marker];
-            return Sk.ffi.remapToPy(marker_num);
+            return new Sk.misceval.promiseToSuspension(helpGetMNum(marker,block_id).then((r) => Sk.ffi.remapToPy(r)));
         })
     }, "Actor")
 
