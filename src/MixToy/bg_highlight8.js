@@ -63,7 +63,8 @@ var $builtinmodule = function (name) {
         marker_num:0,
         oil:1,//表示小车有充足的油量（为了适应教材而新增的变量）
         traffic_light:22,//表示红绿灯为绿灯
-        circulation_num:0//小车在赛道中循环的次数
+        circulation_num:0,//小车在赛道中循环的次数
+        apart_markers:{"redmarker":0,"yellowmarker":0,"bluemarker":0,"greenmarker":0}
     };
     //迷宫变量
     var maze_SQUARE_SIZE = 50;
@@ -78,14 +79,18 @@ var $builtinmodule = function (name) {
         wall:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
         award:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/award.png',
         barrier:'',
-        markers:[],
+        markers:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
         SquareType :{//迷宫中方块的类型
             WALL: 0,
             OPEN: 1,
             START: 2,
             FINISH: 3,
             AWARD:4,//金币奖励
-            BARRIER:5
+            BARRIER:5,
+            MARKER1:10,
+            MARKER2:11,
+            MARKER3:12,
+            MARKER4:13,
         },
         //迷宫部分参数指定
         MAZE_WIDTH : maze_SQUARE_SIZE * maze_COLS,
@@ -669,13 +674,27 @@ var $builtinmodule = function (name) {
      }
     
      /**
-     * 检查精灵在移动的过程中是否走到了标记处
+     * 检查精灵在移动的过程中是否走到了标记处分别统计经过的每种标记的数目
      * @param {<number>} x 当前精灵的横坐标.
      * @param {<number>} y 当前精灵的纵坐标.
      */
       var hasMarker=function(x , y) {
         if((map[y][x]==maze.SquareType.MARKER1)||(map[y][x]==maze.SquareType.MARKER2)||(map[y][x]==maze.SquareType.MARKER3)||(map[y][x]==maze.SquareType.MARKER4)){//如果此处是标记
             actor.marker_num+=1
+        }
+        switch (map[y][x]){
+            case maze.SquareType.MARKER1:
+                actor.apart_markers['redmarker']+=1;
+                break;
+            case maze.SquareType.MARKER2:
+                actor.apart_markers['yellowmarker']+=1;
+                break;
+            case maze.SquareType.MARKER3:
+                actor.apart_markers['bluemarker']+=1;
+                break;
+            case maze.SquareType.MARKER4:
+                actor.apart_markers['greenmarker']+=1;
+                break;
         }
      }
 
@@ -834,7 +853,7 @@ var $builtinmodule = function (name) {
                 }
   
                 switch(type){
-                    case "wall"://墙：障碍
+                    case "wall"://墙
                         map[Pos_y-1][Pos_x-1]=maze.SquareType.WALL;
                         break;
                     case "coin":
@@ -842,6 +861,18 @@ var $builtinmodule = function (name) {
                         break;
                     case "barrier":
                         map[Pos_y-1][Pos_x-1]=maze.SquareType.BARRIER;
+                        break;
+                    case "redmarker":
+                        map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER1;
+                        break;
+                    case "yellowmarker":
+                        map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER2;
+                        break;
+                    case "bluemarker":
+                        map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER3;
+                        break;
+                    case "greenmarker":
+                        map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER4;
                         break;
                 }
                 resolve(Sk.builtin.none.none$);
@@ -1323,7 +1354,24 @@ var $builtinmodule = function (name) {
                 }, 800);
             }))
         });
-
+        //判断是否经过某种颜色的标记
+        $loc.checkMarker=new Sk.builtin.func(function(self,marker){
+            Sk.builtin.pyCheckArgs("checkMarker", arguments, 2, 2);
+            marker=Sk.ffi.remapToJs(marker);
+            var marker_num=actor.apart_markers[marker];
+            if(marker_num==0){
+                return Sk.ffi.remapToPy(false);
+            }else{
+                return Sk.ffi.remapToPy(true);
+            }
+        });
+        //返回经过某种颜色标记的数目
+        $loc.getMarkerNum=new Sk.builtin.func(function(self,marker){
+            Sk.builtin.pyCheckArgs("getMarkerNum", arguments, 2, 2);
+            marker=Sk.ffi.remapToJs(marker);
+            var marker_num=actor.apart_markers[marker];
+            return Sk.ffi.remapToPy(marker_num);
+        })
     }, "Actor")
 
     /**
