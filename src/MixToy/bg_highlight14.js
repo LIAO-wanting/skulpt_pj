@@ -475,7 +475,8 @@ var $builtinmodule = function (name) {
                     if (map[y][x] == maze.SquareType.START) {
                         actor.x= x;
                         actor.y= y;
-                    } else if (map[y][x] == maze.SquareType.FINISH) {
+                    }
+                    if (map[y][x] == maze.SquareType.FINISH) {
                         // Move the finish icon into position.
                         var finishIcon = $('#finish');
                         finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
@@ -753,7 +754,13 @@ var $builtinmodule = function (name) {
                     var b = [];  //辅助数组
                     for(var j=0; j<M_x; j++){ 
                         if( (j==(startPos_x-1)) && (i==(startPos_y-1))){
-                            b[j]=maze.SquareType.START;
+                            if((startPos_x==endPos_x) && (startPos_y==endPos_y)){//如果起点坐标和终点坐标重合，应优先把map坐标设置为终点，然后直接设置角色初始坐标
+                                b[j]=maze.SquareType.FINISH;
+                                actor.x= x;
+                                actor.y= y;
+                            }else{
+                                b[j]=maze.SquareType.START;
+                            }
                         }else if((j==(endPos_x-1)) && (i==(endPos_y-1))){
                             b[j]=maze.SquareType.FINISH;
                         }else{
