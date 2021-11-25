@@ -756,8 +756,8 @@ var $builtinmodule = function (name) {
                         if( (j==(startPos_x-1)) && (i==(startPos_y-1))){
                             if((startPos_x==endPos_x) && (startPos_y==endPos_y)){//如果起点坐标和终点坐标重合，应优先把map坐标设置为终点，然后直接设置角色初始坐标
                                 b[j]=maze.SquareType.FINISH;
-                                actor.x= x;
-                                actor.y= y;
+                                actor.x= startPos_x-1;
+                                actor.y= startPos_y-1;
                             }else{
                                 b[j]=maze.SquareType.START;
                             }
