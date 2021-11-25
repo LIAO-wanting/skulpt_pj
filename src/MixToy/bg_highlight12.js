@@ -752,10 +752,9 @@ var $builtinmodule = function (name) {
                 for (var i=0; i<M_y; i++){ 
                     var b = [];  //辅助数组
                     for(var j=0; j<M_x; j++){ 
-                        var pos='('+(j+1)+','+(i+1)+')'
-                        if( pos==startPos){
+                        if( (j==startPos_x) && (i==startPos_y)){
                             b[j]=maze.SquareType.START;
-                        }else if(pos==endPos){
+                        }else if((j==endPos_x) && (i==endPos_y)){
                             b[j]=maze.SquareType.FINISH;
                         }else{
                             b[j]=maze.SquareType.OPEN;
