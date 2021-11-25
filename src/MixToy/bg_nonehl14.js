@@ -475,7 +475,8 @@ var $builtinmodule = function (name) {
                     if (map[y][x] == maze.SquareType.START) {
                         actor.x= x;
                         actor.y= y;
-                    } else if (map[y][x] == maze.SquareType.FINISH) {
+                    }
+                    if (map[y][x] == maze.SquareType.FINISH) {
                         // Move the finish icon into position.
                         var finishIcon = $('#finish');
                         finishIcon.attr('x', maze_SQUARE_SIZE * (x + 0.5) -
@@ -700,21 +701,18 @@ var $builtinmodule = function (name) {
 
     /**
      * 设置地图属性.
-     * 
+     * @param {string} block_id 高亮块的ID
      * @param {number} M_x为地图横向方格的数目（范围为3-10）,初始默认为8
      * @param {number} M_y为地图竖向方格的数目（范围为3-10）,初始默认为8
-     * @param {string} startPos X, Y 起点位置的坐标.
-     * @param {string} endPos X, Y 终点位置的坐标
-     * @param {string} bg_pic为地图背景的图片
+     * @param {number} startPos_x 起点位置的横坐标.
+     * @param {number} endPos_x 终点位置的横坐标.
+     * @param {number} endPos_y 终点位置的纵坐标.
      */
-    var setMap_f=function( M_x , M_y , startPos , endPos , bg_pic) {
-        Sk.builtin.pyCheckArgs("setMap", arguments, 5, 5);
+     var setMap_f=function( M_x , M_y , startPos_x ,startPos_y , endPos_x , endPos_y ) {
+        Sk.builtin.pyCheckArgs("setMap", arguments, 6, 6);
         map=[]
-        if(bg_pic=='无可用地图'){
-            bg_pic=""
-        }
         if((M_x<3) || (M_x>20) || (M_y<3) || (M_y>20)){
-            throw new Sk.builtin.TypeError("错误！超出地图可设置范围，请设置横纵方格数大于等于3，小于等于20");
+            throw Error("错误！超出地图可设置范围，请设置横纵方格数大于等于3，小于等于20")
         }
         M_x = Sk.ffi.remapToJs(M_x);
         M_y = Sk.ffi.remapToJs(M_y);
@@ -723,41 +721,30 @@ var $builtinmodule = function (name) {
         maze.MAZE_WIDTH= maze_SQUARE_SIZE * maze_COLS;
         maze.MAZE_HEIGHT=maze_SQUARE_SIZE * maze_ROWS;
 
-        startPos =Sk.ffi.remapToJs(startPos)
-        endPos =Sk.ffi.remapToJs(endPos)
+        startPos_x =Sk.ffi.remapToJs(startPos_x)
+        startPos_y =Sk.ffi.remapToJs(startPos_y)
+        endPos_x =Sk.ffi.remapToJs(endPos_x)
+        endPos_y =Sk.ffi.remapToJs(endPos_y)
 
-        switch (Sk.ffi.remapToJs(bg_pic)){
-            case "bg_default":
-                maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_default.png';//默认为方格
-                break;
-            case "bg_astro":
-                maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg';//设置为管道
-                break;
-            case "bg_panda":
-                maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_panda.jpg';//设置为竹子
-                break;
+        if((startPos_x>M_x) || (startPos_x<1) || (startPos_y>M_y) || (startPos_y<1)){
+            throw Error("错误！起点坐标超出地图范围！")
         }
-
-        var re=/\((\d+),(\d+)\)/.exec(startPos);
-        if(re!=null){
-            if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
-                throw new Sk.builtin.TypeError("错误！起点坐标超出地图范围！");
-            }
-        }
-        var re=/\((\d+),(\d+)\)/.exec(endPos);
-        if(re!=null){
-            if((re[1]>M_x) || (re[1]<1) || (re[2]>M_y) || (re[2]<1)){
-                throw new Sk.builtin.TypeError("错误！终点坐标超出地图范围！");
-            }
+        if((endPos_x>M_x) || (endPos_x<1) || (endPos_y>M_y) || (endPos_y<1)){
+            throw Error("错误！终点坐标超出地图范围！")
         }
 
         for (var i=0; i<M_y; i++){ 
             var b = [];  //辅助数组
             for(var j=0; j<M_x; j++){ 
-                var pos='('+(j+1)+','+(i+1)+')'
-                if( pos==startPos){
-                    b[j]=maze.SquareType.START;
-                }else if(pos==endPos){
+                if( (j==(startPos_x-1)) && (i==(startPos_y-1))){
+                    if((startPos_x==endPos_x) && (startPos_y==endPos_y)){//如果起点坐标和终点坐标重合，应优先把map坐标设置为终点，然后直接设置角色初始坐标
+                        b[j]=maze.SquareType.FINISH;
+                        actor.x= startPos_x-1;
+                        actor.y= startPos_y-1;
+                    }else{
+                        b[j]=maze.SquareType.START;
+                    }
+                }else if((j==(endPos_x-1)) && (i==(endPos_y-1))){
                     b[j]=maze.SquareType.FINISH;
                 }else{
                     b[j]=maze.SquareType.OPEN;
@@ -789,6 +776,31 @@ var $builtinmodule = function (name) {
         }
     }
 	mod.setPathType = new Sk.builtin.func(setPathType_f);
+
+    /**
+     * 设置地图背景.
+     * @param {string} bg_pic代表地图背景对应的名称
+     */
+    var set_map_bg_f=function(bg_pic) { 
+        Sk.builtin.pyCheckArgs("set_map_bg", arguments, 1, 1);
+        bg_pic=Sk.ffi.remapToJs(bg_pic);
+        if(bg_pic=='无可用地图'){
+            bg_pic=""
+        }
+        switch(bg_pic){
+            case "bg_default":
+                maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_default.png';//默认为方格
+                break;
+            case "bg_astro":
+                maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg';//设置为管道
+                break;
+            case "bg_panda":
+                maze.background ='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_panda.jpg';//设置为竹子
+                break;
+        }
+    }
+    mod.set_map_bg = new Sk.builtin.func(set_map_bg_f);
+
 
     /**
      * 在某处放置障碍或者金币.
