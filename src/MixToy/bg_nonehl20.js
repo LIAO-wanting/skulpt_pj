@@ -100,7 +100,50 @@ var $builtinmodule = function (name) {
         finish : {x:0,y:0},
         type:1//类型为用户自定义的
     };
-    
+    //简单的迷宫任务，不是小车的迷宫场景
+    var simple_Maze=[
+        //第一关
+        {
+            mlevel:1,
+            map:[[0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 1, 1, 1, 1, 3, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]],
+        },
+         //第二关
+         {
+            mlevel:2,
+            map:[
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 3],
+            [0, 0, 0, 0, 0, 1, 1, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0, 0],
+            [2, 1, 0, 0, 0, 0, 0, 0]],
+        },
+        //第三关
+        {
+            mlevel:3,
+            map:[
+            [0, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 1, 0, 1, 0, 3, 0, 1, 0],
+            [0, 1, 1, 1, 0, 1, 1, 1, 0],
+            [0, 1, 0, 0, 0, 0, 1, 0, 0],
+            [0, 1, 0, 1, 0, 0, 1, 0, 0]
+            [0, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 1, 0, 0, 0, 1, 0],
+            [0, 2, 1, 1, 1, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]],
+        },
+    ]
+
+
     //已经设置好的关卡的map
     var MAZE_setted=[
         //第一关
@@ -1225,6 +1268,18 @@ var $builtinmodule = function (name) {
         drawMap()
     }
 	mod.settedMap = new Sk.builtin.func(settedMap_f);
+
+    /**
+     * 初始化为设定好的简单的迷宫地图
+     * 
+     * @param {number} level 初始化地图，level为地图的等级.
+     */
+    var settedSimpleMap_f=function(level) { 
+        level=Sk.ffi.remapToJs(level)
+        map=simple_Maze[level][map]
+        drawMap()
+    }
+    mod.settedSimpleMap = new Sk.builtin.func(settedSimpleMap_f);
 
 	return mod;
 }
