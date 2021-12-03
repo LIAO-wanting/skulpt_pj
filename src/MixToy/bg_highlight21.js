@@ -931,10 +931,8 @@ var $builtinmodule = function (name) {
                 } 
 
                 if((Pos_x>(map[0].length)) || (Pos_x< 0) || (Pos_y>(map.length)) || (Pos_y< 0)){
-                    resolve("错误！不能将放置物位置设置在起点或终点坐标！");
                     throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");
                 }else if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
-                    resolve("错误！放置物坐标超过地图范围");
                     throw new Sk.builtin.TypeError("错误！放置物坐标超过地图范围");
                 }
                 var numType=Math.random()>0.5?maze.SquareType.OPEN:maze.SquareType.BARRIER;
