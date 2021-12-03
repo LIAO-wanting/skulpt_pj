@@ -848,6 +848,29 @@ var $builtinmodule = function (name) {
 	mod.placeItem = new Sk.builtin.func(placeItem_f);
 
     /**
+     * 在某处随机放置障碍
+     * 
+     * @param {number} Pos_x 放置物的x坐标位置.
+     * @param {number} Pos_y 放置物的y坐标位置.
+     */
+     var randomPlaceBarrier_f=function(Pos_x , Pos_y) { 
+        Sk.builtin.pyCheckArgs("randomPlaceBarrier", arguments, 2, 2);
+        Pos_x = Sk.ffi.remapToJs(Pos_x);
+        Pos_y = Sk.ffi.remapToJs(Pos_y);
+
+        if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
+            throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");
+        }else if((Pos_x>(map[0].length)) || (Pos_x< 0) || (Pos_y>(map.length)) || (Pos_y< 0)){
+            throw new Sk.builtin.TypeError("错误！放置物坐标超过地图范围");
+        }
+
+        var numType=Math.random()>0.5?maze.SquareType.OPEN:maze.SquareType.BARRIER;
+        map[Pos_y-1][Pos_x-1]=numType;
+
+    }
+	mod.randomPlaceBarrier = new Sk.builtin.func(randomPlaceBarrier_f);
+
+    /**
      * 初始化地图
      */
     var initMap_f=function() { 
