@@ -1276,7 +1276,7 @@ var $builtinmodule = function (name) {
      */
     var settedSimpleMap_f=function(level) { 
         level=Sk.ffi.remapToJs(level)
-        map=simple_Maze[level][map]
+        map=simple_Maze[level].map
         drawMap()
     }
     mod.settedSimpleMap = new Sk.builtin.func(settedSimpleMap_f);
