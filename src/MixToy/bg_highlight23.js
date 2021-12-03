@@ -101,6 +101,54 @@ var $builtinmodule = function (name) {
         type:1//类型为用户自定义的
     };
     
+    //简单的迷宫任务，不是小车的迷宫场景
+    var simple_map_para={
+        tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_astro.png',//地图路径图片
+        marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
+        background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
+        wall:'',
+    }
+    var simple_Maze=[
+        //第一关
+        {
+            mlevel:1,
+            map:[[0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 1, 1, 1, 1, 3, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]],
+        },
+        //第二关
+        {
+            mlevel:2,
+            map:[
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 3],
+            [0, 0, 0, 0, 0, 1, 1, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0, 0],
+            [2, 1, 0, 0, 0, 0, 0, 0]],
+        },
+        //第三关
+        {
+            mlevel:3,
+            map:[
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 0, 3, 0, 1, 0],
+            [0, 1, 1, 0, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0],
+            [0, 2, 1, 1, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]]
+        },
+    ]
+
     //已经设置好的关卡的map
     var MAZE_setted=[
         //第一关
@@ -1491,6 +1539,33 @@ var $builtinmodule = function (name) {
         }));
     }
 	mod.settedMap = new Sk.builtin.func(settedMap_f);
+
+    /**
+         * 初始化为设定好的简单的迷宫地图
+         * 
+         * @param {number} level 初始化地图，level为地图的等级.
+         * @param {string} block_id 图形块ID.
+         */
+    var settedSimpleMap_f=function(level, block_id) { 
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            Sk.setTimeout(function() {
+                //高亮效果
+                var re=/block_id=([\s\S]*)/.exec(block_id)
+                if(re!=null){
+                    block_id=re[1];
+                    highlight(block_id)
+                } 
+                level=Sk.ffi.remapToJs(level)
+                map=simple_Maze[level].map
+                maze.tiles=simple_map_para.tiles
+                maze.wall=simple_map_para.wall
+                maze.background=simple_map_para.background
+                drawMap()
+                resolve(Sk.builtin.none.none$);
+            }, 800);
+        }));
+    }
+    mod.settedSimpleMap = new Sk.builtin.func(settedSimpleMap_f);
 
 	return mod;
 }
