@@ -101,6 +101,12 @@ var $builtinmodule = function (name) {
         type:1//类型为用户自定义的
     };
     //简单的迷宫任务，不是小车的迷宫场景
+    var simple_map_para={
+        tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/tiles_astro.png',//地图路径图片
+        marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
+        background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
+        wall:'',
+    }
     var simple_Maze=[
         //第一关
         {
@@ -1277,6 +1283,9 @@ var $builtinmodule = function (name) {
     var settedSimpleMap_f=function(level) { 
         level=Sk.ffi.remapToJs(level)
         map=simple_Maze[level].map
+        maze.tiles=simple_map_para.tiles
+        maze.wall=simple_map_para.wall
+        maze.background=simple_map_para.background
         drawMap()
     }
     mod.settedSimpleMap = new Sk.builtin.func(settedSimpleMap_f);
