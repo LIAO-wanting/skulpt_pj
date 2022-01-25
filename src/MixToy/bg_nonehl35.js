@@ -106,6 +106,7 @@ var $builtinmodule = function (name) {
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
         wall:'',
+        state_num:0//为0就是未使用，为1就是已经使用（激活）
     }
     var simple_Maze=[
         //第一关
@@ -1285,7 +1286,7 @@ var $builtinmodule = function (name) {
         maze.tiles=simple_map_para.tiles
         maze.wall=simple_map_para.wall
         maze.background=simple_map_para.background
-        maze.type=0 //非用户自定义
+        simple_map_para.state_num=1
         drawMap()
     }
     mod.settedSimpleMap = new Sk.builtin.func(settedSimpleMap_f);
@@ -1312,9 +1313,9 @@ var $builtinmodule = function (name) {
                     console.log("失败")
                 },1000)
             }
-            if(maze.type==0){//非用户自定义
+            if(simple_map_para.state_num==1){//对于已经激活的、已经预设的迷宫关卡
                 resolve(Sk.ffi.remapToPy(state_str));
-            }else{//用户自定义
+            }else{
                 resolve(Sk.ffi.remapToPy(""));
             }
             
