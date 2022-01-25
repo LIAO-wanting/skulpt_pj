@@ -1,4 +1,4 @@
-//这一版删除了所有延时和高亮效果，用以适应非分布调试
+//这一版删除了所有延时和高亮效果，用以适应非分步调试
 var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("bg_nonehl")};
     
@@ -1288,6 +1288,17 @@ var $builtinmodule = function (name) {
         drawMap()
     }
     mod.settedSimpleMap = new Sk.builtin.func(settedSimpleMap_f);
+
+    /**
+     * 初始化为设定好的简单的迷宫地图
+     * 
+     * @return {boolean} 检测小人执行最后一个指令后是否到达终点,如果到达终点,返回True,否则返回False.
+     */
+    var getFinishState_f=function(){
+        var state=checkFinish()
+        return Sk.ffi.remapToPy(state);
+    }
+    mod.getFinishState = new Sk.builtin.func(getFinishState_f);
 
 	return mod;
 }
