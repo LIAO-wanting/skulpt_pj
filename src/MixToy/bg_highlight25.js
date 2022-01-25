@@ -107,6 +107,7 @@ var $builtinmodule = function (name) {
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
         wall:'',
+        state_num=0
     }
     var simple_Maze=[
         //第一关
@@ -1270,6 +1271,7 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败!请修改后重新尝试")
+                        console.log("失败")
                         throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
                     }
 
@@ -1342,11 +1344,11 @@ var $builtinmodule = function (name) {
 
                     var state=checkFinish()
                     if(state==true){
-                        setTimeout(function() {
-                            alert("挑战成功！");
-                        },1000)
-                        // resolve(Sk.builtin.none.none$);
-                        throw Error("挑战成功！");
+                        // setTimeout(function() {
+                        //     alert("挑战成功！");
+                        // },1000)
+                        resolve(Sk.builtin.none.none$);
+                        // throw Error("挑战成功！");
                     }else if(state=="error2"){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败，请检查是否通过所有标记点！")
@@ -1488,10 +1490,10 @@ var $builtinmodule = function (name) {
                     }
 
                     if(state==true){
-                        setTimeout(function() {
-                            alert("挑战成功！");
-                        },1000)
-                        resolve(Sk.builtin.none.none$);
+                        // setTimeout(function() {
+                        //     alert("挑战成功！");
+                        // },1000)
+                        // resolve(Sk.builtin.none.none$);
                     }else{
                         maze.result=ResultType.FAILURE
                         alert("挑战失败，请检查循环次数是否正确！")
@@ -1560,12 +1562,45 @@ var $builtinmodule = function (name) {
                 maze.tiles=simple_map_para.tiles
                 maze.wall=simple_map_para.wall
                 maze.background=simple_map_para.background
+                simple_map_para.state_num=1
                 drawMap()
                 resolve(Sk.builtin.none.none$);
             }, 800);
         }));
     }
     mod.settedSimpleMap = new Sk.builtin.func(settedSimpleMap_f);
+
+    /**
+     * 初始化为设定好的简单的迷宫地图
+     * 
+     * @return {boolean} 检测小人执行最后一个指令后是否到达终点,如果到达终点,返回True,否则返回False.
+     */
+     var getFinishState_f=function(state){
+        var state=checkFinish()
+        var state_str=""
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            if(state){
+                state_str="成功"
+                setTimeout(function() {
+                    alert("挑战成功！");
+                    console.log("成功")
+                },1000);
+                
+            }else{
+                state_str="失败"
+                setTimeout(function() {
+                    console.log("失败")
+                },1000)
+            }
+            if(simple_map_para.state_num==1){//对于已经激活的、已经预设的迷宫关卡
+                resolve(Sk.ffi.remapToPy(state_str));
+            }else{
+                resolve(Sk.ffi.remapToPy(""));
+            }
+            
+        }))
+    }
+    mod.getFinishState = new Sk.builtin.func(getFinishState_f);
 
 	return mod;
 }
