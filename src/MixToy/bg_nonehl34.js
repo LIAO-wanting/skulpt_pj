@@ -1285,6 +1285,7 @@ var $builtinmodule = function (name) {
         maze.tiles=simple_map_para.tiles
         maze.wall=simple_map_para.wall
         maze.background=simple_map_para.background
+        maze.type=0 //非用户自定义
         drawMap()
     }
     mod.settedSimpleMap = new Sk.builtin.func(settedSimpleMap_f);
