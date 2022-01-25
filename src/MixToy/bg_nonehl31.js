@@ -973,8 +973,8 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败!请修改后重新尝试")
-                        console.log(false)
-                        throw new Error(false);
+                        console.log("失败")
+                        throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
                     }
 
                     if(maze.mlevel==4){//如果是第四关，则需要判断是否需要加油的问题
@@ -1042,7 +1042,7 @@ var $builtinmodule = function (name) {
                     }else if(state=="error2"){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败，请检查是否通过所有标记点！")
-                        console.log(false)
+                        console.log("失败")
                         throw new Sk.builtin.TypeError("挑战失败，请检查是否通过所有标记点！");
                     } 
                     resolve(Sk.builtin.none.none$);
@@ -1236,7 +1236,7 @@ var $builtinmodule = function (name) {
                 }else{
                     maze.result=ResultType.FAILURE
                     alert("挑战失败，请检查循环次数是否正确！")
-                    console.log(false)
+                    console.log("失败")
                     throw new Sk.builtin.TypeError("挑战失败，请检查循环次数是否正确！");
                 } 
             }))
@@ -1296,18 +1296,23 @@ var $builtinmodule = function (name) {
      */
     var getFinishState_f=function(state){
         var state=checkFinish()
+        var state_str=""
         return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
             if(state){
+                state_str="成功"
                 setTimeout(function() {
                     alert("挑战成功！");
-                    console.log(true)
+                    console.log("成功")
                 },1000);
+                resolve(Sk.ffi.remapToPy(state_str));
             }else{
+                state_str="失败"
                 setTimeout(function() {
-                    console.log(false)
+                    console.log("失败")
                 },1000)
+                resolve(Sk.builtin.none.none$);
             }
-            resolve(Sk.ffi.remapToPy(state));
+            
         }))
     }
     mod.getFinishState = new Sk.builtin.func(getFinishState_f);
