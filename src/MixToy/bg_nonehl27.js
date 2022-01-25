@@ -1041,7 +1041,7 @@ var $builtinmodule = function (name) {
                             alert("挑战成功！");
                         },1000)
                         // resolve(Sk.builtin.none.none$);
-                        throw Error("挑战成功！");
+                        // throw Error("挑战成功！");
                     }else if(state=="error2"){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败，请检查是否通过所有标记点！")
