@@ -1037,9 +1037,9 @@ var $builtinmodule = function (name) {
 
                     var state=checkFinish()
                     if(state==true){
-                        setTimeout(function() {
-                            alert("挑战成功！");
-                        },1000)
+                        // setTimeout(function() {
+                        //     alert("挑战成功！");
+                        // },1000)
                         // resolve(Sk.builtin.none.none$);
                         // throw Error("挑战成功！");
                     }else if(state=="error2"){
@@ -1230,9 +1230,10 @@ var $builtinmodule = function (name) {
                     break;
                 }
                 if(state==true){
-                    setTimeout(function() {
-                        alert("挑战成功！");
-                    },1000)
+                    // setTimeout(function() {
+                    //     alert("挑战成功！");
+                    // },1000)
+                    getFinishState_f(state)
                     resolve(Sk.builtin.none.none$);
                 }else{
                     maze.result=ResultType.FAILURE
@@ -1294,8 +1295,16 @@ var $builtinmodule = function (name) {
      * 
      * @return {boolean} 检测小人执行最后一个指令后是否到达终点,如果到达终点,返回True,否则返回False.
      */
-    var getFinishState_f=function(){
+    var getFinishState_f=function(state){
         var state=checkFinish()
+        if(state){
+            // setTimeout(function() {
+            //     alert("挑战成功！");
+            // },1000)
+            // resolve(Sk.builtin.none.none$);
+            // throw Error("挑战成功！");
+            alert("挑战成功！");
+        }
         return Sk.ffi.remapToPy(state);
     }
     mod.getFinishState = new Sk.builtin.func(getFinishState_f);
