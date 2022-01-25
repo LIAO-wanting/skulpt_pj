@@ -973,7 +973,8 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败!请修改后重新尝试")
-                        throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
+                        console.log(false)
+                        throw new Error(false);
                     }
 
                     if(maze.mlevel==4){//如果是第四关，则需要判断是否需要加油的问题
@@ -1037,14 +1038,11 @@ var $builtinmodule = function (name) {
 
                     var state=checkFinish()
                     if(state==true){
-                        // setTimeout(function() {
-                        //     console.log("挑战成功")
-                        // },1000)
-                        // resolve(Sk.builtin.none.none$);
-                        // throw Error("挑战成功！");
+                        resolve(Sk.builtin.none.none$);
                     }else if(state=="error2"){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败，请检查是否通过所有标记点！")
+                        console.log(false)
                         throw new Sk.builtin.TypeError("挑战失败，请检查是否通过所有标记点！");
                     } 
                     resolve(Sk.builtin.none.none$);
@@ -1238,6 +1236,7 @@ var $builtinmodule = function (name) {
                 }else{
                     maze.result=ResultType.FAILURE
                     alert("挑战失败，请检查循环次数是否正确！")
+                    console.log(false)
                     throw new Sk.builtin.TypeError("挑战失败，请检查循环次数是否正确！");
                 } 
             }))
@@ -1301,10 +1300,12 @@ var $builtinmodule = function (name) {
             if(state){
                 setTimeout(function() {
                     alert("挑战成功！");
+                    console.log(true)
+                },1000);
+            }else{
+                setTimeout(function() {
+                    console.log(false)
                 },1000)
-                // resolve(Sk.builtin.none.none$);
-                // throw Error("挑战成功！");
-                // alert("挑战成功！");
             }
             resolve(Sk.ffi.remapToPy(state));
         }))
