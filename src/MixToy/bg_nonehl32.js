@@ -1310,7 +1310,7 @@ var $builtinmodule = function (name) {
                 setTimeout(function() {
                     console.log("失败")
                 },1000)
-                resolve(Sk.builtin.none.none$);
+                resolve(Sk.ffi.remapToPy(state_str));
             }
             
         }))
