@@ -1304,13 +1304,17 @@ var $builtinmodule = function (name) {
                     alert("挑战成功！");
                     console.log("成功")
                 },1000);
-                resolve(Sk.ffi.remapToPy(state_str));
+                
             }else{
                 state_str="失败"
                 setTimeout(function() {
                     console.log("失败")
                 },1000)
+            }
+            if(maze.type==0){//非用户自定义
                 resolve(Sk.ffi.remapToPy(state_str));
+            }else{//用户自定义
+                resolve(Sk.ffi.remapToPy(""));
             }
             
         }))
