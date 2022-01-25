@@ -1038,7 +1038,7 @@ var $builtinmodule = function (name) {
                     var state=checkFinish()
                     if(state==true){
                         // setTimeout(function() {
-                        //     alert("挑战成功！");
+                        //     console.log("挑战成功")
                         // },1000)
                         // resolve(Sk.builtin.none.none$);
                         // throw Error("挑战成功！");
@@ -1233,8 +1233,8 @@ var $builtinmodule = function (name) {
                     // setTimeout(function() {
                     //     alert("挑战成功！");
                     // },1000)
-                    getFinishState_f(state)
-                    resolve(Sk.builtin.none.none$);
+                    // getFinishState_f(state)
+                    // resolve(Sk.builtin.none.none$);
                 }else{
                     maze.result=ResultType.FAILURE
                     alert("挑战失败，请检查循环次数是否正确！")
@@ -1297,15 +1297,17 @@ var $builtinmodule = function (name) {
      */
     var getFinishState_f=function(state){
         var state=checkFinish()
-        if(state){
-            // setTimeout(function() {
-            //     alert("挑战成功！");
-            // },1000)
-            // resolve(Sk.builtin.none.none$);
-            // throw Error("挑战成功！");
-            alert("挑战成功！");
-        }
-        return Sk.ffi.remapToPy(state);
+        return new Sk.misceval.promiseToSuspension(new Promise(function(resolve) {
+            if(state){
+                setTimeout(function() {
+                    alert("挑战成功！");
+                },1000)
+                // resolve(Sk.builtin.none.none$);
+                // throw Error("挑战成功！");
+                // alert("挑战成功！");
+            }
+            resolve(Sk.ffi.remapToPy(state));
+        }))
     }
     mod.getFinishState = new Sk.builtin.func(getFinishState_f);
 
