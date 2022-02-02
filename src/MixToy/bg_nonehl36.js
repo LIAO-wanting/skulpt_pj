@@ -770,10 +770,10 @@ var $builtinmodule = function (name) {
         maze.MAZE_WIDTH= maze_SQUARE_SIZE * maze_COLS;
         maze.MAZE_HEIGHT=maze_SQUARE_SIZE * maze_ROWS;
 
-        startPos_x =Sk.ffi.remapToJs(startPos_x)
-        startPos_y =Sk.ffi.remapToJs(startPos_y)
-        endPos_x =Sk.ffi.remapToJs(endPos_x)
-        endPos_y =Sk.ffi.remapToJs(endPos_y)
+        startPos_x =Sk.ffi.remapToJs(startPos_x)+1
+        startPos_y =Sk.ffi.remapToJs(startPos_y)+1
+        endPos_x =Sk.ffi.remapToJs(endPos_x)+1
+        endPos_y =Sk.ffi.remapToJs(endPos_y)+1
 
         if((startPos_x>M_x) || (startPos_x<1) || (startPos_y>M_y) || (startPos_y<1)){
             throw Error("错误！起点坐标超出地图范围！")
@@ -864,33 +864,33 @@ var $builtinmodule = function (name) {
         Pos_y = Sk.ffi.remapToJs(Pos_y);
         type=Sk.ffi.remapToJs(type);
 
-        if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
+        if((map[Pos_y][Pos_x]==2)||(map[Pos_y][Pos_x]==3)){
             throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");
-        }else if((Pos_x>(map[0].length)) || (Pos_x< 0) || (Pos_y>(map.length)) || (Pos_y< 0)){
+        }else if((Pos_x+1>(map[0].length)) || (Pos_x< 0) || (Pos_y+1>(map.length)) || (Pos_y< 0)){
             throw new Sk.builtin.TypeError("错误！放置物坐标超过地图范围");
         }
 
         switch(type){
             case "wall"://墙
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.WALL;
+                map[Pos_y][Pos_x]=maze.SquareType.WALL;
                 break;
             case "coin":
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.AWARD;
+                map[Pos_y][Pos_x]=maze.SquareType.AWARD;
                 break;
             case "barrier":
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.BARRIER;
+                map[Pos_y][Pos_x]=maze.SquareType.BARRIER;
                 break;
             case "redmarker":
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER1;
+                map[Pos_y][Pos_x]=maze.SquareType.MARKER1;
                 break;
             case "yellowmarker":
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER2;
+                map[Pos_y][Pos_x]=maze.SquareType.MARKER2;
                 break;
             case "bluemarker":
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER3;
+                map[Pos_y][Pos_x]=maze.SquareType.MARKER3;
                 break;
             case "greenmarker":
-                map[Pos_y-1][Pos_x-1]=maze.SquareType.MARKER4;
+                map[Pos_y][Pos_x]=maze.SquareType.MARKER4;
                 break;
         }
     }
@@ -904,10 +904,10 @@ var $builtinmodule = function (name) {
      */
      var randomPlaceBarrier_f=function(Pos_x , Pos_y) { 
         Sk.builtin.pyCheckArgs("randomPlaceBarrier", arguments, 2, 2);
-        Pos_x = Sk.ffi.remapToJs(Pos_x);
-        Pos_y = Sk.ffi.remapToJs(Pos_y);
+        Pos_x = Sk.ffi.remapToJs(Pos_x)+1;
+        Pos_y = Sk.ffi.remapToJs(Pos_y)+1;
 
-        if((Pos_x>(map[0].length)) || (Pos_x< 0) || (Pos_y>(map.length)) || (Pos_y< 0)){
+        if((Pos_x>(map[0].length)) || (Pos_x< 1) || (Pos_y>(map.length)) || (Pos_y< 1)){
             throw new Sk.builtin.TypeError("错误！放置物坐标超过地图范围");
         }else if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
             throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");        
