@@ -865,9 +865,9 @@ var $builtinmodule = function (name) {
         type=Sk.ffi.remapToJs(type);
 
         if((Pos_x+1>(map[0].length)) || (Pos_x< 0) || (Pos_y+1>(map.length)) || (Pos_y< 0)){
-            throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");
-        }else if((map[Pos_y][Pos_x]==2)||(map[Pos_y][Pos_x]==3)){
             throw new Sk.builtin.TypeError("错误！放置物坐标超过地图范围");
+        }else if((map[Pos_y][Pos_x]==2)||(map[Pos_y][Pos_x]==3)){
+            throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");
         }
 
         switch(type){
