@@ -974,8 +974,8 @@ var $builtinmodule = function (name) {
                     if(command==false){
                         maze.result=ResultType.FAILURE
                         alert("挑战失败!请修改后重新尝试")
-                        console.log("失败")
-                        document.getElementById("side_code").innerText='失败'
+                        console.log("错误")
+                        document.getElementById("side_code").innerText='错误'
                         throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
                     }
 
