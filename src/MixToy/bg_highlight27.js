@@ -1273,6 +1273,7 @@ var $builtinmodule = function (name) {
                         maze.result=ResultType.FAILURE
                         alert("挑战失败!请修改后重新尝试")
                         console.log("失败")
+                        document.getElementById("side_code").innerText='失败'
                         throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
                     }
 
