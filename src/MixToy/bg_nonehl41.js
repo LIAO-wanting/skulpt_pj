@@ -426,15 +426,15 @@ var $builtinmodule = function (name) {
         svg.append('rect').attr('x', 0).attr('y', 0).attr('width', maze.MAZE_WIDTH).attr('height', maze.MAZE_HEIGHT)
         .style('fill','#F1EEE7').style('stroke','#CCB').style('stroke-width','1');
         
-        // for (var y = 0; y < maze_ROWS; y++) {
-        //     for (var x = 0; x < maze_COLS; x++) {
-        //         //绘制迷宫背景
-        //         svg.append('image').attr('x', x*maze_SQUARE_SIZE).attr('y', y*maze_SQUARE_SIZE).attr('width', maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
-        //         .attr('xlink:href',maze.background)
-        //     }
-        // }
-        svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze_SQUARE_SIZE*maze_COLS).attr('height',maze_SQUARE_SIZE*maze_ROWS)
-        .attr('xlink:href',maze.background)
+        for (var y = 0; y < maze_ROWS; y++) {
+            for (var x = 0; x < maze_COLS; x++) {
+                //绘制迷宫背景
+                svg.append('image').attr('x', x*maze_SQUARE_SIZE).attr('y', y*maze_SQUARE_SIZE).attr('width', maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                .attr('xlink:href',maze.background)
+            }
+        }
+        // svg.append('image').attr('x', 0).attr('y', 0).attr('width', maze_SQUARE_SIZE*maze_COLS).attr('height',maze_SQUARE_SIZE*maze_ROWS)
+        // .attr('xlink:href',maze.background)
         //初始化地图
         
         var normalize = function(x, y) {
