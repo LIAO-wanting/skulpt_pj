@@ -962,6 +962,15 @@ var $builtinmodule = function (name) {
             actor.coin_point=0
             initPegman()     
         });
+        //get & set:Actor.direction新增函数，获取或设置精灵的方向
+        $loc.direction = defineProperty(
+            function(self) {
+                return Sk.ffi.remapToPy(self.direction)
+            },
+            function(self, val) {
+                Sk.builtin.pyCheckType("direction", "number",Sk.builtin.checkNumber(val.v));
+                self.direction=val.v
+            });
         //向某个方向移动移动
         //暂时只实现了移动一步
         //func: Actor.moveDirection()
