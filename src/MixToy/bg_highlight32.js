@@ -1,3 +1,22 @@
+//这一版删除了所有延时和高亮效果，用以适应非分步调试
+// 监听属性getter/setter
+const defineProperty = function(obj, property) {
+    return Sk.misceval.callsimOrSuspend(Sk.builtins.property, new Sk.builtin.func(function(self) {
+      if (typeof obj === 'function') {
+        return obj(self)
+      } else {
+        return Sk.ffi.remapToPy(self[obj][property])
+      }
+    }), new Sk.builtin.func(function(self, val) {
+      if (typeof property === 'function') {
+        property(self, val)
+      } else {
+        self[obj][property] = val.v;
+      }
+    }))
+}
+    
+  
 //这一版加入了所有延时和高亮效果，用以适应分布调试
 var $builtinmodule = function (name) {
 	let mod= {__name__: new Sk.builtin.str("blocklygame")};
@@ -1260,6 +1279,15 @@ var $builtinmodule = function (name) {
             }));
 
         });
+        //get & set:Actor.direction新增函数，获取或设置精灵的方向
+        $loc.direction = defineProperty(
+            function(self) {
+                return Sk.ffi.remapToPy(actor.direction)
+            },
+            function(self, val) {
+                Sk.builtin.pyCheckType("direction", "number",Sk.builtin.checkNumber(val.v));
+                actor.direction=val.v
+            });
         //向某个方向移动移动
         //暂时只实现了移动一步
         //func: Actor.moveDirection()
