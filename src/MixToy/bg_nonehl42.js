@@ -370,7 +370,7 @@ var $builtinmodule = function (name) {
     var displayPegman = function(x, y, d, opt_angle) {
         var pegmanIcon = $('#pegman');
         if(actor.type=='animate'){
-            if(maze.type==0){
+            if(maze.type==0 || actor.img=='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/actor_car.png' ){
                 pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width+ 1);
                 pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 );
             }else{
@@ -399,7 +399,7 @@ var $builtinmodule = function (name) {
         d3.select("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.width).attr('height', actor.height)
 
         if(actor.type=="animate"){
-            if(maze.type==0){
+            if(maze.type==0 || actor.img=='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/actor_car.png'){
                 //绘制精灵.
                 svg.append('image').attr('id','pegman').attr('width', actor.width * 16).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
                 .attr('xlink:href',actor.img)
