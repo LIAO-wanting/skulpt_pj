@@ -1,6 +1,6 @@
 //这一版删除了所有延时和高亮效果，用以适应非分步调试
 // 监听属性getter/setter
-export const defineProperty = function(obj, property) {
+const defineProperty = function(obj, property) {
     return Sk.misceval.callsimOrSuspend(Sk.builtins.property, new Sk.builtin.func(function(self) {
       if (typeof obj === 'function') {
         return obj(self)
