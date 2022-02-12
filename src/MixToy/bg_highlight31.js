@@ -399,7 +399,7 @@ var $builtinmodule = function (name) {
         d3.select("#pegmanClipPath").append('rect').attr('id','clipRect').attr('width', actor.width).attr('height', actor.height)
 
         if(actor.type=="animate"){
-            if(maze.type==0){
+            if(maze.type==0 || actor.img=='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/actor_car.png' ){
                 //绘制精灵.
                 svg.append('image').attr('id','pegman').attr('width', actor.width * 16).attr('height',  actor.height).attr('clip-path', 'url(#pegmanClipPath)')
                 .attr('xlink:href',actor.img)
