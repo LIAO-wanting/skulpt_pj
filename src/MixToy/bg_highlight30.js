@@ -370,7 +370,7 @@ var $builtinmodule = function (name) {
     var displayPegman = function(x, y, d, opt_angle) {
         var pegmanIcon = $('#pegman');
         if(actor.type=='animate'){
-            if(maze.type==0 || actor,img=='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/actor_car.png'){
+            if(maze.type==0 || actor.img=='https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/book/actor_car.png'){
                 pegmanIcon.attr('x', x * maze_SQUARE_SIZE - d * actor.width+ 1);
                 pegmanIcon.attr('y', maze_SQUARE_SIZE * (y + 0.5) - actor.height / 2 );
             }else{
