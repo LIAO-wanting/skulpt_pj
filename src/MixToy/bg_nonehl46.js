@@ -983,11 +983,11 @@ var $builtinmodule = function (name) {
         //get & set:Actor.direction新增函数，获取或设置精灵的方向
         $loc.direction = defineProperty(
             function(self) {
-                return Sk.ffi.remapToPy(self.direction)
+                return Sk.ffi.remapToPy(actor.direction)
             },
             function(self, val) {
                 Sk.builtin.pyCheckType("direction", "number",Sk.builtin.checkNumber(val.v));
-                self.direction=val.v
+                actor.direction=val.v
             });
         //向某个方向移动移动
         //暂时只实现了移动一步
