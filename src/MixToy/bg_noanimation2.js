@@ -1002,7 +1002,7 @@ var $builtinmodule = function (name) {
                         console.log("错误")
                         document.getElementById("side_code").innerText='错误'
                         // throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
-                        throw new Error("挑战失败!请修改后重新尝试");
+                        // throw new Error("挑战失败!请修改后重新尝试");
                     }
 
                     if(maze.mlevel==4){//如果是第四关，则需要判断是否需要加油的问题
