@@ -1001,7 +1001,7 @@ var $builtinmodule = function (name) {
                         maze.result=ResultType.FAILURE
                         console.log("错误")
                         document.getElementById("side_code").innerText='错误'
-                        // throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
+                        throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
                         // throw new Error("挑战失败!请修改后重新尝试");
                     }
 
@@ -1013,7 +1013,7 @@ var $builtinmodule = function (name) {
                                 maze.result=ResultType.FAILURE
                                 svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
                                 .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/no_oil.png')
-                                throw new Error("挑战失败!小车没有油了");
+                                throw new Sk.builtin.TypeError("挑战失败!小车没有油了");
                             }
                         }
                     }else if(maze.mlevel==5){//如果是第五关，则需要记录循环次数；每次经过起点处循环次数+1
@@ -1022,7 +1022,7 @@ var $builtinmodule = function (name) {
                         }
                     }else if(maze.mlevel==6){//如果是第六关，则需要判断红绿灯是否为绿灯的问题
                         if(actor.traffic_light==maze.SquareType.LIGHT_RED){  
-                                throw new Error("挑战失败:小车在红灯亮时还未停止！");
+                                throw new Sk.builtin.TypeError("挑战失败:小车在红灯亮时还未停止！");
                         }
                     }
 
@@ -1066,7 +1066,7 @@ var $builtinmodule = function (name) {
                     if(state=="error2"){
                         maze.result=ResultType.FAILURE
                         console.log("失败")
-                        throw new Error("挑战失败，请检查是否通过所有标记点！");
+                        throw new Sk.builtin.TypeError("挑战失败，请检查是否通过所有标记点！");
                     } 
         });
         $loc.turn=new Sk.builtin.func(function(self,direction){
