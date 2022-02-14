@@ -1002,7 +1002,7 @@ var $builtinmodule = function (name) {
                         console.log("错误")
                         document.getElementById("side_code").innerText='错误'
                         // throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
-                        throw SyntaxError();
+                        Sk.execLimit = 0;
                         // throw new Error("挑战失败!请修改后重新尝试");
                     }
 
