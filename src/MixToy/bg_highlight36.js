@@ -208,7 +208,20 @@ var $builtinmodule = function (name) {
             map:[
             [0, 0, 1, 1, 1],
             [0, 0, 1, 0, 1],
-            [2, 1, 1, 1, 3]],
+            [2, 1, 1, Math.random()>0.5?1:5, 3]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
+            background: '',//地图背景图片
+        },
+        //第八关
+        {
+            mlevel:8,
+            map:[
+            [0, 0, 1, 1, 1, 1],
+            [0, 0, 1, 0, 0, 1],
+            [0, 1, 1, Math.random()>0.5?1:5, 1, 1],
+            [0, 1, 0, 0, 0, 1],
+            [2, 1, Math.random()>0.5?1:5, 1, 1, 3]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
             background: '',//地图背景图片
