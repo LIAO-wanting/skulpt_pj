@@ -139,8 +139,8 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0]],
         },
-         //第二关
-         {
+        //第二关
+        {
             mlevel:2,
             map:[
             [0, 0, 0, 0, 0, 0, 0, 0],
@@ -164,6 +164,79 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 2, 1, 1, 1, 0, 1, 0],
             [0, 0, 0, 0, 0, 0, 0, 0]]
+        },
+        //第四关
+        {
+            mlevel:4,
+            map:[
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0],
+            [0, 0, 1, 1, 3, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 2, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]]
+        },
+        //第五关
+        {
+            mlevel:5,
+            map:[
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 2, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 3, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]]
+        },
+        //第六关
+        {
+            mlevel:6,
+            map:[
+            [0, 0, 1, 1, 1, 0, 1, 1, 1],
+            [0, 0, 1, 0, 1, 0, 1, 0, 1],
+            [2, 1, 1, 0, 1, 1, 1, 0, 3],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+        },
+        //第七关
+        {
+            mlevel:7,
+            map:[
+            [0, 0, 1, 1, 1],
+            [0, 0, 1, 0, 1],
+            [2, 1, 1, Math.random()>0.5?1:5, 3]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
+            background: '',//地图背景图片
+        },
+        //第八关
+        {
+            mlevel:8,
+            map:[
+            [0, 0, 1, 1, 1, 1],
+            [0, 0, 1, 0, 0, 1],
+            [0, 1, 1, Math.random()>0.5?1:5, 1, 1],
+            [0, 1, 0, 0, 0, 1],
+            [2, 1, Math.random()>0.5?1:5, 1, 1, 3]],
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
+            background: '',//地图背景图片
+        },
+        //第九关
+        {
+            mlevel:9,
+            map:[
+            [1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 4, 1, 1, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 1, 0, 0, Math.random()>0.5?1:5, 0, 1, 0, 0, 0],
+            [0, 1, 0, 0, 4, 0, 1, Math.random()>0.5?1:5, 4, 0],
+            [0, 1, 0, 0, 1, 0, 1, 0, 1, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 3, 0]]
         },
     ]
 
@@ -1298,9 +1371,16 @@ var $builtinmodule = function (name) {
     var settedSimpleMap_f=function(level) { 
         level=Sk.ffi.remapToJs(level)
         map=simple_Maze[level].map
-        maze.tiles=simple_map_para.tiles
-        maze.wall=simple_map_para.wall
-        maze.background=simple_map_para.background
+        maze_ROWS=map.length;
+        maze_COLS=map[0].length;
+        if(level==6 || level==7){
+            maze.tiles=simple_Maze[level].tiles
+            maze.background=simple_Maze[level].background
+        }else{
+            maze.tiles=simple_map_para.tiles
+            maze.wall=simple_map_para.wall
+            maze.background=simple_map_para.background
+        }
         simple_map_para.state_num=1
         drawMap()
     }
