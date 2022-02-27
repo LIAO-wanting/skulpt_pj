@@ -1754,14 +1754,14 @@ var $builtinmodule = function (name) {
                 map=simple_Maze[level].map
                 maze_ROWS=map.length;
                 maze_COLS=map[0].length;
-                if(level==6 || level==7){
-                    maze.tiles=simple_Maze[level].tiles
-                    maze.background=simple_Maze[level].background
-                }else{
+                // if(level==6 || level==7){
+                //     maze.tiles=simple_Maze[level].tiles
+                //     maze.background=simple_Maze[level].background
+                // }else{
                     maze.tiles=simple_map_para.tiles
                     maze.wall=simple_map_para.wall
                     maze.background=simple_map_para.background
-                }
+                // }
                 simple_map_para.state_num=1
                 drawMap()
                 resolve(Sk.builtin.none.none$);
