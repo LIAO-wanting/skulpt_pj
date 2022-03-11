@@ -249,8 +249,8 @@ var $builtinmodule = function (name) {
             [0,  Math.random()>0.5?1:5, 0, 1, 0],
             [0, 1, 0, 1, 0],
             [0, 3, 1, 1, 0]],
-            tiles: basePath+'pic/maze_path.png',//地图路径图片
-            marker: basePath+'pic/marker.png',//终点图标图片
+            tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
+            marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
             background: '',//地图背景图片
         },
     ]
