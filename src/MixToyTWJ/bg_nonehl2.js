@@ -124,7 +124,7 @@ var $builtinmodule = function (name) {
         marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
         background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/bg_astro.jpg',//地图背景图片
         wall:'',
-        state_num:0//为0就是未使用，为1就是已经使用（激活）
+        state_num:1//为0就是未使用，为1就是已经使用（激活）
     }
     var simple_Maze=[
         //第一关
