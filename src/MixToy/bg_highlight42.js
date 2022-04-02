@@ -23,6 +23,9 @@ var $builtinmodule = function (name) {
     
     var svg = d3.select('#blocklySVG').append('svg');
     var stepplay_btn=$("#stepplay_btn")
+    var play_btn=$("#play_btn")
+    var undo_btn=$("#undo_btn")
+    var redo_btn=$("#redo_btn")
     
     //其他变量设置
     var map=//迷宫布局
@@ -874,6 +877,15 @@ var $builtinmodule = function (name) {
                     //恢复初始样式
                     stepplay_btn.attr('onclick','pyengine.steprun();');
                     stepplay_btn.css("color","B5D9D5");
+
+                    play_btn.attr('onclick','pyengine.run();');
+                    play_btn.css("color","B5D9D5");
+                
+                    undo_btn.attr('onclick','UndoClick();');
+                    undo_btn.css("color","B5D9D5");
+                
+                    redo_btn.attr('onclick','pyengine.reset();');
+                    redo_btn.css("color","B5D9D5");   
                     throw Error("错误！超出地图可设置范围，请设置横纵方格数大于等于3，小于等于20")
                 }
                 M_x = Sk.ffi.remapToJs(M_x);
@@ -892,12 +904,30 @@ var $builtinmodule = function (name) {
                     //恢复初始样式
                     stepplay_btn.attr('onclick','pyengine.steprun();');
                     stepplay_btn.css("color","B5D9D5");
+                    
+                    play_btn.attr('onclick','pyengine.run();');
+                    play_btn.css("color","B5D9D5");
+                
+                    undo_btn.attr('onclick','UndoClick();');
+                    undo_btn.css("color","B5D9D5");
+                
+                    redo_btn.attr('onclick','pyengine.reset();');
+                    redo_btn.css("color","B5D9D5");   
                     throw Error("错误！起点坐标超出地图范围！")
                 }
                 if((endPos_x>M_x) || (endPos_x<1) || (endPos_y>M_y) || (endPos_y<1)){
                     //恢复初始样式
                     stepplay_btn.attr('onclick','pyengine.steprun();');
                     stepplay_btn.css("color","B5D9D5");
+                    
+                    play_btn.attr('onclick','pyengine.run();');
+                    play_btn.css("color","B5D9D5");
+                
+                    undo_btn.attr('onclick','UndoClick();');
+                    undo_btn.css("color","B5D9D5");
+                
+                    redo_btn.attr('onclick','pyengine.reset();');
+                    redo_btn.css("color","B5D9D5");   
                     throw Error("错误！终点坐标超出地图范围！")
                 }
 
@@ -1028,11 +1058,29 @@ var $builtinmodule = function (name) {
                     //恢复初始样式
                     stepplay_btn.attr('onclick','pyengine.steprun();');
                     stepplay_btn.css("color","B5D9D5");
+                    
+                    play_btn.attr('onclick','pyengine.run();');
+                    play_btn.css("color","B5D9D5");
+                
+                    undo_btn.attr('onclick','UndoClick();');
+                    undo_btn.css("color","B5D9D5");
+                
+                    redo_btn.attr('onclick','pyengine.reset();');
+                    redo_btn.css("color","B5D9D5");   
                     throw new Sk.builtin.TypeError("错误！放置物坐标超过地图范围");
                 }else if((map[Pos_y][Pos_x]==2)||(map[Pos_y][Pos_x]==3)){
                     //恢复初始样式
                     stepplay_btn.attr('onclick','pyengine.steprun();');
                     stepplay_btn.css("color","B5D9D5");
+                    
+                    play_btn.attr('onclick','pyengine.run();');
+                    play_btn.css("color","B5D9D5");
+                
+                    undo_btn.attr('onclick','UndoClick();');
+                    undo_btn.css("color","B5D9D5");
+                
+                    redo_btn.attr('onclick','pyengine.reset();');
+                    redo_btn.css("color","B5D9D5");   
                     throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");
                 }
   
@@ -1091,11 +1139,29 @@ var $builtinmodule = function (name) {
                     //恢复初始样式
                     stepplay_btn.attr('onclick','pyengine.steprun();');
                     stepplay_btn.css("color","B5D9D5");
+                    
+                    play_btn.attr('onclick','pyengine.run();');
+                    play_btn.css("color","B5D9D5");
+                
+                    undo_btn.attr('onclick','UndoClick();');
+                    undo_btn.css("color","B5D9D5");
+                
+                    redo_btn.attr('onclick','pyengine.reset();');
+                    redo_btn.css("color","B5D9D5");   
                     throw new Sk.builtin.TypeError("错误！放置物坐标超过地图范围");
                 }else if((map[Pos_y-1][Pos_x-1]==2)||(map[Pos_y-1][Pos_x-1]==3)){
                     //恢复初始样式
                     stepplay_btn.attr('onclick','pyengine.steprun();');
                     stepplay_btn.css("color","B5D9D5");
+                    
+                    play_btn.attr('onclick','pyengine.run();');
+                    play_btn.css("color","B5D9D5");
+                
+                    undo_btn.attr('onclick','UndoClick();');
+                    undo_btn.css("color","B5D9D5");
+                
+                    redo_btn.attr('onclick','pyengine.reset();');
+                    redo_btn.css("color","B5D9D5");   
                     throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");        
                 }
         
@@ -1400,6 +1466,15 @@ var $builtinmodule = function (name) {
                         //恢复初始样式
                         stepplay_btn.attr('onclick','pyengine.steprun();');
                         stepplay_btn.css("color","B5D9D5");
+                        
+                        play_btn.attr('onclick','pyengine.run();');
+                        play_btn.css("color","B5D9D5");
+                    
+                        undo_btn.attr('onclick','UndoClick();');
+                        undo_btn.css("color","B5D9D5");
+                    
+                        redo_btn.attr('onclick','pyengine.reset();');
+                        redo_btn.css("color","B5D9D5");   
                         throw new Sk.builtin.TypeError("挑战失败!请修改后重新尝试");
                     }
 
