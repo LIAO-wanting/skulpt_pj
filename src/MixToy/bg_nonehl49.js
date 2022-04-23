@@ -102,6 +102,7 @@ var $builtinmodule = function (name) {
         award:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/award.png',
         barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/roadblock.png',
         markers:['https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/red.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/yellow.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/blue.png','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/green.png'],
+        warnning:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/warning.png',
         SquareType :{//迷宫中方块的类型
             WALL: 0,
             OPEN: 1,
@@ -113,6 +114,7 @@ var $builtinmodule = function (name) {
             MARKER2:11,
             MARKER3:12,
             MARKER4:13,
+            RANDOM:50
         },
         //迷宫部分参数指定
         MAZE_WIDTH : maze_SQUARE_SIZE * maze_COLS,
@@ -210,7 +212,7 @@ var $builtinmodule = function (name) {
             map:[
             [0, 0, 1, 1, 1],
             [0, 0, 1, 0, 1],
-            [2, 1, 1, Math.random()>0.5?1:5, 3]],
+            [2, 1, 1, 50, 3]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
             background: '',//地图背景图片
@@ -221,9 +223,9 @@ var $builtinmodule = function (name) {
             map:[
             [0, 0, 1, 1, 1, 1],
             [0, 0, 1, 0, 0, 1],
-            [0, 1, 1, Math.random()>0.5?1:5, 1, 1],
+            [0, 1, 1, 50, 1, 1],
             [0, 1, 0, 0, 0, 1],
-            [2, 1, Math.random()>0.5?1:5, 1, 1, 3]],
+            [2, 1, 50, 1, 1, 3]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
             background: '',//地图背景图片
@@ -237,8 +239,8 @@ var $builtinmodule = function (name) {
             [1, 0, 4, 1, 1, 0, 0, 0, 0, 0],
             [1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
             [1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-            [0, 1, 0, 0, Math.random()>0.5?1:5, 0, 1, 0, 0, 0],
-            [0, 1, 0, 0, 4, 0, 1, Math.random()>0.5?1:5, 4, 0],
+            [0, 1, 0, 0, 50, 0, 1, 0, 0, 0],
+            [0, 1, 0, 0, 4, 0, 1, 50, 4, 0],
             [0, 1, 0, 0, 1, 0, 1, 0, 1, 0],
             [0, 0, 0, 0, 1, 1, 1, 1, 3, 0]]
         },
@@ -323,7 +325,7 @@ var $builtinmodule = function (name) {
         {   mlevel:3,
             map:[
             [0, 1, 1, 13, 1, 1, 1, 0],
-            [0, 1, 0, Math.random()>0.5?1:5, 0, 0, 1, 0],
+            [0, 1, 0, 50, 0, 0, 1, 0],
             [0, 1, 1, 9, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
@@ -356,7 +358,7 @@ var $builtinmodule = function (name) {
         {   mlevel:4,
             map:[
             [0, 1, 1, 13, 1, 1, 1, 0],
-            [20, 1, 0, Math.random()>0.5?1:5, 0, 0, 1, 0],
+            [20, 1, 0, 50, 0, 0, 1, 0],
             [0, 1, 1, 9, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
             [0, 0, 0, 1, 0, 0, 1, 0],
@@ -576,6 +578,16 @@ var $builtinmodule = function (name) {
                     svg.append('image').attr('x',(x - left) * maze_SQUARE_SIZE).attr('y',(y - top) * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE * 5).attr('height',maze_SQUARE_SIZE * 4)
                     .attr('clip-path', 'url(#tileClipPath' + tileId + ')').attr('xlink:href',maze.tiles)
                     tileId++;
+                }
+                if(map[y][x]==50){//当地图中此处为随机出现障碍时
+                    var state_ran=Math.random()>0.5?1:5
+                    if(state_ran==1){
+                        svg.append('image').attr('id','barrier'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7).attr('opacity',0.7)
+                        .attr('xlink:href',maze.warnning)
+                    }else{
+                        svg.append('image').attr('id','barrier'+y+x).attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                        .attr('xlink:href',maze.barrier)
+                    }
                 }
 
                 if(map[y][x]==0){//当地图中此处标记为墙时
@@ -860,7 +872,7 @@ var $builtinmodule = function (name) {
             stepplay_btn.attr('onclick','pyengine.steprun();');
             stepplay_btn.css("color","B5D9D5");
 
-            play_btn.attr('onclick','pyengine.run();');
+            play_btn.attr('onclick','pyengine.run();'); 
             play_btn.css("color","B5D9D5");
         
             undo_btn.attr('onclick','UndoClick();');
