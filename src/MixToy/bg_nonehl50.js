@@ -1104,7 +1104,7 @@ var $builtinmodule = function (name) {
             throw new Sk.builtin.TypeError("错误！不能将放置物位置设置在起点或终点坐标！");        
         }
 
-        var numType=Math.random()>0.5?maze.SquareType.OPEN:maze.SquareType.BARRIER;
+        var numType=maze.SquareType.RANDOM;
         map[Pos_y-1][Pos_x-1]=numType;
 
     }
