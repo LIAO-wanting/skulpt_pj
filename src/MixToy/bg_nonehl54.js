@@ -1510,7 +1510,7 @@ var $builtinmodule = function (name) {
         map=simple_Maze[level].map
         maze_ROWS=map.length;
         maze_COLS=map[0].length;
-        if(level==6 || level==7 || level==10){
+        if(level==6 || level==7 || level==9){
             maze.tiles=simple_Maze[level].tiles
             maze.background=simple_Maze[level].background
         }else{
