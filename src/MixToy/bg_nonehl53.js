@@ -248,10 +248,10 @@ var $builtinmodule = function (name) {
         {
             mlevel:10,
             map:[
-            [1, 0, 0, 0, 0, 0],
+            [2, 0, 0, 0, 0, 0],
             [1, 1, 0, 1, 1, 1],
             [0, 4, 1, 1, 0, 1],
-            [0, 0, 0, Math.random()>0.5?1:5, 4, 2]],
+            [0, 0, 0, Math.random()>0.5?1:5, 4, 3]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/maze_path.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/marker.png',//终点图标图片
             background: '',//地图背景图片
@@ -1510,7 +1510,7 @@ var $builtinmodule = function (name) {
         map=simple_Maze[level].map
         maze_ROWS=map.length;
         maze_COLS=map[0].length;
-        if(level==6 || level==7){
+        if(level==6 || level==7 || level==10){
             maze.tiles=simple_Maze[level].tiles
             maze.background=simple_Maze[level].background
         }else{
