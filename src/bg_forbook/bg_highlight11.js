@@ -499,10 +499,10 @@ var $builtinmodule = function (name) {
                         svg.append('image').attr('id','trafficlight').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/trafficlight.png')
                     }else if(map[y][x]==22){//当地图中此处标记为22——红绿灯中的绿灯时
-                        svg.append('image').attr('id','lightgreen').attr('x',x * maze_SQUARE_SIZE-5).attr('y',y * maze_SQUARE_SIZE+ 5).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                        svg.append('image').attr('id','lightgreen').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/greenlight.png')
                     }else if(map[y][x]==23){//当地图中此处标记为23——红绿灯中的红灯时
-                        svg.append('image').attr('id','lightred').attr('x',x * maze_SQUARE_SIZE-5).attr('y',y * maze_SQUARE_SIZE+ 5).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
+                        svg.append('image').attr('id','lightred').attr('x',x * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('y',y * maze_SQUARE_SIZE+ (maze_SQUARE_SIZE/2 - maze_SQUARE_SIZE*0.7/2)).attr('width',maze_SQUARE_SIZE*0.7).attr('height',maze_SQUARE_SIZE*0.7)
                         .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/redlight.png')
                     }else if(map[y][x]==2){//当地图中此处标记为起点时，画上和“既是起点又是终点”一样的图标
                         actor.x= x;
