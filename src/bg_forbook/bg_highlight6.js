@@ -485,11 +485,11 @@ var $builtinmodule = function (name) {
                 for (var x = 0; x < maze_COLS; x++) {
                     if (map[y][x] == 9) {//既是起点又是终点
                         // 绘制终点图标
-                        svg.append('image').attr('id','finish').attr('width',  maze_SQUARE_SIZE).attr('height', maze_SQUARE_SIZE).attr('xlink:href',maze.marker)
+                        svg.append('image').attr('id','finish').attr('width',  maze_SQUARE_SIZE*0.8).attr('height', maze_SQUARE_SIZE*0.8).attr('xlink:href',maze.marker)
                         actor.x= x;
                         actor.y= y;
                         var finishIcon = $('#finish');
-                        finishIcon.attr('x', maze_SQUARE_SIZE * x );
+                        finishIcon.attr('x', maze_SQUARE_SIZE * x+5 );
                         finishIcon.attr('y', maze_SQUARE_SIZE * y+5);
                         maze.finish={x:x,y:y}
                     }else if(map[y][x]==20){//当地图中此处标记为20——加油站时
@@ -507,7 +507,7 @@ var $builtinmodule = function (name) {
                     }else if(map[y][x]==2){//当地图中此处标记为起点时，画上和“既是起点又是终点”一样的图标
                         actor.x= x;
                         actor.y= y;
-                        svg.append('image').attr('id','start').attr('x', maze_SQUARE_SIZE * x).attr('y',maze_SQUARE_SIZE * y+5).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
+                        svg.append('image').attr('id','start').attr('x', maze_SQUARE_SIZE * x).attr('y',maze_SQUARE_SIZE * y+5).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE*0.8)
                         .attr('xlink:href',maze.marker)
                     }
                 }
