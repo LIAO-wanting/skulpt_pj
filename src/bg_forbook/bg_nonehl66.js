@@ -110,7 +110,7 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/new_book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/Start_final.png',//终点图标图片
-            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg_car1.jpg',//地图背景图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg1.jpg',//地图背景图片
             wall:'',
             award:'',
             barrier:'',
@@ -146,7 +146,7 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/new_book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/Start_final.png',//终点图标图片
-            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg_car2.jpg',//地图背景图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg2.jpg',//地图背景图片
             wall:'',
             award:'',
             barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/barrier.png',
@@ -182,7 +182,7 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/new_book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/Start_final.png',//终点图标图片
-            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg_car2.jpg',//地图背景图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg2.jpg',//地图背景图片
             wall:'',
             award:'',
             barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/barrier.png',
@@ -215,7 +215,7 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/new_book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/Start_final.png',//终点图标图片
-            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg_car3.jpg',//地图背景图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg3.jpg',//地图背景图片
             wall:'',
             award:'',
             barrier:'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/barrier.png',
@@ -249,7 +249,7 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/new_book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/Start_final.png',//终点图标图片
-            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg_car4.jpg',//地图背景图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg4.jpg',//地图背景图片
             wall:'',
             award:'',
             barrier:'',
@@ -282,7 +282,7 @@ var $builtinmodule = function (name) {
             [0, 0, 0, 0, 0, 0, 0, 0]],
             tiles: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@latest/pic/new_book/tiles_road.png',//地图路径图片
             marker: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/Start_final.png',//终点图标图片
-            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg_car4.jpg',//地图背景图片
+            background: 'https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/bg4.jpg',//地图背景图片
             wall:'',
             award:'',
             barrier:'',
@@ -863,7 +863,7 @@ var $builtinmodule = function (name) {
                             if(actor.oil==0){//在加油站处，如果没有油还想继续往前面走
                                 maze.result=ResultType.FAILURE
                                 svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
-                                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/no_oil.png')
+                                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/no_oil.png')
                                 alert("挑战失败!小车没有油了")
                                 throw new Sk.builtin.TypeError("挑战失败!小车没有油了");
                             }
@@ -1019,10 +1019,10 @@ var $builtinmodule = function (name) {
             actor.oil=Math.random()>0.5?1:0;//随机初始化汽车的油量
             if(actor.oil==0){//没油(呈现少量油的图片)
                 svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
-                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/none_oil.png')
+                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/none_oil.png')
             }else if(actor.oil==1){//油量充足（呈现油量充足的图片）
                 svg.append('image').attr('id','caroil').attr('x',maze_SQUARE_SIZE).attr('y',3.5 * maze_SQUARE_SIZE).attr('width',maze_SQUARE_SIZE).attr('height',maze_SQUARE_SIZE)
-                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/book/full_oil.png')
+                .attr('xlink:href','https://cdn.jsdelivr.net/gh/LIAO-wanting/skulpt_pj@main/pic/new_book/full_oil.png')
             }
         });
         //判断是否需要加油
